@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     
   <React.StrictMode>
      <Toaster
-  position="top-center"
+  position="top-right"
   reverseOrder={false}
     />
      <AuthProvider>

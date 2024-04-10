@@ -19,6 +19,7 @@ import {
 } from 'firebase/storage'
 
 import { addDoc, collection } from 'firebase/firestore'
+import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(1, "O nome do quadro é obrigatório"),
@@ -84,6 +85,7 @@ export function New() {
         url: downloadUrl,
        }
     setArtImages((images) => [...images, imageItem] )
+    toast.success("Quadro enviado com sucesso!")
      })
    })
 
@@ -91,7 +93,7 @@ export function New() {
 
   function onSubmit(data: FormData){
    if(artImages.length == 0){
-     alert("Envie alguma imagem deste quadro!")
+     toast.error("Envie pelo menos uma imagem!")
      return;
    }
 
@@ -120,10 +122,12 @@ export function New() {
       reset();
       setArtImages([]);
       console.log("CADASTRADO COM SUCESSO!");
+      toast.success("Quadro enviado com sucesso!")
    })
     .catch((error) => {
       console.log(error)
       console.log("ERRO AO CADASTRAR NO BANCO")
+      toast.error("Erro ao enviar o quadro!")
   })
 
   }

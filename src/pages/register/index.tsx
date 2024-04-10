@@ -9,6 +9,7 @@ import { useEffect, useContext } from 'react'
 import { auth } from '../../services/firebaseConnection'
 import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth'
 import { AuthContext } from '../../contexts/AuthContext' 
+import toast from 'react-hot-toast'
 
 
 
@@ -48,7 +49,8 @@ export function Register() {
         email: data.email,
         uid: user.user.uid
       })
-     console.log("CADASTRADO COM SUCESSO!") 
+     console.log("CADASTRADO COM SUCESSO!")
+     toast.success("Bem Vindo a Galeria de Damião Martins!") 
      navigate("/dashboard", { replace: true }) 
     })
     .catch((error) => {

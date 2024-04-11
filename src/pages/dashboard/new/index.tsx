@@ -85,7 +85,7 @@ export function New() {
         url: downloadUrl,
        }
     setArtImages((images) => [...images, imageItem] )
-    toast.success("Quadro enviado com sucesso!")
+    toast.success("Quadro adicionado com sucesso!")
      })
    })
 

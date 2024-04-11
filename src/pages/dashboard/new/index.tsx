@@ -264,7 +264,7 @@ async function handleDeleteImage(item: ImageItemProps){
               {...register("description")}
               name="description"
               id="description"
-              placeholder="Digite a descrição completa sobre o carro..."
+              placeholder="Digite a descrição completa sobre o quadro..."
             />
             {errors.description && <p className="mb-1 text-red-300">{errors.description.message}</p>}
           </div>

@@ -117,7 +117,7 @@ export function Home() {
         </button>
     </section>
     <h1  className="font-bold text-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white border-b-0" >
-          Façam um Tour pelas Damião Martins 
+          Façam um Tour pelas Obras de Damião Martins 
             </h1>
 
       <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

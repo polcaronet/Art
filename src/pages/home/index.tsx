@@ -110,13 +110,13 @@ export function Home() {
         onChange={ (e) => setInput(e.target.value) }
       />
         <button
-          className="bg-red-500 h-9 px-8 rounded-lg text-white font-bold text-lg" 
+          className="bg-red-500 h-9 px-8 rounded-lg text-white justify-between font-bold text-lg " 
           onClick={handleSearchArt}
         >
         Pesquisar
         </button>
     </section>
-    <h1  className="font-bold text-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white border-b-0" >
+    <h1  className="font-bold text-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white border-b-0 ">
           Façam um Tour pelas Obras de Damião Martins 
             </h1>
 

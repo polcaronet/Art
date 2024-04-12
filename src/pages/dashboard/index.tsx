@@ -1,6 +1,6 @@
 import { Container } from "../../components/container";
 import { DashboardHeader } from '../../components/panelheader'
-import { FiTrash2 } from 'react-icons/fi'
+import { FiTrash } from 'react-icons/fi'
 import { useEffect, useState, useContext } from 'react'
 
 import {
@@ -100,15 +100,15 @@ export function Dashboard() {
           <section key={art.id} className="w-full border-0 bg-blue-700 drop-shadow object-cover relative">
             <button
               onClick={() => handleDeleteArt(art)}
-              className="absolute w-14 h-14 flex items-center justify-center right-2 top-2 drop-shadow hover:bg-white rounded-full"
+              className="absolute w-14 h-14 flex items-center justify-center right-2 top-2 drop-shadow hover:scale-150 duration-300"
 
             >
-              <FiTrash2 size={28} color="#000" />
+              <FiTrash size={28} color="rgb(25, 58, 189)" />
             </button>
             <img
               className="w-full  object-cover mb-2 max-h-screen"
               src={art.images[0].url}
-              alt="Carroça de bois"
+              alt="Belas artes"
             />
             <p className=" text-white drop-shadow-sm font-bold mt-1 px-2 mb-2 bg-aqua">{art.name}</p>
             <div className="flex flex-col px-2">

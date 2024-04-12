@@ -100,7 +100,7 @@ export function Dashboard() {
           <section key={art.id} className="w-full border-0 bg-blue-700 drop-shadow object-cover relative">
             <button
               onClick={() => handleDeleteArt(art)}
-              className="absolute w-14 h-14 flex items-center justify-center right-2 top-2 drop-shadow"
+              className="absolute w-14 h-14 flex items-center justify-center right-2 top-2 drop-shadow hover:scale-150 duration-500"
 
             >
               <FiTrash size={28} color="rgb(25, 58, 189)" />

@@ -247,7 +247,7 @@ async function handleDeleteImage(item: ImageItemProps){
           <div className="mb-3">
             <p className="mb-4 font-medium">Descrição</p>
              <textarea
-              className="border-2 w-full rounded-md h-24 px-2 text-black font-medium outline-none mt-3 mb-16"
+              className="border-2 w-full rounded-md h-24 px-2 text-black font-medium outline-none mt-3 mb-14"
               {...register("description")}
               name="description"
               id="description"

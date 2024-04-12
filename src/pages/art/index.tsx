@@ -101,7 +101,7 @@ export function ArtDetail() {
                 <SwiperSlide key={image.name}>
                   <img 
                     src={image.url}
-                    className="w-full h-auto object-cover cursor-zoom-in"
+                    className="w-full h-auto object-cover"
                   />
                 </SwiperSlide>
             ))}

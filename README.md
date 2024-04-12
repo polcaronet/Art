@@ -1,4 +1,4 @@
-# Esse site de _`Art`_ foi feito pelo seguindo a base do WebCarros do _`Matheus Fraga`_
+# Esse site _`Art`_ foi feito por mim seguindo a base do `WebCarros` do _`Matheus Fraga`_
 **Projeto top da construção do site de galeria de quadros de `Damião Martin!`** <br>
 ##
 **_`Meu site`_:**</div>

@@ -102,7 +102,7 @@ export function Home() {
     <section className="bg-blue-700 p-4 rounded-lg w-full max-w-3xl mx-auto flex justify-center items-center gap-2">
       <input
         className="w-full border-2 rounded-xl h-9 px-3 outline-none"
-        placeholder="Digito o nome do quadro... Ex: ceramistas"
+        placeholder="Digito o nome do quadro... Ex: colheita de feno"
         value={input}
         onChange={ (e) => setInput(e.target.value) }
       />

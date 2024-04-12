@@ -143,7 +143,7 @@ export function ArtDetail() {
         <p>{art?.whatsapp}</p>
 
         <a
-          href={`https://api.whatsapp.com/send/?phone=%2B5521996710902&text&type=phone_number&app_absent=0&text=Olá vi essa pintura ${art?.whatsapp} no site e fiquei interessado!`}
+          href={`https://api.whatsapp.com/send/?phone=&text=Olá vi essa pintura ${art?.whatsapp} no site e fiquei interessado!`}
           className="cursor-pointer bg-green-500 w-full text-white flex items-center justify-center gap-2 my-6 h-11 text-xl rounded-lg font-medium"
           target="_self"
         >

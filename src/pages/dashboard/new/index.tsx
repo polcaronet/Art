@@ -25,7 +25,6 @@ const schema = z.object({
   name: z.string().min(1, "O nome do quadro é obrigatório"),
   year: z.string().min(1, "O Ano é obrigatório é obrigatório"),
     cm: z.string().min(1, "O campo dimensão do quadro é obrigatório"),
- price: z.string().min(1, "O preço do quadro é obrigatório"),
   city: z.string().min(1, "A cidade é obrigatoria"),
   whatsapp: z.string().min(1, "O Telefone é obrigatório").refine((value) => /^(\d{10,12})$/.test(value),{
   message: "Numero de telefone inválido."
@@ -109,7 +108,6 @@ export function New() {
    name: data.name.toUpperCase(),
    city: data.city,
     cm: data.cm,
-    price: data.price,
     year: data.year,
     whatsapp: data.whatsapp,
     description: data.description,
@@ -244,17 +242,6 @@ async function handleDeleteImage(item: ImageItemProps){
               />
             </div>
 
-          </div>
-
-          <div className="mb-3">
-            <p className="mb-2 font-medium">Preço</p>
-            <Input
-              type="text"
-              register={register}
-              name="price"
-              error={errors.price?.message}
-              placeholder="Ex: R$ 150 ..."
-            />
           </div>
 
           <div className="mb-3">

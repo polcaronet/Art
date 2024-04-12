@@ -16,7 +16,6 @@ interface ArtProps{
     cm: string;
  description: string;
  created: string;
- price: string | number;
  owner: string;
    uid: string;
   images: ImagesArtProps[]
@@ -57,7 +56,6 @@ export function ArtDetail() {
          created: snapshot.data()?.created,
          cm: snapshot.data()?.cm,
          whatsapp: snapshot.data()?.whatsapp,
-         price: snapshot.data()?.price,
          owner: snapshot.data()?.owner,
          images: snapshot.data()?.images
        })
@@ -114,7 +112,6 @@ export function ArtDetail() {
       <main className="w-full bg-aqua text-white rounded-lg p-6 my-4">
         <div className="flex flex-col sm:flex-row mb-4 items-center justify-between">
           <h1 className="font-bold text-3xl ">{art?.name}</h1>
-          <h1 className="font-bold text-3xl ">R$ {art?.price}</h1>
         </div>
         <p className="font-bold">Oleo sobre tela</p>
         

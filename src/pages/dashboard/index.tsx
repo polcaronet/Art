@@ -19,7 +19,6 @@ interface ArtProps {
   id: string;
   name: string;
   year: string;
-  price: string | number;
   city: string;
   cm: string;
   images: ImageArtProps[];
@@ -56,7 +55,6 @@ export function Dashboard() {
               year: doc.data().year,
               cm: doc.data().cm,
               city: doc.data().city,
-              price: doc.data().price,
               images: doc.data().images,
               uid: doc.data().uid,
             })
@@ -115,10 +113,10 @@ export function Dashboard() {
             <p className=" text-white drop-shadow-sm font-bold mt-1 px-2 mb-2 bg-aqua">{art.name}</p>
             <div className="flex flex-col px-2">
               <span className="text-white ">
-                {art.cm} | {art.cm} cm
+                {art.cm} cm
               </span>
               <strong className="text-white font-bold">
-                R$ {art.price}
+              
               </strong>
             </div>
 

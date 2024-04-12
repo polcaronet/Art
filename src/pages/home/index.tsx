@@ -16,7 +16,6 @@ interface  ArtsProps{
   name: string;
   year: string;
   uid: string;
-  price: string | number;
   city: string;
   cm: string;
  images: ArtImageProps[];
@@ -51,7 +50,6 @@ export function Home() {
          year: doc.data().year,
          cm: doc.data().cm,
          city: doc.data().city,
-         price: doc.data().price,
          images: doc.data().images,
          uid: doc.data().uid,
          })
@@ -89,7 +87,6 @@ export function Home() {
         year: doc.data().year,
         cm: doc.data().cm,
         city: doc.data().city,
-        price: doc.data().price,
         images: doc.data().images,
         uid: doc.data().uid,
       })
@@ -142,7 +139,6 @@ export function Home() {
             <p className="bg-aqua drop-shadow-sm font-bold mt-1 mb-2 px-2 text-white">{art.name}</p>
               <div className="flex flex-col px-2">
                   <span className="mb-6 text-white font-medium">{art.year} | {art.cm} cm </span>
-                  <strong className=" text-white font-bold text-xl">R$ {art.price}</strong>
               </div>
               <div className="w-full h-px bg-aqua my-2"></div>
 
@@ -156,7 +152,6 @@ export function Home() {
         </Link>   
       ))}
         
-
       </main>
   </Container>
   )

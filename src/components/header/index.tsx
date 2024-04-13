@@ -21,16 +21,16 @@ export function Header() {
           </Link>
            {!loadingAuth && signed && (
              <Link to="/dashboard">
-             <div className="border-2 rounded-full p-1 border-gray-100">
-               <FiUser size={22} color="#B7B7B8"/>
+             <div className="border-2 rounded-full p-1 border-aqua">
+               <FiUser size={22} color="#04a9e5"/>
              </div>
            </Link>
            )}
 
            {!loadingAuth && !signed && (
              <Link to="/login">
-            <div className="border-2 rounded-full p-1 border-gray-100">
-             <FiLogIn size={22} color="#B7B7B8"/>
+            <div className="border-2 rounded-full p-1 border-aqua">
+             <FiLogIn size={22} color="#04a9e5"/>
             </div>
            </Link>
            )}

@@ -146,7 +146,7 @@ export function ArtDetail() {
           href={`https://api.whatsapp.com/send/?type=phone=${art?.whatsapp}&text=Olá vi esse ${art.name} no site e fiquei interessado!`}
           className="cursor-pointer bg-green-500 w-full text-white flex items-center justify-center gap-2 my-6 h-11 text-xl rounded-lg font-medium"
         >
-          Conversar com vendedor
+          Preço a Combinar
           <FaWhatsapp size={26} color="#FFF" />
         </a>
 

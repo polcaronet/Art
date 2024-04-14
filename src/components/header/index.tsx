@@ -3,6 +3,8 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg'
 import { FiUser, FiLogIn } from 'react-icons/fi';
+import { FaInstagram } from 'react-icons/fa';
+import { FaFacebook } from 'react-icons/fa'; 
 
 
 export function Header() {
@@ -19,6 +21,8 @@ export function Header() {
              alt="Logo do site"
            />
           </Link>
+           <FaInstagram  cursor="pointer" size={32} color="#04a9e5" href="https://www.instagram.com/damiao3790/" target="_blank"/>
+           <FaFacebook cursor="pointer" size={32} color="#04a9e5" href="https://www.facebook.com/damiao.martins.71" target="_blank"/>
            {!loadingAuth && signed && (
              <Link to="/dashboard">
              <div className="border-2 rounded-full p-1 border-aqua">
@@ -26,7 +30,6 @@ export function Header() {
              </div>
            </Link>
            )}
-
            {!loadingAuth && !signed && (
              <Link to="/login">
             <div className="border-2 rounded-full p-1 border-aqua">

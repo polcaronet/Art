@@ -118,7 +118,7 @@ export function Home() {
             Façam um Tour pelas Obras do Artista 👇🏻
       </h1>
       <h2 className="font-bold flex flex-col items-center justify-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white shadow border-b-0 ">
-            Atualizações diarias !
+            Aguardem novas publicações !
       </h2>
       </div>
       <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

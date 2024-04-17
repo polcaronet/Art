@@ -37,7 +37,7 @@ export function Home() {
 
   function loadArts(){
     const artsRef = collection(firestore, "arts")
-    const queryRef = query(artsRef, orderBy("created", "desc"))
+    const queryRef = query(artsRef, orderBy("created", "asc"))
 
    getDocs(queryRef)
    .then((snapshot)=> {

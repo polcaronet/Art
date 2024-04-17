@@ -114,8 +114,8 @@ export function Home() {
         </button>
     </section>
      <div className="flex flex-col items-center justify-center ">
-     <h1  className="font-bold flex flex-col items-center justify-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white border-b-0 ">
-          Façam um Tour pelas Obras de Damião Martins
+     <h1  className="font-bold flex flex-col items-center justify-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white shadow border-b-0 ">
+          Façam um Tour pelas Obras de Damião Martins 👇🏻
         
     </h1>
     </div>
@@ -155,9 +155,6 @@ export function Home() {
       ))}
         
       </main>
-      <h2 className="font-bold flex flex-col items-center justify-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white  border-b-0 shadow ">
-          Mais publicações em breve!👇🏻
-      </h2>
   </Container>
   )
 }

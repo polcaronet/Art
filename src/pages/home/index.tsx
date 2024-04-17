@@ -115,7 +115,7 @@ export function Home() {
     </section>
      <div className="flex flex-col items-center justify-center ">
      <h1  className="font-bold flex flex-col items-center justify-center mt-8 text-3xl mb-12 hover:animate-floatUP text-white shadow border-b-0 ">
-          Façam um Tour pelas Obras de Damião Martins 👇🏻
+          Façam um Tour pelas Obras do Artista 👇🏻
         
     </h1>
     </div>

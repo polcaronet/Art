@@ -20,6 +20,12 @@ export function Header() {
              alt="Logo do site"
            />
           </Link>
+          <Link to="https://mail.google.com/mail/u/0/#inbox">
+            <p 
+            className="w-full items-center px-4 mx-auto flex justify-between mb:text-xl md:text-xl lg:text-3xl font-bold">
+              Gmail: damiaomartinspintor@gmail.com
+            </p>
+          </Link>
            {!loadingAuth && signed && (
              <Link to="/dashboard">
              <div className="border-2 rounded-full p-1 border-aqua">

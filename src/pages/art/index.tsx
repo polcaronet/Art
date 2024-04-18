@@ -135,6 +135,13 @@ export function ArtDetail() {
               <strong>{art?.cm} cm</strong>
             </div> 
           </div>
+          
+          <div className="flex flex-col gap-4">
+            <div>
+          <p>Gmail</p>
+          <strong>{art?.gmail} gmail</strong>
+            </div>
+          </div>
         </div>
 
         <strong>Descrição:</strong>

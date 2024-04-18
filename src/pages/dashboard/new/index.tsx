@@ -245,7 +245,7 @@ async function handleDeleteImage(item: ImageItemProps){
             </div>
 
             <div className="w-full">
-              <p className="mb-2 font-medium">Cidade</p>
+              <p className="mb-2 font-medium">Gmail</p>
               <Input
                 type="text"
                 register={register}

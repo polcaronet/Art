@@ -26,7 +26,6 @@ const schema = z.object({
   year: z.string().min(1, "O Ano é obrigatório é obrigatório"),
     cm: z.string().min(1, "O campo dimensão do quadro é obrigatório"),
   city: z.string().min(1, "A cidade é obrigatoria"),
-  gmail: z.string().min(1, "O gmail é obrigatorio!"),
   whatsapp: z.string().min(1, "O Telefone é obrigatório").refine((value) => /^(\d{10,12})$/.test(value),{
   message: "Numero de telefone inválido."
   }),
@@ -110,7 +109,6 @@ export function New() {
    city: data.city,
     cm: data.cm,
     year: data.year,
-    gmail: data.gmail,
     whatsapp: data.whatsapp,
     description: data.description,
     created: new Date(),
@@ -244,17 +242,7 @@ async function handleDeleteImage(item: ImageItemProps){
               />
             </div>
 
-            <div className="w-full">
-              <p className="mb-2 font-medium">Gmail</p>
-              <Input
-                type="text"
-                register={register}
-                name="city"
-                error={errors.gmail?.message}
-                placeholder="Ex: damiaomartinspintor@gmail.com..."
-              />
-            </div>
-
+            
           </div>
 
           <div className="mb-3">

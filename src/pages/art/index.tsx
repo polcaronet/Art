@@ -20,7 +20,6 @@ interface ArtProps{
    uid: string;
   images: ImagesArtProps[]
   whatsapp: string;
-  gmail: string;
 }
 
 interface ImagesArtProps{
@@ -59,7 +58,6 @@ export function ArtDetail() {
          whatsapp: snapshot.data()?.whatsapp,
          owner: snapshot.data()?.owner,
          images: snapshot.data()?.images,
-         gmail:  snapshot.data()?.gmail,
        })
      })
    }
@@ -135,13 +133,7 @@ export function ArtDetail() {
               <strong>{art?.cm} cm</strong>
             </div> 
           </div>
-          
-          <div className="flex flex-col gap-4">
-            <div>
-          <p>Gmail</p>
-          <strong>{art?.gmail} gmail</strong>
-            </div>
-          </div>
+
         </div>
 
         <strong>Descrição:</strong>
@@ -150,7 +142,6 @@ export function ArtDetail() {
 
         <strong>Telefone / WhatsApp</strong>
         <p>{art?.whatsapp}</p>
-         <p>{art?.gmail}</p>
         <a
           href={`https://api.whatsapp.com/send/?type=phone=${art?.whatsapp}&text=Olá vi esse ${art.name} na galeria e fiquei interessado!`}
           className="cursor-pointer bg-green-500 w-full text-white flex items-center justify-center gap-2 my-6 h-11 text-xl rounded-lg font-medium"

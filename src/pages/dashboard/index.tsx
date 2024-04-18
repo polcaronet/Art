@@ -23,7 +23,6 @@ interface ArtProps {
   cm: string;
   images: ImageArtProps[];
   uid: string;
-  gmail: string;
 }
 
 interface ImageArtProps {
@@ -58,7 +57,6 @@ export function Dashboard() {
               city: doc.data().city,
               images: doc.data().images,
               uid: doc.data().uid,
-              gmail: doc.data().gmail
             })
           })
           setArts(listarts);
@@ -118,7 +116,7 @@ export function Dashboard() {
                 {art.cm} cm
               </span>
               <strong className="text-white font-bold">
-                {art.gmail}
+          
               </strong>
             </div>
 

@@ -118,7 +118,7 @@ export function Dashboard() {
                 {art.cm} cm
               </span>
               <strong className="text-white font-bold">
-              
+                {art.gmail}
               </strong>
             </div>
 

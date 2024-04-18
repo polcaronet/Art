@@ -59,7 +59,7 @@ export function ArtDetail() {
          whatsapp: snapshot.data()?.whatsapp,
          owner: snapshot.data()?.owner,
          images: snapshot.data()?.images,
-         gmail:  snapshot.data()?.gmail
+         gmail:  snapshot.data()?.gmail,
        })
      })
    }

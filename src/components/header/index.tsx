@@ -5,7 +5,6 @@ import logoImg from '../../assets/logo.svg'
 import { FiUser, FiLogIn } from 'react-icons/fi';
 import { FiMail } from 'react-icons/fi';
 import { FaInstagram } from 'react-icons/fa';
-import { FaFacebook } from 'react-icons/fa';
 
 
 
@@ -22,10 +21,6 @@ export function Header() {
              src={logoImg} 
              alt="Logo do site"
            />
-          </Link>
-          <Link to="https://www.facebook.com/damiao.martins.71" title="Facebook">
-           <FaFacebook size={30} color="#e5e7e7"/>
-          </Link>
           <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " className="text-cyan-100" title="Gmail: damiaomartinspintor@gmail.com">
             <FiMail size={30} color= "#e4be13"/>
           </Link>

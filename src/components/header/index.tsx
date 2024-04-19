@@ -26,7 +26,7 @@ export function Header() {
           <Link to="https://www.facebook.com/damiao.martins.71" title="Facebook">
            <FaFacebook size={30} color="#e5e7e7"/>
           </Link>
-          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " title="Gmail >> damiaomartinspintor@gmail.com">
+          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " className="text-cyan-100" title="Gmail: damiaomartinspintor@gmail.com">
             <FiMail size={30} color= "#e4be13"/>
           </Link>
            <Link to="https://www.instagram.com/damiao3790" title="Instagram">

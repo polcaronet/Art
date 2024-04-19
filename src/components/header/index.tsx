@@ -3,6 +3,9 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg'
 import { FiUser, FiLogIn } from 'react-icons/fi';
+import { FiMail } from 'react-icons/fi';
+import { FaInstagram } from 'react-icons/fa';
+import { FaFacebook } from 'react-icons/fa';
 
 
 
@@ -20,12 +23,15 @@ export function Header() {
              alt="Logo do site"
            />
           </Link>
-          <Link to="https://mail.google.com/mail/u/0/#inbox">
-            <p 
-            className="w-full items-center px-4 mx-auto flex justify-between mb:text-xl md:text-xl lg:text-3xl font-bold">
-              Gmail: damiaomartinspintor@gmail.com
-            </p>
+          <Link to="https://www.facebook.com/damiao.martins.71">
+           <FaFacebook size={30} color="#04a9e5"/>
           </Link>
+          <Link to="https://mail.google.com/mail/u/0/#inbox">
+            <FiMail size={30} color= "#04a9e5"/>
+          </Link>
+           <Link to="https://www.instagram.com/damiao3790">
+             <FaInstagram size={30} color="#04a9e5"/>
+           </Link>
            {!loadingAuth && signed && (
              <Link to="/dashboard">
              <div className="border-2 rounded-full p-1 border-aqua">

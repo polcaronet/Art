@@ -23,25 +23,25 @@ export function Header() {
              alt="Logo do site"
            />
           </Link>
-          <Link to="https://www.facebook.com/damiao.martins.71">
+          <Link to="https://www.facebook.com/damiao.martins.71" title="Facebook">
            <FaFacebook size={30} color="#e5e7e7"/>
           </Link>
-          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " title="damiaomartinspintor@gmail.com">
+          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " title="Gmail >> damiaomartinspintor@gmail.com">
             <FiMail size={30} color= "#e4be13"/>
           </Link>
-           <Link to="https://www.instagram.com/damiao3790">
+           <Link to="https://www.instagram.com/damiao3790" title="Instagram">
              <FaInstagram size={30} color="#e53804"/>
            </Link>
            {!loadingAuth && signed && (
              <Link to="/dashboard">
-             <div className="border-2 rounded-full p-1 border-aqua">
+             <div className="border-2 rounded-full p-1 border-aqua" title="Area Privada">
                <FiUser size={22} color="#04a9e5"/>
              </div>
            </Link>
            )}
            {!loadingAuth && !signed && (
              <Link to="/login">
-            <div className="border-2 rounded-full p-1 border-aqua">
+            <div className="border-2 rounded-full p-1 border-aqua" title="Area Privada">
              <FiLogIn size={22} color="#04a9e5"/>
             </div>
            </Link>

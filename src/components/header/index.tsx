@@ -24,13 +24,13 @@ export function Header() {
            />
           </Link>
           <Link to="https://www.facebook.com/damiao.martins.71">
-           <FaFacebook size={30} color="#04a9e5"/>
+           <FaFacebook size={30} color="#e5e7e7"/>
           </Link>
           <Link to="https://mail.google.com/mail/u/0/#inbox">
-            <FiMail size={30} color= "#04a9e5"/>
+            <FiMail size={30} color= "#e4be13"/>
           </Link>
            <Link to="https://www.instagram.com/damiao3790">
-             <FaInstagram size={30} color="#04a9e5"/>
+             <FaInstagram size={30} color="#e53804"/>
            </Link>
            {!loadingAuth && signed && (
              <Link to="/dashboard">

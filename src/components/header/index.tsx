@@ -8,6 +8,7 @@ import { FaInstagram } from 'react-icons/fa';
 
 
 
+
 export function Header() {
   const { signed, loadingAuth } = useContext(AuthContext);
   
@@ -21,6 +22,7 @@ export function Header() {
              src={logoImg} 
              alt="Logo do site"
            />
+          </Link>
           <Link to="https://mail.google.com/mail/u/0/#inbox?compose=new " className="text-cyan-100" title="Gmail: damiaomartinspintor@gmail.com">
             <FiMail size={30} color= "#e4be13"/>
           </Link>
@@ -44,7 +46,6 @@ export function Header() {
         </header>
       </div>
       
-  
   )
 }
 

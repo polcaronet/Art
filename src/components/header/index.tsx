@@ -20,7 +20,7 @@ export function Header() {
           <Link  to="/">
            <img
              src={logoImg} 
-             alt="Logo do site" title=" Artist -> Damião Martins"
+             alt="Logo do site" title="Artist"
            />
           </Link>
           <Link to="https://mail.google.com/mail/u/0/#inbox?compose=DmwnWrRttFsQpBTbVnNPWClgNRlWcZDZJVDPLVhcjQrxrlstMLNzbqJRxMvqzmdzCLmLXwNtGmdl " className="text-cyan-100" title="Gmail: damiaomartinspintor@gmail.com">

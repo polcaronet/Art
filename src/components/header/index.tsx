@@ -23,7 +23,7 @@ export function Header() {
              alt="Logo do site" title="Artist"
            />
           </Link>
-          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=${po}" className="text-cyan-100" title="damiaomartinspintor@gmail.com">
+          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=id" className="text-cyan-100" title="damiaomartinspintor@gmail.com">
             <FiMail size={30} color= "#e4be13"/>
           </Link>
            <Link to="https://www.instagram.com/damiao3790" title="Instagram">
@@ -48,4 +48,6 @@ export function Header() {
       
   )
 }
+
+<input id=":os" class="agP aFw" peoplekit-id="BbVjBd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Destinatários" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" placeholder="" size="0" type="text" role="combobox" aria-owns=":ot" aria-controls=":ot"></input>
 

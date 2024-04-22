@@ -8,7 +8,6 @@ import { ArtDetail } from "./pages/art"
 
 import { Layout } from "./components/layout"
 import { Private } from './routes/Private'
-import { FiMail } from "react-icons/fi"
 
 
 const router = createBrowserRouter([
@@ -40,10 +39,6 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register/>
-  },
-  {
-  path: "/",
-  element: <FiMail/>
   }
 ])
 

@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <Register/>
   },
   {
-  path: "mail/:id",
+  path: "/:id",
   element: <FiMail/>
   }
 ])

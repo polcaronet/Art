@@ -1,0 +1,27 @@
+{
+  "background_color": "#ffffff",
+  "description": "A melhor galeria de Obras de Arte Moderna!",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Art_Damiao",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Art_Damiao",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/Cart%C3%A3o%20Damiao%20Martins-5GdIDzpc.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "lang": "pt",
+  "categories": [
+    "photo"
+  ]
+}

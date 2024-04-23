@@ -27,6 +27,7 @@ interface ArtImageProps{
   url: string;
 }
 
+
 export function Home() {
   const [arts, setArts] = useState<ArtsProps[]>([])
   const [loadImages, setLoadImages] = useState<string[]>([])

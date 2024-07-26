@@ -29,7 +29,6 @@ const schema = z.object({
   whatsapp: z.string().min(1, "O Telefone é obrigatório").refine((value) => /^(\d{10,12})$/.test(value),{
   message: "Numero de telefone inválido."
   }),
-  description: z.string().min(1, "A descrição é obrigatoria"),
 })
 
 type FormData = z.infer<typeof schema>;
@@ -110,7 +109,6 @@ export function New() {
     cm: data.cm,
     year: data.year,
     whatsapp: data.whatsapp,
-    description: data.description,
     created: new Date(),
     owner: user?.uid,
     uid: user?.uid,
@@ -241,20 +239,7 @@ async function handleDeleteImage(item: ImageItemProps){
                 placeholder="Ex: Maricá - RJ..."
               />
             </div>
-
             
-          </div>
-
-          <div className="mb-3">
-            <p className="mb-4 font-medium">Descrição</p>
-             <textarea
-              className="border-2 w-full rounded-md h-24 px-2 text-black font-medium outline-none mt-3 mb-12"
-              {...register("description")}
-              name="description"
-              id="description"
-              placeholder="Digite a descrição completa sobre o quadro..."
-            />
-            {errors.description && <p className="mb-1 text-red-300">{errors.description.message}</p>}
           </div>
 
           <button type="submit" className="w-full rounded-md bg-zinc-950 text-white font-medium h-12 mt-5">

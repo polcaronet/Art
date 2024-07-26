@@ -14,7 +14,6 @@ interface ArtProps{
   city: string;
   year: string;
     cm: string;
- description: string;
  created: string;
  owner: string;
    uid: string;
@@ -52,7 +51,6 @@ export function ArtDetail() {
          year: snapshot.data()?.year,
          city: snapshot.data()?.city,
          uid: snapshot.data()?.uid,
-         description: snapshot.data()?.description,
          created: snapshot.data()?.created,
          cm: snapshot.data()?.cm,
          whatsapp: snapshot.data()?.whatsapp,
@@ -135,10 +133,6 @@ export function ArtDetail() {
           </div>
 
         </div>
-
-        <strong>Descrição:</strong>
-        <p className="mb-4">{art?.description}</p>
-        
 
         <strong>Telefone / WhatsApp</strong>
         <p>{art?.whatsapp}</p>

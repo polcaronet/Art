@@ -3,7 +3,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.svg'
 import { FiUser, FiLogIn } from 'react-icons/fi';
-import { FiMail } from 'react-icons/fi';
+import { FiHome } from 'react-icons/fi';
 import { FaInstagram } from 'react-icons/fa';
 
 
@@ -23,8 +23,8 @@ export function Header() {
              alt="Logo do site" title="Artist"
            />
           </Link>
-          <Link to="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJlJVjqRpgkmrvMSrPtXKpFMLHSqjZvJzdTWWxGZcljRpCnbJCThbkhpmcfTshXdBvQGWJB" className="text-cyan-100" title="damiaomartinspintor@gmail.com">
-            <FiMail size={30} color= "#e4be13"/>
+          <Link to="https://www.facebook.com/marketplace/profile/100002503665004/" className="text-cyan-100" title="Marketplace">
+            <FiHome size={30} color= "#e4be13"/>
           </Link>
            <Link to="https://www.instagram.com/damiao3790" title="Instagram">
              <FaInstagram size={30} color="#e53804"/>

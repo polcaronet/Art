@@ -46,7 +46,7 @@ export function Dashboard() {
 
       getDocs(queryRef)
         .then((snapshot) => {
-          let listarts = [] as ArtProps[];
+          const listarts = [] as ArtProps[];
 
           snapshot.forEach(doc => {
             listarts.push({
@@ -68,7 +68,7 @@ export function Dashboard() {
 
 
   async function handleDeleteArt(art: ArtProps) {
-     const itemArt = art;
+    const itemArt = art;
 
 
     const docRef = doc(firestore, "arts", itemArt.id)
@@ -81,7 +81,7 @@ export function Dashboard() {
       try {
         await deleteObject(imageRef)
         setArts(arts.filter(art => art.id !== itemArt.id))
-        
+
       } catch (err) {
         console.log("ERRO AO EXCLUIR ESSA IMAGEM")
       }
@@ -116,7 +116,7 @@ export function Dashboard() {
                 {art.cm} cm
               </span>
               <strong className="text-white font-bold">
-          
+
               </strong>
             </div>
 

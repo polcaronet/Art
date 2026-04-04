@@ -1,0 +1,178 @@
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Art, ArtService } from '../../services/art.service';
+import { ThemeService, Theme } from '../../services/theme.service';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [RouterLink, FormsModule],
+  template: `
+    <section class="search-bar">
+      <input
+        class="search-input"
+        placeholder="Digite o nome do quadro..."
+        [(ngModel)]="searchTerm"
+        (keyup.enter)="onSearch()"
+      />
+      <button class="btn-search" (click)="onSearch()">Pesquisar</button>
+    </section>
+
+    <div class="theme-selector">
+      <label>Tema:</label>
+      <select [value]="themeService.theme()" (change)="onThemeChange($event)">
+        <option value="default">Padrão (Azul)</option>
+        <option value="dark">Escuro</option>
+        <option value="warm">Quente</option>
+      </select>
+    </div>
+
+    <div class="intro">
+      <h1>Façam um Tour pelas Obras do Artista 👇🏻</h1>
+      <h2>Aguardem novas publicações!</h2>
+    </div>
+
+    <div class="grid">
+      @for (art of arts(); track art.id) {
+        <a [routerLink]="['/art', art.id]" class="card">
+          <img
+            [src]="art.images[0]?.url"
+            alt="Quadro"
+            class="card-img"
+            loading="lazy"
+          />
+          <div class="card-body">
+            <p class="card-title">{{ art.name }}</p>
+            <span class="card-info">{{ art.year }} | {{ art.cm }} cm</span>
+            <span class="card-city">{{ art.city }}</span>
+          </div>
+        </a>
+      }
+    </div>
+  `,
+  styles: [
+    `
+      .search-bar {
+        display: flex;
+        gap: 0.5rem;
+        background: var(--bg-secondary);
+        padding: 1rem;
+        border-radius: 10px;
+        max-width: 700px;
+        margin: 0 auto 1.5rem;
+      }
+      .search-input {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        border: 2px solid var(--border-color);
+        background: var(--input-bg);
+        color: var(--input-text);
+        font-size: 1rem;
+      }
+      .btn-search {
+        background: var(--accent);
+        color: white;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+      }
+      .btn-search:hover {
+        background: var(--accent-hover);
+      }
+      .theme-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+      }
+      .theme-selector label {
+        font-weight: 500;
+      }
+      .theme-selector select {
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--input-bg);
+        color: var(--input-text);
+      }
+      .intro {
+        text-align: center;
+        margin: 2rem 0;
+      }
+      .intro h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+      }
+      .intro h2 {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      .card {
+        background: var(--bg-card);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.2s;
+        display: block;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+      }
+      .card-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+      }
+      .card-body {
+        padding: 0.8rem;
+      }
+      .card-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+      }
+      .card-info,
+      .card-city {
+        display: block;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+    `,
+  ],
+})
+export class HomeComponent implements OnInit {
+  private artService = inject(ArtService);
+  themeService = inject(ThemeService);
+
+  arts = signal<Art[]>([]);
+  searchTerm = '';
+
+  ngOnInit() {
+    this.themeService.init();
+    this.loadArts();
+  }
+
+  async loadArts() {
+    this.arts.set(await this.artService.getAll());
+  }
+
+  async onSearch() {
+    if (!this.searchTerm.trim()) {
+      await this.loadArts();
+      return;
+    }
+    this.arts.set(await this.artService.search(this.searchTerm));
+  }
+
+  onThemeChange(event: Event) {
+    const theme = (event.target as HTMLSelectElement).value as Theme;
+    this.themeService.setTheme(theme);
+  }
+}

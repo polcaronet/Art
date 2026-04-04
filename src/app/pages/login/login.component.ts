@@ -179,8 +179,9 @@ export class LoginComponent {
     try {
       await this.auth.loginWithGoogle();
       this.router.navigate(['/admin']);
-    } catch {
-      this.error.set('Erro ao entrar com Google.');
+    } catch (e: any) {
+      console.error('Google login error:', e);
+      this.error.set(e?.message || 'Erro ao entrar com Google.');
     } finally {
       this.loading.set(false);
     }

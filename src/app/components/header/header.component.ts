@@ -68,12 +68,14 @@ import { CartService } from '../../services/cart.service';
       color: var(--text-secondary);
       font-weight: 500;
       font-size: 0.9rem;
-      transition: color 0.2s;
-      opacity: 0.8;
+      transition: all 0.2s;
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
     }
     .nav-links a:hover {
       color: var(--text-primary);
-      opacity: 1;
+      background: rgba(255,255,255,0.15);
     }
     .btn-logout {
       background: var(--accent);

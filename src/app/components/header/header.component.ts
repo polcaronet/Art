@@ -44,7 +44,7 @@ import { CartService } from '../../services/cart.service';
     .header {
       background: var(--header-bg);
       padding: 0 1.5rem;
-      height: 64px;
+      height: 80px;
       display: flex;
       align-items: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -58,7 +58,7 @@ import { CartService } from '../../services/cart.service';
       justify-content: space-between;
     }
     .logo { display: flex; align-items: center; }
-    .logo-img { height: 40px; width: auto; }
+    .logo-img { height: 48px; width: auto; }
     .nav-links {
       display: flex;
       gap: 0.4rem;

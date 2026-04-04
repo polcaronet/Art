@@ -6,7 +6,9 @@ import {
   getDoc,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
+  increment,
   orderBy,
   where,
 } from 'firebase/firestore';
@@ -29,6 +31,8 @@ export interface Art {
   price?: string;
   type: 'showcase' | 'sale';
   status?: 'available' | 'order' | 'sold';
+  views?: number;
+  likes?: number;
   uid: string;
   images: ArtImage[];
 }
@@ -103,9 +107,42 @@ export class ArtService {
 
   async delete(art: Art) {
     await deleteDoc(doc(this.fb.firestore, 'arts', art.id));
-    // Imagens no Cloudinary precisam ser deletadas via painel ou backend
     for (const img of art.images) {
       await this.cloudinary.deleteByUrl(img.url);
     }
+  }
+
+  async addView(artId: string) {
+    const key = `viewed_${artId}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+    await updateDoc(doc(this.fb.firestore, 'arts', artId), {
+      views: increment(1),
+    });
+  }
+
+  async toggleLike(artId: string, uid: string): Promise<boolean> {
+    const likeRef = doc(this.fb.firestore, 'arts', artId, 'likes', uid);
+    const snap = await getDoc(likeRef);
+    if (snap.exists()) {
+      const { deleteDoc: delDoc } = await import('firebase/firestore');
+      await delDoc(likeRef);
+      await updateDoc(doc(this.fb.firestore, 'arts', artId), {
+        likes: increment(-1),
+      });
+      return false;
+    } else {
+      const { setDoc } = await import('firebase/firestore');
+      await setDoc(likeRef, { created: new Date() });
+      await updateDoc(doc(this.fb.firestore, 'arts', artId), {
+        likes: increment(1),
+      });
+      return true;
+    }
+  }
+
+  async hasLiked(artId: string, uid: string): Promise<boolean> {
+    const snap = await getDoc(doc(this.fb.firestore, 'arts', artId, 'likes', uid));
+    return snap.exists();
   }
 }

@@ -174,6 +174,7 @@ import { AuthService } from '../../../services/auth.service';
         gap: 0.8rem;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: center;
       }
       .upload-btn {
         width: 120px;

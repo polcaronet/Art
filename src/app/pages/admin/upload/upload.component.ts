@@ -17,6 +17,7 @@ import { AuthService } from '../../../services/auth.service';
 
     <div class="upload-area">
       <div class="images-preview">
+        @if (images().length === 0) {
         <label class="upload-btn">
           <span>📤 Upload</span>
           <input
@@ -26,6 +27,7 @@ import { AuthService } from '../../../services/auth.service';
             hidden
           />
         </label>
+        }
         @for (img of images(); track img.name) {
           <div class="preview-item">
             <button class="btn-remove" (click)="removeImage(img)">✕</button>

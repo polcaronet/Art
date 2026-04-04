@@ -14,26 +14,26 @@ import { CartService } from '../../services/cart.service';
           <img src="/logo.svg" alt="Galeria Damião" class="logo-img" />
         </a>
         <nav class="nav-links">
-          <a routerLink="/">Início</a>
-          <a routerLink="/sale">À Venda</a>
+          <a routerLink="/" class="nav-link">Início</a>
+          <a routerLink="/sale" class="nav-link">À Venda</a>
 
           @if (!auth.loading()) {
             @if (auth.isAdmin()) {
-              <a routerLink="/admin">Admin</a>
-              <a routerLink="/profile">Perfil</a>
-              <button class="btn-logout" (click)="auth.logout()">Sair</button>
+              <a routerLink="/admin" class="nav-link">Admin</a>
+              <a routerLink="/profile" class="nav-link">Perfil</a>
+              <button class="btn-action btn-logout" (click)="auth.logout()">Sair</button>
             } @else if (auth.isCustomer()) {
-              <a routerLink="/cart" class="cart-link">
+              <a routerLink="/cart" class="nav-link cart-link">
                 🛒
                 @if (cart.count() > 0) {
                   <span class="cart-badge">{{ cart.count() }}</span>
                 }
               </a>
-              <a routerLink="/orders">Pedidos</a>
-              <button class="btn-logout" (click)="auth.logout()">Sair</button>
+              <a routerLink="/orders" class="nav-link">Pedidos</a>
+              <button class="btn-action btn-logout" (click)="auth.logout()">Sair</button>
             } @else {
-              <a routerLink="/register">Cadastrar</a>
-              <a routerLink="/login">Admin</a>
+              <a routerLink="/register" class="btn-action btn-register">Cadastrar</a>
+              <a routerLink="/login" class="btn-action btn-admin">Admin</a>
             }
           }
         </nav>
@@ -44,10 +44,10 @@ import { CartService } from '../../services/cart.service';
     .header {
       background: var(--header-bg);
       padding: 0 1.5rem;
-      height: 60px;
+      height: 64px;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
     .header-inner {
       max-width: 1080px;
@@ -61,47 +61,61 @@ import { CartService } from '../../services/cart.service';
     .logo-img { height: 40px; width: auto; }
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 0.4rem;
       align-items: center;
     }
-    .nav-links a {
+    .nav-link {
       color: var(--text-secondary);
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
       transition: all 0.2s;
-      padding: 0.35rem 0.9rem;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.08);
+      position: relative;
     }
-    .nav-links a:hover {
+    .nav-link:hover {
       color: var(--text-primary);
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.1);
+    }
+    .btn-action {
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .btn-register {
+      background: var(--border-color);
+      color: white;
+    }
+    .btn-register:hover {
+      opacity: 0.85;
+    }
+    .btn-admin {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-admin:hover {
+      background: rgba(255,255,255,0.18);
+      color: var(--text-primary);
     }
     .btn-logout {
       background: var(--accent);
       color: white;
-      padding: 0.35rem 0.9rem;
-      border-radius: 6px;
-      font-weight: 500;
-      font-size: 0.85rem;
-      transition: background 0.2s;
     }
     .btn-logout:hover { background: var(--accent-hover); }
-    .cart-link {
-      position: relative;
-      font-size: 1.1rem;
-      opacity: 1;
-    }
+    .cart-link { font-size: 1.1rem; }
     .cart-badge {
       position: absolute;
-      top: -8px;
-      right: -10px;
+      top: 0;
+      right: 2px;
       background: var(--accent);
       color: white;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       font-weight: 700;
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -109,9 +123,10 @@ import { CartService } from '../../services/cart.service';
     }
 
     @media (max-width: 600px) {
-      .nav-links { gap: 0.8rem; }
-      .nav-links a { font-size: 0.8rem; }
-      .btn-logout { font-size: 0.8rem; padding: 0.3rem 0.7rem; }
+      .header { padding: 0 0.8rem; }
+      .nav-links { gap: 0.2rem; }
+      .nav-link { font-size: 0.78rem; padding: 0.35rem 0.6rem; }
+      .btn-action { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
     }
   `],
 })

@@ -51,6 +51,7 @@ import { AuthService } from '../../services/auth.service';
         </button>
 
         <p class="link">Área restrita ao administrador</p>
+        <p class="link">Quer comprar? <a routerLink="/register">Criar conta</a></p>
       </div>
     </div>
   `,

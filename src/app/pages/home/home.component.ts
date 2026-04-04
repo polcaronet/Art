@@ -29,8 +29,8 @@ import { ThemeService, Theme } from '../../services/theme.service';
     </div>
 
     <div class="intro">
-      <h1>Façam um Tour pelas Obras do Artista 👇🏻</h1>
-      <h2>Aguardem novas publicações!</h2>
+      <h1 class="fade-in">Façam um Tour pelas Obras do Artista 👇🏻</h1>
+      <h2 class="fade-in delay">Aguardem novas publicações!</h2>
     </div>
 
     <div class="grid">
@@ -109,6 +109,20 @@ import { ThemeService, Theme } from '../../services/theme.service';
       .intro h2 {
         font-size: 1.2rem;
         color: var(--text-secondary);
+      }
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s ease forwards;
+      }
+      .fade-in.delay {
+        animation-delay: 0.3s;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       .grid {
         display: grid;

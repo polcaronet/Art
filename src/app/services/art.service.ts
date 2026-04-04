@@ -26,6 +26,9 @@ export interface Art {
   city: string;
   cm: string;
   whatsapp?: string;
+  price?: string;
+  type: 'showcase' | 'sale';
+  status?: 'available' | 'order' | 'sold';
   uid: string;
   images: ArtImage[];
 }

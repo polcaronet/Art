@@ -11,7 +11,8 @@ import { AuthService } from '../../../services/auth.service';
   template: `
     <div class="admin-header">
       <a routerLink="/admin" class="tab">Dashboard</a>
-      <a routerLink="/admin/upload" class="tab active">Upload de Quadros</a>
+      <a routerLink="/admin/upload" class="tab active">Upload</a>
+      <a routerLink="/admin/orders" class="tab">Pedidos</a>
     </div>
 
     <div class="upload-area">
@@ -98,6 +99,36 @@ import { AuthService } from '../../../services/auth.service';
             required
           />
         </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Tipo</label>
+          <select [(ngModel)]="artType" name="artType" class="input">
+            <option value="showcase">Mostruário</option>
+            <option value="sale">À Venda</option>
+          </select>
+        </div>
+        @if (artType === 'sale') {
+          <div class="field">
+            <label>Status</label>
+            <select [(ngModel)]="artStatus" name="artStatus" class="input">
+              <option value="available">Disponível</option>
+              <option value="order">Encomenda</option>
+              <option value="sold">Vendido</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Preço (R$)</label>
+            <input
+              type="text"
+              [(ngModel)]="price"
+              name="price"
+              placeholder="Ex: 1500.00"
+              class="input"
+            />
+          </div>
+        }
       </div>
 
       @if (error()) {
@@ -264,6 +295,9 @@ export class UploadComponent {
   cm = '';
   city = '';
   whatsapp = '';
+  artType: 'showcase' | 'sale' = 'showcase';
+  artStatus: 'available' | 'order' | 'sold' = 'available';
+  price = '';
 
   async onFileSelect(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -319,6 +353,9 @@ export class UploadComponent {
         cm: this.cm,
         city: this.city,
         whatsapp: this.whatsapp,
+        type: this.artType,
+        status: this.artType === 'sale' ? this.artStatus : undefined,
+        price: this.artType === 'sale' ? this.price : undefined,
         uid,
         images: this.images(),
       });
@@ -328,6 +365,9 @@ export class UploadComponent {
       this.cm = '';
       this.city = '';
       this.whatsapp = '';
+      this.artType = 'showcase';
+      this.artStatus = 'available';
+      this.price = '';
       this.images.set([]);
     } catch {
       this.error.set('Erro ao cadastrar quadro.');

@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInAnonymously,
   signOut,
@@ -10,17 +11,22 @@ import {
   updateProfile,
   User,
 } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private userSignal = signal<User | null>(null);
   private loadingSignal = signal(true);
+  private roleSignal = signal<'admin' | 'customer' | null>(null);
 
   user = this.userSignal.asReadonly();
   loading = this.loadingSignal.asReadonly();
+  role = this.roleSignal.asReadonly();
   signed = computed(() => !!this.userSignal());
-  isAdmin = computed(() => {
+  isAdmin = computed(() => this.roleSignal() === 'admin');
+  isCustomer = computed(() => this.roleSignal() === 'customer');
+  isLoggedIn = computed(() => {
     const u = this.userSignal();
     return !!u && !u.isAnonymous;
   });
@@ -30,30 +36,40 @@ export class AuthService {
   });
 
   constructor(private fb: FirebaseService) {
-    onAuthStateChanged(this.fb.auth, (user) => {
+    onAuthStateChanged(this.fb.auth, async (user) => {
       this.userSignal.set(user);
+      if (user && !user.isAnonymous) {
+        await this.loadRole(user.uid);
+      } else {
+        this.roleSignal.set(null);
+      }
       this.loadingSignal.set(false);
     });
 
-    // Limpa usuário anônimo ao fechar a página
     window.addEventListener('beforeunload', () => {
       const user = this.fb.auth.currentUser;
       if (user?.isAnonymous) {
-        // sendBeacon garante que a request saia antes da página fechar
-        // mas deleteUser é a melhor opção aqui
         deleteUser(user).catch(() => { });
       }
     });
   }
 
-  /** Login anônimo temporário para visitantes */
+  private async loadRole(uid: string) {
+    const snap = await getDoc(doc(this.fb.firestore, 'users', uid));
+    if (snap.exists()) {
+      this.roleSignal.set(snap.data()['role'] || 'customer');
+    } else {
+      // Primeiro login com email/senha do admin (sem doc) = admin
+      this.roleSignal.set('admin');
+    }
+  }
+
   async loginAnonymous() {
     const current = this.fb.auth.currentUser;
-    if (current) return; // já logado
+    if (current) return;
     await signInAnonymously(this.fb.auth);
   }
 
-  /** Login real para admin */
   async login(email: string, password: string) {
     const current = this.fb.auth.currentUser;
     if (current?.isAnonymous) {
@@ -62,25 +78,50 @@ export class AuthService {
     return signInWithEmailAndPassword(this.fb.auth, email, password);
   }
 
-  /** Login com Google para admin */
   async loginWithGoogle() {
     const current = this.fb.auth.currentUser;
     if (current?.isAnonymous) {
       await deleteUser(current).catch(() => { });
     }
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(this.fb.auth, provider);
+    const result = await signInWithPopup(this.fb.auth, provider);
+    // Se não tem doc de user, cria como admin (primeiro Google login = admin)
+    const snap = await getDoc(doc(this.fb.firestore, 'users', result.user.uid));
+    if (!snap.exists()) {
+      await setDoc(doc(this.fb.firestore, 'users', result.user.uid), {
+        name: result.user.displayName || '',
+        email: result.user.email || '',
+        role: 'admin',
+        created: new Date(),
+      });
+    }
+    return result;
+  }
+
+  async register(name: string, email: string, password: string) {
+    const current = this.fb.auth.currentUser;
+    if (current?.isAnonymous) {
+      await deleteUser(current).catch(() => { });
+    }
+    const cred = await createUserWithEmailAndPassword(this.fb.auth, email, password);
+    await updateProfile(cred.user, { displayName: name });
+    await setDoc(doc(this.fb.firestore, 'users', cred.user.uid), {
+      name,
+      email,
+      role: 'customer',
+      created: new Date(),
+    });
+    return cred;
   }
 
   async logout() {
     const user = this.fb.auth.currentUser;
     if (user?.isAnonymous) {
-      // Deleta o anônimo ao sair
       await deleteUser(user).catch(() => { });
     } else {
       await signOut(this.fb.auth);
     }
-    // Re-cria sessão anônima para continuar navegando
+    this.roleSignal.set(null);
     await signInAnonymously(this.fb.auth);
   }
 
@@ -92,7 +133,6 @@ export class AuthService {
     }
   }
 
-  /** Limpa usuário anônimo manualmente (chamado no destroy se necessário) */
   async cleanupAnonymous() {
     const user = this.fb.auth.currentUser;
     if (user?.isAnonymous) {

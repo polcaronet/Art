@@ -34,13 +34,23 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
                 <span class="pay-badge">{{ payMethodLabel(order.paymentMethod) }}</span>
               }
             </div>
-            <select [ngModel]="order.status" (ngModelChange)="onStatusChange(order, $event)" class="status-select">
-              <option value="pending">Pendente</option>
-              <option value="confirmed">Confirmado</option>
-              <option value="delivered">Entregue</option>
-              <option value="cancelled">Cancelado</option>
-              <option value="refunded">Estornado</option>
-            </select>
+            <div class="action-buttons">
+              @if (order.status === 'pending') {
+                <button class="btn-confirm" (click)="onStatusChange(order, 'confirmed')">✓ Confirmar</button>
+                <button class="btn-cancel" (click)="onStatusChange(order, 'cancelled')">✕ Cancelar</button>
+              }
+              @if (order.status === 'confirmed') {
+                <button class="btn-deliver" (click)="onStatusChange(order, 'delivered')">📦 Entregue</button>
+                <button class="btn-cancel" (click)="onStatusChange(order, 'cancelled')">✕ Cancelar</button>
+              }
+              @if (order.status === 'refund_requested') {
+                <button class="btn-refund" (click)="onStatusChange(order, 'refunded')">💰 Aprovar Estorno</button>
+                <button class="btn-deny" (click)="onStatusChange(order, 'confirmed')">✕ Negar Estorno</button>
+              }
+              @if (order.status === 'delivered' || order.status === 'cancelled' || order.status === 'refunded') {
+                <span class="status-badge" [class]="'sb-' + order.status">{{ statusLabel(order.status) }}</span>
+              }
+            </div>
           </div>
 
           @if (order.refundReason) {
@@ -81,6 +91,21 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
     .user-info { color: var(--text-secondary); font-size: 0.8rem; }
     .pay-badge { font-size: 0.7rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; }
     .status-select { padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.8rem; }
+    .action-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn-confirm { padding: 0.4rem 0.8rem; background: #22c55e; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-confirm:hover { opacity: 0.85; }
+    .btn-deliver { padding: 0.4rem 0.8rem; background: #3b82f6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-deliver:hover { opacity: 0.85; }
+    .btn-cancel { padding: 0.4rem 0.8rem; background: rgba(239,68,68,0.1); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .btn-cancel:hover { background: var(--accent); color: white; }
+    .btn-refund { padding: 0.4rem 0.8rem; background: #8b5cf6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-refund:hover { opacity: 0.85; }
+    .btn-deny { padding: 0.4rem 0.8rem; background: rgba(255,255,255,0.1); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .btn-deny:hover { background: rgba(255,255,255,0.2); }
+    .status-badge { padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: white; }
+    .sb-delivered { background: #22c55e; }
+    .sb-cancelled { background: #ef4444; }
+    .sb-refunded { background: #8b5cf6; }
     .refund-reason { padding: 0.6rem 1rem; background: rgba(239,68,68,0.08); color: var(--accent); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .order-items { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
     .order-item { display: flex; align-items: center; gap: 0.8rem; }
@@ -110,7 +135,6 @@ export class AdminOrdersComponent implements OnInit {
   }
 
   async onStatusChange(order: Order, status: Order['status']) {
-    // Se mudou pra "refunded", faz o estorno real no gateway
     if (status === 'refunded' && order.paymentId) {
       try {
         if (order.paymentMethod?.includes('pix')) {
@@ -127,5 +151,12 @@ export class AdminOrdersComponent implements OnInit {
     this.orders.update((list) =>
       list.map((o) => (o.id === order.id ? { ...o, status } : o))
     );
+  }
+
+  statusLabel(s: string): string {
+    const m: Record<string, string> = {
+      delivered: 'Entregue', cancelled: 'Cancelado', refunded: 'Estornado'
+    };
+    return m[s] || s;
   }
 }

@@ -90,13 +90,20 @@ import { BrlPipe } from '../../pipes/brl.pipe';
               <div class="order-total">
                 <span>Total: <strong>{{ order.total | brl }}</strong></span>
               @if (auth.isAdmin()) {
-                <select [ngModel]="order.status" (ngModelChange)="updateStatus(order, $event)" class="status-select">
-                  <option value="pending">Pendente</option>
-                  <option value="confirmed">Confirmado</option>
-                  <option value="delivered">Entregue</option>
-                  <option value="cancelled">Cancelado</option>
-                  <option value="refunded">Estornado</option>
-                </select>
+                <div class="action-buttons">
+                  @if (order.status === 'pending') {
+                    <button class="abtn confirm" (click)="updateStatus(order, 'confirmed')">✓</button>
+                    <button class="abtn cancel" (click)="updateStatus(order, 'cancelled')">✕</button>
+                  }
+                  @if (order.status === 'confirmed') {
+                    <button class="abtn deliver" (click)="updateStatus(order, 'delivered')">📦</button>
+                    <button class="abtn cancel" (click)="updateStatus(order, 'cancelled')">✕</button>
+                  }
+                  @if (order.status === 'refund_requested') {
+                    <button class="abtn refund" (click)="updateStatus(order, 'refunded')">💰</button>
+                    <button class="abtn deny" (click)="updateStatus(order, 'confirmed')">✕</button>
+                  }
+                </div>
               }
               </div>
             </div>
@@ -151,6 +158,13 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .cancelled-label { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
     .order-total { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
     .status-select { padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.75rem; }
+    .action-buttons { display: flex; gap: 0.3rem; }
+    .abtn { width: 28px; height: 28px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+    .abtn.confirm { background: #22c55e; color: white; }
+    .abtn.deliver { background: #3b82f6; color: white; }
+    .abtn.cancel { background: rgba(239,68,68,0.15); color: var(--accent); }
+    .abtn.refund { background: #8b5cf6; color: white; }
+    .abtn.deny { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
 
     @media (max-width: 768px) {
       .profile-page { flex-direction: column; }

@@ -30,7 +30,7 @@ import { Art, ArtService } from '../../services/art.service';
               <strong>{{ a.cm }} cm</strong>
             </div>
           </div>
-          @if (a.whatsapp) {
+          @if (a.type === 'sale' && a.whatsapp) {
             <p class="phone-label">Telefone / WhatsApp</p>
             <p>{{ a.whatsapp }}</p>
             <a

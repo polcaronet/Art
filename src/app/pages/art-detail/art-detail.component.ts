@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   template: `
     @if (art(); as a) {
+      <div class="detail-wrapper">
       <div class="detail">
           @for (img of a.images; track img.name) {
             <img [src]="img.url" alt="Quadro" class="detail-img" />
@@ -48,19 +49,26 @@ import { AuthService } from '../../services/auth.service';
           }
         </div>
       </div>
+      </div>
     }
   `,
   styles: [`
     .detail {
-      max-width: 650px;
-      margin: 2rem auto;
+      display: inline-block;
       background: var(--bg-card);
       border-radius: 12px;
       overflow: hidden;
+      max-width: 100%;
+    }
+    .detail-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
     }
     .detail-img {
-      width: 100%;
       display: block;
+      max-width: 100%;
+      max-height: 70vh;
     }
     .info {
       padding: 1rem 1.5rem 1.2rem;

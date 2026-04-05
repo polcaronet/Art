@@ -10,11 +10,9 @@ import { AuthService } from '../../services/auth.service';
   template: `
     @if (art(); as a) {
       <div class="detail">
-        <div class="images">
           @for (img of a.images; track img.name) {
             <img [src]="img.url" alt="Quadro" class="detail-img" />
           }
-        </div>
         <div class="info">
           <h1>{{ a.name }}</h1>
           <p class="subtitle">Óleo sobre tela</p>
@@ -53,32 +51,28 @@ import { AuthService } from '../../services/auth.service';
     }
   `,
   styles: [`
-    .detail { max-width: 900px; margin: 0 auto; }
-    .images { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+    .detail { max-width: 750px; margin: 0 auto; background: var(--bg-card); border-radius: 12px; overflow: hidden; }
     .detail-img {
       width: 100%;
-      max-height: 550px;
-      border-radius: 12px;
-      object-fit: contain;
-      background: rgba(0,0,0,0.2);
+      display: block;
     }
     .info {
-      background: var(--bg-secondary);
-      padding: 2rem;
-      border-radius: 12px;
+      padding: 1.5rem 2rem 2rem;
     }
-    .info h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-    .subtitle { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem; }
+    .info h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.95rem; }
     .meta {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       margin-bottom: 1.5rem;
-      padding: 1rem 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .label { display: block; color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .meta strong { font-size: 1.05rem; }
+    .meta div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .label { color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .meta strong { font-size: 1rem; }
     .price { font-size: 1.5rem; font-weight: 700; color: #22c55e; margin-bottom: 1rem; }
     .btn-cart {
       width: 100%;

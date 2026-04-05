@@ -20,6 +20,7 @@ import { CartService } from '../../services/cart.service';
           @if (!auth.loading()) {
             @if (auth.isAdmin()) {
               <a routerLink="/admin" class="nav-link">Admin</a>
+              <a routerLink="/admin/orders" class="nav-link">Pedidos</a>
               <a routerLink="/profile" class="nav-link">Perfil</a>
               <span class="user-name">{{ auth.user()?.displayName }}</span>
               <button class="btn-action btn-logout" (click)="auth.logout()">Sair</button>

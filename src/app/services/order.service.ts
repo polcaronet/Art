@@ -24,9 +24,10 @@ export interface Order {
   userName: string;
   userEmail: string;
   items: OrderItem[];
-  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled' | 'refund_requested' | 'refunded';
   total: string;
   paymentMethod?: string;
+  refundReason?: string;
   created: any;
 }
 

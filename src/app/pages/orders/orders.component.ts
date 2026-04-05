@@ -61,7 +61,17 @@ import { BrlPipe } from '../../pipes/brl.pipe';
             @if (order.status === 'cancelled') {
               <p class="cancelled-text">Pedido Cancelado</p>
             }
+            @if (order.status === 'refund_requested') {
+              <p class="refund-text">⏳ Estorno Solicitado</p>
+            }
+            @if (order.status === 'refunded') {
+              <p class="refunded-text">✅ Estorno Realizado</p>
+            }
             <span class="order-total">Total: <strong>{{ order.total | brl }}</strong></span>
+
+            @if (order.status === 'confirmed' && canRequestRefund(order)) {
+              <button class="btn-refund" (click)="requestRefund(order)">Solicitar Estorno</button>
+            }
 
             @if (order.status === 'pending') {
               <div class="pay-actions">
@@ -115,6 +125,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .status-confirmed { background: #3b82f6; }
     .status-delivered { background: #22c55e; }
     .status-cancelled { background: #ef4444; }
+    .status-refund_requested { background: #f59e0b; }
+    .status-refunded { background: #8b5cf6; }
     .order-items { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
     .order-item { display: flex; align-items: center; gap: 0.8rem; }
     .item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
@@ -132,7 +144,11 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .track-line { width: 40px; height: 2px; background: rgba(255,255,255,0.1); margin-bottom: 1rem; }
     .track-line.done { background: #22c55e; }
     .cancelled-text { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .refund-text { text-align: center; color: #f59e0b; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .refunded-text { text-align: center; color: #22c55e; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; }
     .order-total { display: block; font-size: 0.95rem; }
+    .btn-refund { margin-top: 0.8rem; width: 100%; padding: 0.6rem; background: rgba(239,68,68,0.1); color: var(--accent); border: 1px solid var(--accent); border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+    .btn-refund:hover { background: var(--accent); color: white; }
     .pay-actions { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
     .btn-pix { flex: 1; min-width: 200px; padding: 0.8rem; background: #00b4d8; color: white; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; }
     .btn-pix:hover { opacity: 0.85; }
@@ -170,7 +186,10 @@ export class OrdersComponent implements OnInit {
   }
 
   statusLabel(s: string): string {
-    const m: Record<string, string> = { pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue', cancelled: 'Cancelado' };
+    const m: Record<string, string> = {
+      pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue',
+      cancelled: 'Cancelado', refund_requested: 'Estorno Solicitado', refunded: 'Estornado'
+    };
     return m[s] || s;
   }
 
@@ -186,6 +205,25 @@ export class OrdersComponent implements OnInit {
     if (!created) return '';
     const date = created.toDate ? created.toDate() : new Date(created);
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  canRequestRefund(order: Order): boolean {
+    if (!order.created) return false;
+    const created = order.created.toDate ? order.created.toDate() : new Date(order.created);
+    const now = new Date();
+    const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
+    return diffDays <= 7; // 7 dias pra solicitar estorno
+  }
+
+  async requestRefund(order: Order) {
+    const reason = prompt('Motivo do estorno:');
+    if (!reason) return;
+    await this.orderService.updateStatus(order.id, 'refund_requested' as any);
+    // Salvar motivo
+    const { doc, updateDoc } = await import('firebase/firestore');
+    const fb = (this.orderService as any).fb;
+    await updateDoc(doc(fb.firestore, 'orders', order.id), { refundReason: reason });
+    this.orders.update((list) => list.map((o) => o.id === order.id ? { ...o, status: 'refund_requested' as any, refundReason: reason } : o));
   }
 
   payMethodLabel(m?: string): string {

@@ -95,6 +95,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                   <option value="confirmed">Confirmado</option>
                   <option value="delivered">Entregue</option>
                   <option value="cancelled">Cancelado</option>
+                  <option value="refund_requested">Estorno Solicitado</option>
+                  <option value="refunded">Estornado</option>
                 </select>
               }
               </div>
@@ -199,7 +201,7 @@ export class ProfileComponent implements OnInit {
   }
 
   statusLabel(s: string): string {
-    const m: Record<string, string> = { pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue', cancelled: 'Cancelado' };
+    const m: Record<string, string> = { pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue', cancelled: 'Cancelado', refund_requested: 'Estorno Solicitado', refunded: 'Estornado' };
     return m[s] || s;
   }
 

@@ -159,6 +159,9 @@ import { ThemeService, Theme } from '../../services/theme.service';
         font-size: 0.9rem;
         line-height: 1.6;
       }
+      .card-city {
+        margin-top: 0.3rem;
+      }
     `,
   ],
 })

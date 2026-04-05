@@ -147,18 +147,17 @@ export class OrdersComponent implements OnInit {
     try {
       const email = this.auth.user()?.email || '';
       const desc = order.items.map((i) => i.artName).join(', ');
-      console.log('Chamando Pix:', { amount, desc, email, orderId: order.id });
       const result = await this.paymentService.createPix(parseFloat(amount), desc, email, order.id);
-      console.log('Resultado Pix:', result);
       if (result.ticketUrl) {
         this.cart.clear(this.auth.user()?.uid);
         window.open(result.ticketUrl, '_blank');
+        this.router.navigate(['/']);
       } else {
         this.error.set('Pix gerado mas sem URL. Verifique o Mercado Pago.');
       }
     } catch (e: any) {
       console.error('Erro Pix:', e);
-      this.error.set(e?.message || 'Erro ao gerar Pix. Verifique as credenciais do Mercado Pago.');
+      this.error.set(e?.message || 'Erro ao gerar Pix.');
     } finally {
       this.loading.set(false);
     }
@@ -175,7 +174,8 @@ export class OrdersComponent implements OnInit {
         window.location.href = result.url;
       }
     } catch (e: any) {
-      this.error.set(e?.message || 'Erro ao criar sessão de pagamento');
+      console.error('Erro Stripe:', e);
+      this.error.set(e?.message || 'Erro ao criar sessão de pagamento.');
     } finally {
       this.loading.set(false);
     }

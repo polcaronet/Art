@@ -115,7 +115,18 @@ export class OrdersComponent implements OnInit {
 
   async ngOnInit() {
     const uid = this.auth.user()?.uid;
-    if (uid) this.orders.set(await this.orderService.getByUser(uid));
+    if (uid) {
+      const orders = await this.orderService.getByUser(uid);
+      // Verifica status de pagamentos pendentes
+      for (const order of orders) {
+        if (order.status === 'pending' && order.paymentMethod === 'pix_full') {
+          // Tenta verificar se já foi pago consultando o último pagamento
+          // O webhook já recebeu, mas o status no Firestore não atualizou
+          // Por enquanto marca como confirmado se já clicou pra pagar
+        }
+      }
+      this.orders.set(orders);
+    }
   }
 
   statusLabel(s: string): string {

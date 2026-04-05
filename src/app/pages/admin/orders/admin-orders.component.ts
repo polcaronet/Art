@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Order, OrderService } from '../../../services/order.service';
+import { PaymentService } from '../../../services/payment.service';
 import { BrlPipe } from '../../../pipes/brl.pipe';
 
 @Component({
@@ -38,7 +39,6 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
               <option value="confirmed">Confirmado</option>
               <option value="delivered">Entregue</option>
               <option value="cancelled">Cancelado</option>
-              <option value="refund_requested">Estorno Solicitado</option>
               <option value="refunded">Estornado</option>
             </select>
           </div>
@@ -92,6 +92,7 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
 })
 export class AdminOrdersComponent implements OnInit {
   private orderService = inject(OrderService);
+  private paymentService = inject(PaymentService);
   orders = signal<Order[]>([]);
 
   async ngOnInit() {
@@ -109,6 +110,19 @@ export class AdminOrdersComponent implements OnInit {
   }
 
   async onStatusChange(order: Order, status: Order['status']) {
+    // Se mudou pra "refunded", faz o estorno real no gateway
+    if (status === 'refunded' && order.paymentId) {
+      try {
+        if (order.paymentMethod?.includes('pix')) {
+          await this.paymentService.refundPix(order.paymentId, order.id);
+        } else {
+          await this.paymentService.refundCard(order.paymentId, order.id);
+        }
+      } catch (e: any) {
+        alert('Erro ao estornar: ' + (e?.message || 'Erro desconhecido'));
+        return;
+      }
+    }
     await this.orderService.updateStatus(order.id, status);
     this.orders.update((list) =>
       list.map((o) => (o.id === order.id ? { ...o, status } : o))

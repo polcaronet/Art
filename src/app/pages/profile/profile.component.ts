@@ -95,7 +95,6 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                   <option value="confirmed">Confirmado</option>
                   <option value="delivered">Entregue</option>
                   <option value="cancelled">Cancelado</option>
-                  <option value="refund_requested">Estorno Solicitado</option>
                   <option value="refunded">Estornado</option>
                 </select>
               }

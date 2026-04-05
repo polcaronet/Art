@@ -252,6 +252,8 @@ export class OrdersComponent implements OnInit {
       const desc = order.items.map((i) => i.artName).join(', ');
       const result = await this.paymentService.createPix(parseFloat(amount), desc, email, order.id);
       if (result.ticketUrl) {
+        // Salva o ID do pagamento no pedido
+        await this.orderService.updatePaymentId(order.id, String(result.id));
         this.cart.clear(this.auth.user()?.uid);
         window.open(result.ticketUrl, '_blank');
         this.router.navigate(['/']);

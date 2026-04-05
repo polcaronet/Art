@@ -43,6 +43,32 @@ export class PaymentService {
     return res.json();
   }
 
+  async refundPix(paymentId: string, orderId: string): Promise<any> {
+    const res = await fetch(`${this.apiBase}/refund/pix`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payment_id: paymentId, order_id: orderId }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Erro ao estornar Pix');
+    }
+    return res.json();
+  }
+
+  async refundCard(paymentId: string, orderId: string): Promise<any> {
+    const res = await fetch(`${this.apiBase}/refund/card`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payment_id: paymentId, order_id: orderId }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Erro ao estornar Cartão');
+    }
+    return res.json();
+  }
+
   async createStripeSession(amount: number, description: string, orderId: string, maxInstallments: number = 1): Promise<StripeSession> {
     const res = await fetch(`${this.apiBase}/stripe`, {
       method: 'POST',

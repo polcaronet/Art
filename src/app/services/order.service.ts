@@ -27,6 +27,7 @@ export interface Order {
   status: 'pending' | 'confirmed' | 'delivered' | 'cancelled' | 'refund_requested' | 'refunded';
   total: string;
   paymentMethod?: string;
+  paymentId?: string;
   refundReason?: string;
   created: any;
 }
@@ -64,5 +65,9 @@ export class OrderService {
 
   async updateStatus(id: string, status: Order['status']) {
     return updateDoc(doc(this.fb.firestore, 'orders', id), { status });
+  }
+
+  async updatePaymentId(id: string, paymentId: string) {
+    return updateDoc(doc(this.fb.firestore, 'orders', id), { paymentId });
   }
 }

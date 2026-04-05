@@ -88,12 +88,12 @@ import { AuthService } from '../../services/auth.service';
     .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; }
     .detail-img { display: block; max-width: 100%; max-height: 70vh; }
     .info { padding: 1.2rem 1.5rem; text-align: center; }
-    .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; }
+    .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; color: var(--text-primary); }
     .subtitle { color: var(--text-secondary); margin-bottom: 0.8rem; font-size: 0.85rem; }
     .meta { display: flex; justify-content: center; gap: 2rem; }
     .meta div { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
-    .label { color: var(--text-secondary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .meta strong { font-size: 0.95rem; }
+    .label { color: var(--border-color); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta strong { font-size: 0.95rem; color: var(--text-primary); }
     .price { font-size: 1.5rem; font-weight: 700; color: #22c55e; margin-bottom: 1rem; }
     .btn-cart { width: 100%; padding: 0.9rem; background: var(--border-color); color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; }
     .btn-cart:hover { opacity: 0.85; }

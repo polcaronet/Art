@@ -94,14 +94,20 @@ export class ArtService {
     cm: string;
     city: string;
     whatsapp: string;
+    type?: string;
+    status?: string;
+    price?: string;
     uid: string;
     images: ArtImage[];
   }) {
     return addDoc(collection(this.fb.firestore, 'arts'), {
       ...data,
       name: data.name.toUpperCase(),
+      type: data.type || 'showcase',
       owner: data.uid,
       created: new Date(),
+      views: 0,
+      likes: 0,
     });
   }
 

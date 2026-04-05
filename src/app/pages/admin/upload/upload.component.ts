@@ -372,8 +372,9 @@ export class UploadComponent {
       this.artStatus = 'available';
       this.price = '';
       this.images.set([]);
-    } catch {
-      this.error.set('Erro ao cadastrar quadro.');
+    } catch (e: any) {
+      console.error('Erro ao cadastrar:', e);
+      this.error.set(e?.message || 'Erro ao cadastrar quadro.');
     } finally {
       this.submitting.set(false);
     }

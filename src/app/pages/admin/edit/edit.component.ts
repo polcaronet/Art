@@ -43,10 +43,12 @@ import { AuthService } from '../../../services/auth.service';
               <button class="btn-remove" (click)="removeImage(img)">✕</button>
             </div>
           }
+          @if (editImages.length === 0) {
           <label class="upload-btn">
             <span>+</span>
             <input type="file" accept="image/jpeg,image/png" (change)="onAddImage($event)" hidden />
           </label>
+          }
         </div>
         @if (uploading()) { <p class="uploading">Enviando imagem...</p> }
 

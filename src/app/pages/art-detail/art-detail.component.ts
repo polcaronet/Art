@@ -123,6 +123,7 @@ export class ArtDetailComponent implements OnInit {
     const art = await this.artService.getById(id);
     if (!art) { this.router.navigate(['/']); return; }
     this.art.set(art);
+    this.artService.addView(id);
   }
 
   addToCart(art: Art) {

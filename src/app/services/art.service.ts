@@ -7,6 +7,7 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  setDoc,
   doc,
   increment,
   orderBy,
@@ -147,14 +148,12 @@ export class ArtService {
     const likeRef = doc(this.fb.firestore, 'arts', artId, 'likes', uid);
     const snap = await getDoc(likeRef);
     if (snap.exists()) {
-      const { deleteDoc: delDoc } = await import('firebase/firestore');
-      await delDoc(likeRef);
+      await deleteDoc(likeRef);
       await updateDoc(doc(this.fb.firestore, 'arts', artId), {
         likes: increment(-1),
       });
       return false;
     } else {
-      const { setDoc } = await import('firebase/firestore');
       await setDoc(likeRef, { created: new Date() });
       await updateDoc(doc(this.fb.firestore, 'arts', artId), {
         likes: increment(1),

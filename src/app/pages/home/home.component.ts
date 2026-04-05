@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Art, ArtService } from '../../services/art.service';
+import { AuthService } from '../../services/auth.service';
 import { ThemeService, Theme } from '../../services/theme.service';
 
 @Component({
@@ -10,12 +11,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
   imports: [RouterLink, FormsModule],
   template: `
     <section class="search-bar">
-      <input
-        class="search-input"
-        placeholder="Digite o nome do quadro..."
-        [(ngModel)]="searchTerm"
-        (keyup.enter)="onSearch()"
-      />
+      <input class="search-input" placeholder="Digite o nome do quadro..." [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
       <button class="btn-search" (click)="onSearch()">Pesquisar</button>
     </section>
 
@@ -35,166 +31,35 @@ import { ThemeService, Theme } from '../../services/theme.service';
 
     <div class="grid">
       @for (art of arts(); track art.id) {
-        <a [routerLink]="['/art', art.id]" class="card">
-          <img
-            [src]="art.images[0]?.url"
-            alt="Quadro"
-            class="card-img"
-            loading="lazy"
-          />
+        <div class="card">
+          <a [routerLink]="['/art', art.id]">
+            <img [src]="art.images[0]?.url" alt="Quadro" class="card-img" loading="lazy" />
+          </a>
           <div class="card-body">
             <p class="card-title">{{ art.name }}</p>
             <span class="card-info">{{ art.year }} | {{ art.cm }} cm</span>
             <span class="card-city">{{ art.city }}</span>
+            <div class="card-stats">
+              <button class="like-btn" [class.liked]="likedSet.has(art.id)" (click)="toggleLike(art)">
+                <svg viewBox="0 0 24 24" width="18" height="18" [attr.fill]="likedSet.has(art.id) ? '#ef4444' : 'none'" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                </svg>
+                <span>{{ art.likes || 0 }}</span>
+              </button>
+              <span class="views">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                {{ art.views || 0 }}
+              </span>
+            </div>
           </div>
-        </a>
+        </div>
       }
     </div>
   `,
-  styles: [
-    `
-      .search-bar {
-        display: flex;
-        gap: 0.5rem;
-        background: var(--bg-secondary);
-        padding: 1rem;
-        border-radius: 10px;
-        max-width: 700px;
-        margin: 0 auto 1.5rem;
-      }
-      .search-input {
-        flex: 1;
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
-        border: 2px solid var(--border-color);
-        background: var(--input-bg);
-        color: var(--input-text);
-        font-size: 1rem;
-      }
-      .btn-search {
-        background: var(--accent);
-        color: white;
-        padding: 0.6rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-      }
-      .btn-search:hover {
-        background: var(--accent-hover);
-      }
-      .theme-selector {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        justify-content: flex-end;
-        margin-bottom: 1rem;
-      }
-      .theme-selector label {
-        font-weight: 500;
-      }
-      .theme-selector select {
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        border: 1px solid var(--border-color);
-        background: var(--input-bg);
-        color: var(--input-text);
-      }
-      .intro {
-        text-align: center;
-        margin: 2rem 0;
-      }
-      .intro h1 {
-        font-size: 1.6rem;
-        margin-bottom: 0.5rem;
-      }
-      .intro h2 {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-      }
-      .fade-in {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeUp 0.8s ease forwards;
-      }
-      .fade-in.delay {
-        animation-delay: 0.3s;
-      }
-      @keyframes fadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-      }
-      .card {
-        background: var(--bg-card);
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.2s;
-        display: block;
-      }
-      .card:hover {
-        transform: translateY(-4px);
-      }
-      .card-img {
-        width: 100%;
-        aspect-ratio: 4/3;
-        object-fit: cover;
-      }
-      .card-body {
-        padding: 1rem;
-      }
-      .card-title {
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-      }
-      .card-info,
-      .card-city {
-        display: block;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        line-height: 1.6;
-      }
-      .card-city {
-        margin-top: 0.3rem;
-      }
-    `,
-  ],
-})
-export class HomeComponent implements OnInit {
-  private artService = inject(ArtService);
-  themeService = inject(ThemeService);
-
-  arts = signal<Art[]>([]);
-  searchTerm = '';
-
-  ngOnInit() {
-    this.themeService.init();
-    this.loadArts();
-  }
-
-  async loadArts() {
-    this.arts.set(await this.artService.getAll());
-  }
-
-  async onSearch() {
-    if (!this.searchTerm.trim()) {
-      await this.loadArts();
-      return;
-    }
-    this.arts.set(await this.artService.search(this.searchTerm));
-  }
-
-  onThemeChange(event: Event) {
-    const theme = (event.target as HTMLSelectElement).value as Theme;
-    this.themeService.setTheme(theme);
-  }
-}
-styles: [`
+  styles: [`
     .search-bar { display: flex; gap: 0.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: 10px; max-width: 700px; margin: 0 auto 1.5rem; }
     .search-input { flex: 1; padding: 0.6rem 1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 1rem; }
     .btn-search { background: var(--accent); color: white; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; }

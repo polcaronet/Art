@@ -66,7 +66,27 @@ import { Order, OrderService } from '../../services/order.service';
               }
             </div>
             <div class="order-bottom">
-              <span>Total: <strong>R$ {{ order.total }}</strong></span>
+              <div class="tracker">
+                <div class="track-step" [class.active]="isStepActive(order.status, 'pending')" [class.done]="isStepDone(order.status, 'pending')">
+                  <div class="track-dot"></div>
+                  <span>Pendente</span>
+                </div>
+                <div class="track-line" [class.done]="isStepDone(order.status, 'confirmed')"></div>
+                <div class="track-step" [class.active]="isStepActive(order.status, 'confirmed')" [class.done]="isStepDone(order.status, 'confirmed')">
+                  <div class="track-dot"></div>
+                  <span>Confirmado</span>
+                </div>
+                <div class="track-line" [class.done]="isStepDone(order.status, 'delivered')"></div>
+                <div class="track-step" [class.active]="isStepActive(order.status, 'delivered')" [class.done]="isStepDone(order.status, 'delivered')">
+                  <div class="track-dot"></div>
+                  <span>Entregue</span>
+                </div>
+              </div>
+              @if (order.status === 'cancelled') {
+                <p class="cancelled-label">Pedido Cancelado</p>
+              }
+              <div class="order-total">
+                <span>Total: <strong>R$ {{ order.total }}</strong></span>
               @if (auth.isAdmin()) {
                 <select [ngModel]="order.status" (ngModelChange)="updateStatus(order, $event)" class="status-select">
                   <option value="pending">Pendente</option>
@@ -75,6 +95,7 @@ import { Order, OrderService } from '../../services/order.service';
                   <option value="cancelled">Cancelado</option>
                 </select>
               }
+              </div>
             </div>
           </div>
         }
@@ -114,7 +135,18 @@ import { Order, OrderService } from '../../services/order.service';
     .item-img { width: 36px; height: 36px; object-fit: cover; border-radius: 4px; }
     .item-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
     .item-price { font-size: 0.8rem; color: var(--text-secondary); }
-    .order-bottom { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+    .order-bottom { padding: 0.8rem 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .tracker { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 0.6rem; }
+    .track-step { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .track-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.2); transition: all 0.3s; }
+    .track-step.active .track-dot { background: var(--border-color); border-color: var(--border-color); box-shadow: 0 0 8px var(--border-color); }
+    .track-step.done .track-dot { background: #22c55e; border-color: #22c55e; }
+    .track-step span { font-size: 0.6rem; color: var(--text-secondary); opacity: 0.5; }
+    .track-step.active span, .track-step.done span { opacity: 1; }
+    .track-line { width: 40px; height: 2px; background: rgba(255,255,255,0.1); margin-bottom: 1rem; }
+    .track-line.done { background: #22c55e; }
+    .cancelled-label { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .order-total { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
     .status-select { padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.75rem; }
 
     @media (max-width: 768px) {
@@ -172,5 +204,17 @@ export class ProfileComponent implements OnInit {
   async updateStatus(order: Order, status: Order['status']) {
     await this.orderService.updateStatus(order.id, status);
     this.orders.update((list) => list.map((o) => (o.id === order.id ? { ...o, status } : o)));
+  }
+
+  private stepOrder = ['pending', 'confirmed', 'delivered'];
+
+  isStepActive(orderStatus: string, step: string): boolean {
+    return orderStatus === step;
+  }
+
+  isStepDone(orderStatus: string, step: string): boolean {
+    const orderIdx = this.stepOrder.indexOf(orderStatus);
+    const stepIdx = this.stepOrder.indexOf(step);
+    return orderIdx > stepIdx;
   }
 }

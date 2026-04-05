@@ -15,7 +15,7 @@ export interface StripeSession {
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  private apiBase = '/api';
+  private apiBase = 'https://webart-backend-polcaronet9724-1mowec7v.leapcell.dev/api';
 
   async createPix(amount: number, description: string, email: string, orderId: string): Promise<PixPayment> {
     const res = await fetch(`${this.apiBase}/pix`, {

@@ -166,7 +166,7 @@ export class LoginComponent {
     this.loading.set(true);
     try {
       await this.auth.login(this.email, this.password);
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/']);
     } catch {
       this.error.set('Erro ao fazer login. Verifique suas credenciais.');
     } finally {
@@ -179,7 +179,7 @@ export class LoginComponent {
     this.loading.set(true);
     try {
       await this.auth.loginWithGoogle();
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/']);
     } catch (e: any) {
       console.error('Google login error:', e);
       this.error.set(e?.message || 'Erro ao entrar com Google.');

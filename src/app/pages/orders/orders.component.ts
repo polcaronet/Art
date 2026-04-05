@@ -42,17 +42,17 @@ import { BrlPipe } from '../../pipes/brl.pipe';
           </div>
           <div class="order-footer">
             <div class="tracker">
-              <div class="track-step" [class.done]="isStepDone(order.status, 'pending')" [class.active]="order.status === 'pending'">
+              <div class="track-step done">
                 <div class="track-dot"></div>
-                <span>Pendente</span>
+                <span>Pedido</span>
               </div>
-              <div class="track-line" [class.done]="isStepDone(order.status, 'confirmed')"></div>
-              <div class="track-step" [class.done]="isStepDone(order.status, 'confirmed')" [class.active]="order.status === 'confirmed'">
+              <div class="track-line" [class.done]="order.status === 'confirmed' || order.status === 'delivered'"></div>
+              <div class="track-step" [class.done]="order.status === 'confirmed' || order.status === 'delivered'" [class.active]="order.status === 'confirmed'">
                 <div class="track-dot"></div>
-                <span>Confirmado</span>
+                <span>Pago</span>
               </div>
-              <div class="track-line" [class.done]="isStepDone(order.status, 'delivered')"></div>
-              <div class="track-step" [class.done]="isStepDone(order.status, 'delivered')" [class.active]="order.status === 'delivered'">
+              <div class="track-line" [class.done]="order.status === 'delivered'"></div>
+              <div class="track-step" [class.done]="order.status === 'delivered'" [class.active]="order.status === 'delivered'">
                 <div class="track-dot"></div>
                 <span>Entregue</span>
               </div>

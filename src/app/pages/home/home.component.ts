@@ -40,8 +40,8 @@ import { ThemeService, Theme } from '../../services/theme.service';
             <span class="card-info">{{ art.year }} | {{ art.cm }} cm</span>
             <span class="card-city">{{ art.city }}</span>
             <div class="card-stats">
-              <button class="like-btn" [class.liked]="likedSet.has(art.id)" (click)="toggleLike(art)">
-                <svg viewBox="0 0 24 24" width="18" height="18" [attr.fill]="likedSet.has(art.id) ? '#ef4444' : 'none'" stroke="currentColor" stroke-width="2">
+              <button class="like-btn" [class.liked]="isLiked(art.id)" (click)="toggleLike(art)">
+                <svg viewBox="0 0 24 24" width="18" height="18" [attr.fill]="isLiked(art.id) ? '#ef4444' : 'none'" stroke="currentColor" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                 </svg>
                 <span>{{ art.likes || 0 }}</span>
@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
   themeService = inject(ThemeService);
 
   arts = signal<Art[]>([]);
-  likedSet = new Set<string>();
+  likedIds = signal<string[]>([]);
   searchTerm = '';
 
   ngOnInit() {
@@ -106,11 +106,17 @@ export class HomeComponent implements OnInit {
     this.arts.set(allArts);
     const uid = this.auth.user()?.uid;
     if (uid) {
+      const ids: string[] = [];
       for (const art of allArts) {
         const liked = await this.artService.hasLiked(art.id, uid);
-        if (liked) this.likedSet.add(art.id);
+        if (liked) ids.push(art.id);
       }
+      this.likedIds.set(ids);
     }
+  }
+
+  isLiked(artId: string): boolean {
+    return this.likedIds().includes(artId);
   }
 
   async toggleLike(art: Art) {
@@ -118,10 +124,10 @@ export class HomeComponent implements OnInit {
     if (!uid) return;
     const liked = await this.artService.toggleLike(art.id, uid);
     if (liked) {
-      this.likedSet.add(art.id);
+      this.likedIds.update((ids) => [...ids, art.id]);
       art.likes = (art.likes || 0) + 1;
     } else {
-      this.likedSet.delete(art.id);
+      this.likedIds.update((ids) => ids.filter((id) => id !== art.id));
       art.likes = (art.likes || 1) - 1;
     }
     this.arts.update((list) => [...list]);

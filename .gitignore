@@ -2,3 +2,5 @@ node_modules/
 dist/
 .angular/
 .vscode/
+*.json.bak
+webart-*.json

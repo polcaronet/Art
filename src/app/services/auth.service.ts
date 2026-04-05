@@ -45,6 +45,14 @@ export class AuthService {
       }
       this.loadingSignal.set(false);
     });
+
+    // Deleta anônimo ao fechar a aba (só se for anônimo)
+    window.addEventListener('pagehide', () => {
+      const user = this.fb.auth.currentUser;
+      if (user?.isAnonymous) {
+        deleteUser(user).catch(() => { });
+      }
+    });
   }
 
   private async loadRole(uid: string) {

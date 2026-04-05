@@ -22,7 +22,12 @@ import { BrlPipe } from '../../pipes/brl.pipe';
           <div class="order-header">
             <span class="order-id">#{{ order.id.slice(0, 8) }}</span>
             <span class="pay-method">{{ payMethodLabel(order.paymentMethod) }}</span>
+            <span class="order-date">{{ formatDate(order.created) }}</span>
             <span class="status" [class]="'status-' + order.status">{{ statusLabel(order.status) }}</span>
+          </div>
+          <div class="order-info">
+            <span>👤 {{ order.userName || 'Cliente' }}</span>
+            <span>📧 {{ order.userEmail }}</span>
           </div>
           <div class="order-items">
             @for (item of order.items; track item.artId) {
@@ -36,7 +41,26 @@ import { BrlPipe } from '../../pipes/brl.pipe';
             }
           </div>
           <div class="order-footer">
-            <span>Total: <strong>{{ order.total | brl }}</strong></span>
+            <div class="tracker">
+              <div class="track-step" [class.done]="isStepDone(order.status, 'pending')" [class.active]="order.status === 'pending'">
+                <div class="track-dot"></div>
+                <span>Pendente</span>
+              </div>
+              <div class="track-line" [class.done]="isStepDone(order.status, 'confirmed')"></div>
+              <div class="track-step" [class.done]="isStepDone(order.status, 'confirmed')" [class.active]="order.status === 'confirmed'">
+                <div class="track-dot"></div>
+                <span>Confirmado</span>
+              </div>
+              <div class="track-line" [class.done]="isStepDone(order.status, 'delivered')"></div>
+              <div class="track-step" [class.done]="isStepDone(order.status, 'delivered')" [class.active]="order.status === 'delivered'">
+                <div class="track-dot"></div>
+                <span>Entregue</span>
+              </div>
+            </div>
+            @if (order.status === 'cancelled') {
+              <p class="cancelled-text">Pedido Cancelado</p>
+            }
+            <span class="order-total">Total: <strong>{{ order.total | brl }}</strong></span>
 
             @if (order.status === 'pending') {
               <div class="pay-actions">
@@ -82,7 +106,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .order-card { background: var(--bg-secondary); border-radius: 10px; overflow: hidden; }
     .order-header { display: flex; align-items: center; gap: 0.5rem; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; }
     .order-id { font-weight: 600; opacity: 0.7; }
+    .order-date { font-size: 0.75rem; color: var(--text-secondary); opacity: 0.6; }
     .pay-method { font-size: 0.75rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.15rem 0.5rem; border-radius: 4px; }
+    .order-info { display: flex; gap: 1.5rem; padding: 0.6rem 1rem; font-size: 0.8rem; color: var(--text-secondary); border-bottom: 1px solid rgba(255,255,255,0.04); }
     .status { margin-left: auto; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: white; }
     .status-pending { background: #f59e0b; }
     .status-confirmed { background: #3b82f6; }
@@ -94,6 +120,17 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .item-name { font-weight: 600; font-size: 0.9rem; }
     .item-price { color: var(--text-secondary); font-size: 0.85rem; }
     .order-footer { padding: 1rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .tracker { display: flex; align-items: center; justify-content: center; margin-bottom: 0.8rem; }
+    .track-step { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .track-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.2); }
+    .track-step.active .track-dot { background: var(--border-color); border-color: var(--border-color); box-shadow: 0 0 6px var(--border-color); }
+    .track-step.done .track-dot { background: #22c55e; border-color: #22c55e; }
+    .track-step span { font-size: 0.6rem; color: var(--text-secondary); opacity: 0.5; }
+    .track-step.active span, .track-step.done span { opacity: 1; }
+    .track-line { width: 40px; height: 2px; background: rgba(255,255,255,0.1); margin-bottom: 1rem; }
+    .track-line.done { background: #22c55e; }
+    .cancelled-text { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .order-total { display: block; font-size: 0.95rem; }
     .pay-actions { display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
     .btn-pix { flex: 1; min-width: 200px; padding: 0.8rem; background: #00b4d8; color: white; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; }
     .btn-pix:hover { opacity: 0.85; }
@@ -132,6 +169,18 @@ export class OrdersComponent implements OnInit {
   statusLabel(s: string): string {
     const m: Record<string, string> = { pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue', cancelled: 'Cancelado' };
     return m[s] || s;
+  }
+
+  private stepOrder = ['pending', 'confirmed', 'delivered'];
+
+  isStepDone(orderStatus: string, step: string): boolean {
+    return this.stepOrder.indexOf(orderStatus) > this.stepOrder.indexOf(step);
+  }
+
+  formatDate(created: any): string {
+    if (!created) return '';
+    const date = created.toDate ? created.toDate() : new Date(created);
+    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
   payMethodLabel(m?: string): string {

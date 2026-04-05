@@ -54,17 +54,35 @@ import { AuthService } from '../../services/auth.service';
   `,
   styles: [`
     .detail { max-width: 900px; margin: 0 auto; }
-    .images { display: flex; gap: 1rem; overflow-x: auto; margin-bottom: 1.5rem; }
-    .detail-img { max-height: 450px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
-    .info { background: var(--bg-secondary); padding: 1.5rem; border-radius: 10px; }
-    .info h1 { font-size: 2rem; margin-bottom: 0.3rem; }
-    .subtitle { color: var(--text-secondary); margin-bottom: 1rem; }
-    .meta { display: flex; gap: 2rem; margin-bottom: 1.5rem; }
-    .label { display: block; color: var(--text-secondary); font-size: 0.85rem; }
+    .images { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+    .detail-img {
+      width: 100%;
+      max-height: 550px;
+      border-radius: 12px;
+      object-fit: contain;
+      background: rgba(0,0,0,0.2);
+    }
+    .info {
+      background: var(--bg-secondary);
+      padding: 2rem;
+      border-radius: 12px;
+    }
+    .info h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem; }
+    .meta {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .label { display: block; color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .meta strong { font-size: 1.05rem; }
     .price { font-size: 1.5rem; font-weight: 700; color: #22c55e; margin-bottom: 1rem; }
     .btn-cart {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem;
       background: var(--border-color);
       color: white;
       border-radius: 8px;

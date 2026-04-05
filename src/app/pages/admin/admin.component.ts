@@ -18,7 +18,9 @@ import { AuthService } from '../../services/auth.service';
       @for (art of arts(); track art.id) {
         <div class="card">
           <button class="btn-delete" (click)="onDelete(art)" title="Excluir">
-            🗑️
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
+            </svg>
           </button>
           <img [src]="art.images[0]?.url" alt="Quadro" class="card-img" />
           <div class="card-body">
@@ -67,25 +69,26 @@ import { AuthService } from '../../services/auth.service';
       }
       .btn-delete {
         position: absolute;
-        top: 8px;
-        right: 8px;
-        background: rgba(0, 0, 0, 0.5);
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.6);
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 34px;
+        height: 34px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        color: white;
         z-index: 2;
-        transition: transform 0.2s;
+        transition: all 0.2s;
       }
       .btn-delete:hover {
-        transform: scale(1.2);
+        background: var(--accent);
+        transform: scale(1.1);
       }
       .card-img {
         width: 100%;
-        height: 280px;
+        aspect-ratio: 4/3;
         object-fit: cover;
       }
       .card-body {

@@ -19,7 +19,7 @@ import { AuthService } from '../../../services/auth.service';
       <div class="images-preview">
         @if (images().length === 0) {
         <label class="upload-btn">
-          <span>📤 Upload</span>
+          <span>+</span>
           <input
             type="file"
             accept="image/jpeg,image/png"
@@ -181,16 +181,19 @@ import { AuthService } from '../../../services/auth.service';
       .upload-btn {
         width: 120px;
         height: 120px;
-        border: 2px dashed var(--border-color);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 1.1rem;
-        transition: background 0.2s;
+        font-size: 2.5rem;
+        color: rgba(255, 255, 255, 0.4);
+        transition: all 0.2s;
       }
       .upload-btn:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.7);
         background: rgba(255, 255, 255, 0.05);
       }
       .preview-item {

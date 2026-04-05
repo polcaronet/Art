@@ -43,11 +43,11 @@ export class PaymentService {
     return res.json();
   }
 
-  async createStripeSession(amount: number, description: string, orderId: string): Promise<StripeSession> {
+  async createStripeSession(amount: number, description: string, orderId: string, maxInstallments: number = 1): Promise<StripeSession> {
     const res = await fetch(`${this.apiBase}/stripe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, description, order_id: orderId }),
+      body: JSON.stringify({ amount, description, order_id: orderId, max_installments: maxInstallments }),
     });
     if (!res.ok) {
       const err = await res.json();

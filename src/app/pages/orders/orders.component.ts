@@ -228,7 +228,8 @@ export class OrdersComponent implements OnInit {
     this.error.set('');
     try {
       const desc = order.items.map((i) => i.artName).join(', ');
-      const result = await this.paymentService.createStripeSession(parseFloat(amount), desc, order.id);
+      const installments = order.paymentMethod === 'card_3x' ? 3 : 1;
+      const result = await this.paymentService.createStripeSession(parseFloat(amount), desc, order.id, installments);
       if (result.url) {
         this.cart.clear(this.auth.user()?.uid);
         window.location.href = result.url;

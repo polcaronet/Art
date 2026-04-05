@@ -51,6 +51,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
         </div>
 
         <button class="btn-back" (click)="showPayment.set(false)">← Voltar ao carrinho</button>
+        @if (error()) { <p class="error">{{ error() }}</p> }
       </div>
     } @else {
       <div class="cart-list">
@@ -147,11 +148,14 @@ export class CartComponent {
 
   async selectPayment(method: string) {
     const user = this.auth.user();
-    if (!user) return;
+    if (!user || user.isAnonymous) {
+      this.router.navigate(['/register']);
+      return;
+    }
     this.loading.set(true);
     this.error.set('');
     try {
-      await this.orderService.create({
+      const result = await this.orderService.create({
         uid: user.uid,
         userName: user.displayName || '',
         userEmail: user.email || '',
@@ -161,9 +165,10 @@ export class CartComponent {
         created: new Date(),
         paymentMethod: method,
       } as any);
-      // Não limpa o carrinho aqui — só limpa quando pagamento for confirmado
+      console.log('Pedido criado:', result.id);
       this.router.navigate(['/orders']);
     } catch (e: any) {
+      console.error('Erro ao criar pedido:', e);
       this.error.set(e?.message || 'Erro ao finalizar pedido.');
     } finally {
       this.loading.set(false);

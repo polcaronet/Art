@@ -11,6 +11,7 @@ import { Order, OrderService } from '../../../services/order.service';
     <div class="admin-header">
       <a routerLink="/admin" class="tab">Dashboard</a>
       <a routerLink="/admin/upload" class="tab">Upload</a>
+      <a routerLink="/admin/edit" class="tab">Editar</a>
       <a routerLink="/admin/orders" class="tab active">Pedidos</a>
     </div>
 

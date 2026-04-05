@@ -119,6 +119,14 @@ export class ArtService {
     return addDoc(collection(this.fb.firestore, 'arts'), doc);
   }
 
+  async update(id: string, data: Partial<Art>) {
+    const clean: any = {};
+    for (const [key, val] of Object.entries(data)) {
+      if (val !== undefined) clean[key] = val;
+    }
+    return updateDoc(doc(this.fb.firestore, 'arts', id), clean);
+  }
+
   async delete(art: Art) {
     await deleteDoc(doc(this.fb.firestore, 'arts', art.id));
     for (const img of art.images) {

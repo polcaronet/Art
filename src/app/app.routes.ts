@@ -68,6 +68,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'admin/edit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin/edit/edit.component').then(
+        (m) => m.EditComponent
+      ),
+  },
+  {
     path: 'admin/orders',
     canActivate: [authGuard],
     loadComponent: () =>

@@ -60,24 +60,47 @@ import { BrlPipe } from '../../pipes/brl.pipe';
 
         @if (!auth.isAnonymous()) {
           <div class="comment-form">
+            <div class="comment-avatar">{{ getInitial() }}</div>
             <input class="comment-input" placeholder="Escreva um comentário..." [(ngModel)]="commentText" (keyup.enter)="submitComment()" />
-            <button class="btn-comment" (click)="submitComment()" [disabled]="!commentText.trim()">Enviar</button>
+            <button class="btn-comment" (click)="submitComment()" [disabled]="!commentText.trim()">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
           </div>
         } @else {
           <p class="login-hint">Faça login para comentar.</p>
         }
 
+        @if (comments().length === 0) {
+          <p class="no-comments">Nenhum comentário ainda. Seja o primeiro!</p>
+        }
+
         <div class="comments-list">
           @for (c of comments(); track c.id) {
             <div class="comment">
-              <div class="comment-header">
-                <strong>{{ c.userName || 'Anônimo' }}</strong>
-                <span class="comment-date">{{ formatDate(c.created) }}</span>
+              <div class="comment-avatar-sm">{{ (c.userName || 'A').charAt(0) }}</div>
+              <div class="comment-content">
+                <div class="comment-header">
+                  <strong>{{ c.userName || 'Anônimo' }}</strong>
+                  <span class="comment-date">{{ formatDate(c.created) }}</span>
+                </div>
+                @if (editingId === c.id) {
+                  <div class="edit-form">
+                    <input class="edit-input" [(ngModel)]="editText" (keyup.enter)="saveEdit(c)" />
+                    <button class="btn-save-edit" (click)="saveEdit(c)">✓</button>
+                    <button class="btn-cancel-edit" (click)="editingId = ''">✕</button>
+                  </div>
+                } @else {
+                  <p class="comment-text">{{ c.text }}</p>
+                }
                 @if (c.uid === auth.user()?.uid || auth.isAdmin()) {
-                  <button class="btn-delete-comment" (click)="deleteComment(c.id)">✕</button>
+                  <div class="comment-actions">
+                    @if (c.uid === auth.user()?.uid && editingId !== c.id) {
+                      <button class="btn-edit" (click)="startEdit(c)">Editar</button>
+                    }
+                    <button class="btn-delete-comment" (click)="deleteComment(c.id)">Excluir</button>
+                  </div>
                 }
               </div>
-              <p class="comment-text">{{ c.text }}</p>
             </div>
           }
         </div>
@@ -103,21 +126,32 @@ import { BrlPipe } from '../../pipes/brl.pipe';
 
     .comments-section { max-width: 650px; margin: 0 auto 2rem; background: var(--bg-card); border-radius: 12px; padding: 1.5rem; }
     .comments-section h3 { font-size: 1.1rem; margin-bottom: 1rem; text-align: center; }
-    .comment-form { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .comment-form { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; align-items: center; }
+    .comment-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--border-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
     .comment-input { flex: 1; padding: 0.7rem 1rem; border: none; border-radius: 20px; background: var(--bg-secondary); color: var(--text-primary); font-size: 0.9rem; }
     .comment-input::placeholder { color: var(--text-secondary); opacity: 0.5; }
-    .btn-comment { padding: 0.7rem 1.5rem; background: var(--border-color); color: white; border-radius: 20px; font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer; }
+    .btn-comment { width: 36px; height: 36px; border-radius: 50%; background: var(--border-color); color: white; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; flex-shrink: 0; }
     .btn-comment:hover { opacity: 0.85; }
     .btn-comment:disabled { opacity: 0.3; }
-    .login-hint { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7; }
-    .comments-list { display: flex; flex-direction: column; gap: 0.8rem; }
-    .comment { background: var(--bg-secondary); padding: 0.8rem 1rem; border-radius: 8px; }
-    .comment-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
-    .comment-header strong { font-size: 0.85rem; }
-    .comment-date { color: var(--text-secondary); font-size: 0.7rem; opacity: 0.6; }
-    .btn-delete-comment { margin-left: auto; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.75rem; opacity: 0.5; }
+    .login-hint { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7; text-align: center; }
+    .no-comments { text-align: center; color: var(--text-secondary); opacity: 0.5; font-size: 0.85rem; padding: 1rem 0; }
+    .comments-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .comment { display: flex; gap: 0.6rem; padding: 0.8rem; background: var(--bg-secondary); border-radius: 10px; }
+    .comment-avatar-sm { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; }
+    .comment-content { flex: 1; min-width: 0; }
+    .comment-header { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem; }
+    .comment-header strong { font-size: 0.8rem; }
+    .comment-date { color: var(--text-secondary); font-size: 0.65rem; opacity: 0.5; }
+    .comment-text { font-size: 0.88rem; line-height: 1.4; word-break: break-word; }
+    .comment-actions { display: flex; gap: 0.5rem; margin-top: 0.3rem; }
+    .btn-edit, .btn-delete-comment { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.7rem; opacity: 0.5; padding: 0; }
+    .btn-edit:hover { opacity: 1; color: var(--border-color); }
     .btn-delete-comment:hover { opacity: 1; color: var(--accent); }
-    .comment-text { font-size: 0.9rem; line-height: 1.4; }
+    .edit-form { display: flex; gap: 0.3rem; margin-top: 0.3rem; }
+    .edit-input { flex: 1; padding: 0.4rem 0.6rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text-primary); font-size: 0.85rem; }
+    .btn-save-edit, .btn-cancel-edit { background: none; border: none; cursor: pointer; font-size: 0.85rem; padding: 0.2rem 0.4rem; }
+    .btn-save-edit { color: #22c55e; }
+    .btn-cancel-edit { color: var(--accent); }
   `],
 })
 export class ArtDetailComponent implements OnInit {
@@ -153,13 +187,52 @@ export class ArtDetailComponent implements OnInit {
     this.router.navigate(['/cart'], { queryParams: { payment: true } });
   }
 
+  // Filtro de palavras ofensivas
+  private badWords = [
+    'merda', 'porra', 'caralho', 'puta', 'fdp', 'viado', 'buceta',
+    'cu', 'foda', 'arrombado', 'desgraça', 'idiota', 'imbecil',
+    'babaca', 'otario', 'vagabundo', 'lixo', 'nojento', 'bosta',
+  ];
+
+  private filterText(text: string): string {
+    let filtered = text;
+    for (const word of this.badWords) {
+      const regex = new RegExp(word, 'gi');
+      filtered = filtered.replace(regex, '*'.repeat(word.length));
+    }
+    return filtered;
+  }
+
+  // Edição
+  editingId = '';
+  editText = '';
+
+  startEdit(c: any) {
+    this.editingId = c.id;
+    this.editText = c.text;
+  }
+
+  async saveEdit(c: any) {
+    const artId = this.art()?.id;
+    if (!artId || !this.editText.trim()) return;
+    const filtered = this.filterText(this.editText.trim());
+    await this.artService.updateComment(artId, c.id, filtered);
+    this.editingId = '';
+    this.comments.set(await this.artService.getComments(artId));
+  }
+
+  getInitial(): string {
+    return (this.auth.user()?.displayName || 'U').charAt(0).toUpperCase();
+  }
+
   async submitComment() {
     const text = this.commentText.trim();
     if (!text) return;
     const user = this.auth.user();
     const artId = this.art()?.id;
     if (!user || !artId) return;
-    await this.artService.addComment(artId, user.uid, user.displayName || 'Usuário', text);
+    const filtered = this.filterText(text);
+    await this.artService.addComment(artId, user.uid, user.displayName || 'Usuário', filtered);
     this.commentText = '';
     this.comments.set(await this.artService.getComments(artId));
   }

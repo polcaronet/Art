@@ -198,4 +198,8 @@ export class ArtService {
   async deleteComment(artId: string, commentId: string) {
     return deleteDoc(doc(this.fb.firestore, 'arts', artId, 'comments', commentId));
   }
+
+  async updateComment(artId: string, commentId: string, text: string) {
+    return updateDoc(doc(this.fb.firestore, 'arts', artId, 'comments', commentId), { text });
+  }
 }

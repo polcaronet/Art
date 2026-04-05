@@ -19,10 +19,12 @@ import { CartService } from '../../services/cart.service';
 
           @if (!auth.loading()) {
             @if (auth.isAdmin()) {
+              <span class="user-name">{{ auth.user()?.displayName }}</span>
               <a routerLink="/admin" class="nav-link">Admin</a>
               <a routerLink="/profile" class="nav-link">Perfil</a>
               <button class="btn-action btn-logout" (click)="auth.logout()">Sair</button>
             } @else if (auth.isCustomer()) {
+              <span class="user-name">{{ auth.user()?.displayName }}</span>
               <a routerLink="/cart" class="nav-link cart-link">
                 🛒
                 @if (cart.count() > 0) {
@@ -105,6 +107,7 @@ import { CartService } from '../../services/cart.service';
       color: white;
     }
     .btn-logout:hover { background: var(--accent-hover); }
+    .user-name { color: var(--text-primary); font-weight: 500; font-size: 0.85rem; opacity: 0.8; }
     .cart-link { font-size: 1.1rem; }
     .cart-badge {
       position: absolute;

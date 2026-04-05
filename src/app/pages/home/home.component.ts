@@ -141,7 +141,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
       }
       .card-img {
         width: 100%;
-        height: 280px;
+        aspect-ratio: 4/3;
         object-fit: cover;
       }
       .card-body {

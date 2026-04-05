@@ -71,24 +71,24 @@ import { AuthService } from '../../services/auth.service';
       max-height: 70vh;
     }
     .info {
-      padding: 1rem 1.5rem 1.2rem;
+      padding: 1.2rem 1.5rem;
       text-align: center;
     }
-    .info h1 { font-size: 1.5rem; margin-bottom: 0.2rem; }
-    .subtitle { color: var(--text-secondary); margin-bottom: 0.8rem; font-size: 0.9rem; }
+    .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 0.8rem; font-size: 0.85rem; }
     .meta {
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin-bottom: 0;
     }
     .meta div {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      align-items: center;
+      gap: 0.1rem;
     }
-    .label { color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .meta strong { font-size: 1rem; }
+    .label { color: var(--text-secondary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta strong { font-size: 0.95rem; }
     .price { font-size: 1.5rem; font-weight: 700; color: #22c55e; margin-bottom: 1rem; }
     .btn-cart {
       width: 100%;

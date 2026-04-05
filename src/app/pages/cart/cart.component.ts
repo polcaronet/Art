@@ -21,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
               <p class="item-name">{{ item.artName }}</p>
               <p class="item-price">R$ {{ item.price }}</p>
             </div>
-            <button class="btn-remove" (click)="cart.remove(item.artId)">✕</button>
+            <button class="btn-remove" (click)="cart.remove(item.artId, auth.user()?.uid)">✕</button>
           </div>
         }
       </div>
@@ -32,6 +32,7 @@ import { AuthService } from '../../services/auth.service';
         <button class="btn-checkout" (click)="checkout()" [disabled]="loading()">
           {{ loading() ? 'Finalizando...' : 'Finalizar Pedido' }}
         </button>
+        <p class="hint">Após finalizar, escolha a forma de pagamento na tela de pedidos.</p>
       </div>
     }
   `,
@@ -44,20 +45,21 @@ import { AuthService } from '../../services/auth.service';
     .item-info { flex: 1; }
     .item-name { font-weight: 700; margin-bottom: 0.2rem; }
     .item-price { color: var(--text-secondary); }
-    .btn-remove { background: rgba(255,255,255,0.1); color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+    .btn-remove { background: rgba(255,255,255,0.1); color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border: none; cursor: pointer; }
     .btn-remove:hover { background: var(--accent); color: white; }
     .cart-footer { margin-top: 1.5rem; background: var(--bg-secondary); padding: 1.5rem; border-radius: 10px; }
     .total { font-size: 1.2rem; margin-bottom: 1rem; }
     .error { color: #f87171; margin-bottom: 0.5rem; }
-    .btn-checkout { width: 100%; padding: 0.8rem; background: #22c55e; color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; }
+    .btn-checkout { width: 100%; padding: 0.8rem; background: #22c55e; color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; }
     .btn-checkout:hover { background: #16a34a; }
     .btn-checkout:disabled { opacity: 0.6; }
+    .hint { text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.8rem; opacity: 0.7; }
   `],
 })
 export class CartComponent {
   cart = inject(CartService);
+  auth = inject(AuthService);
   private orderService = inject(OrderService);
-  private auth = inject(AuthService);
   private router = inject(Router);
 
   loading = signal(false);
@@ -81,7 +83,7 @@ export class CartComponent {
         total: this.cart.total(),
         created: new Date(),
       });
-      this.cart.clear();
+      this.cart.clear(user.uid);
       this.router.navigate(['/orders']);
     } catch (e: any) {
       this.error.set(e?.message || 'Erro ao finalizar pedido.');

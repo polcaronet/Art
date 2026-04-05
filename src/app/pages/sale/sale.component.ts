@@ -28,7 +28,7 @@ import { AuthService } from '../../services/auth.service';
             <p class="card-title">{{ art.name }}</p>
             <span class="card-info">{{ art.year }} | {{ art.cm }} cm</span>
             <span class="card-city">{{ art.city }}</span>
-            @if (art.status !== 'sold' && auth.isLoggedIn()) {
+            @if (getBadgeLabel(art) !== 'Vendido' && auth.isLoggedIn()) {
               <button class="btn-cart" (click)="addToCart(art)">🛒 Adicionar</button>
             }
           </div>
@@ -50,17 +50,18 @@ import { AuthService } from '../../services/auth.service';
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
-    .card-img { width: 100%; height: 280px; object-fit: cover; }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
     .badge { position: absolute; top: 12px; left: 12px; padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; color: white; }
     .badge-available { background: #22c55e; }
     .badge-order { background: #f59e0b; }
     .badge-sold { background: #ef4444; }
     .price-tag { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.7); color: white; padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; }
-    .card-body { padding: 0.8rem; }
-    .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.3rem; }
-    .card-info, .card-city { display: block; color: var(--text-secondary); font-size: 0.9rem; }
-    .btn-cart { margin-top: 0.6rem; background: var(--border-color); color: white; padding: 0.4rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; }
-    .btn-cart:hover { opacity: 0.9; }
+    .card-body { padding: 1rem; }
+    .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .card-info, .card-city { display: block; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+    .card-city { margin-top: 0.3rem; }
+    .btn-cart { margin-top: 0.8rem; background: var(--border-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
+    .btn-cart:hover { opacity: 0.85; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 1.1rem; }
   `],
 })
@@ -75,14 +76,16 @@ export class SaleComponent implements OnInit {
   }
 
   getBadgeClass(art: Art): string {
-    if (art.status === 'order' && art.status !== 'sold') return 'badge badge-order';
-    if (art.status === 'sold') return 'badge badge-sold';
+    const label = this.getBadgeLabel(art);
+    if (label === 'Vendido') return 'badge badge-sold';
+    if (label === 'Encomenda') return 'badge badge-order';
     return 'badge badge-available';
   }
 
   getBadgeLabel(art: Art): string {
     if (art.status === 'sold') return 'Vendido';
     if (art.status === 'order') return 'Encomenda';
+    if (art.status === 'available') return 'Disponível';
     return 'Disponível';
   }
 
@@ -92,6 +95,6 @@ export class SaleComponent implements OnInit {
       artName: art.name,
       artImage: art.images[0]?.url || '',
       price: art.price || '0',
-    });
+    }, this.auth.user()?.uid);
   }
 }

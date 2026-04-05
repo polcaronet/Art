@@ -41,11 +41,15 @@ export class OrderService {
   async getByUser(uid: string): Promise<Order[]> {
     const q = query(
       collection(this.fb.firestore, 'orders'),
-      where('uid', '==', uid),
-      orderBy('created', 'desc')
+      where('uid', '==', uid)
     );
     const snap = await getDocs(q);
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Order));
+    const orders = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Order));
+    return orders.sort((a, b) => {
+      const da = a.created?.toDate ? a.created.toDate() : new Date(a.created);
+      const db = b.created?.toDate ? b.created.toDate() : new Date(b.created);
+      return db.getTime() - da.getTime();
+    });
   }
 
   async getAll(): Promise<Order[]> {

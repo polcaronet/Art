@@ -63,16 +63,16 @@ import { AuthService } from '../../services/auth.service';
       display: block;
     }
     .info {
-      padding: 1.5rem 2rem 2rem;
+      padding: 1rem 1.5rem 1.2rem;
       text-align: center;
     }
-    .info h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
-    .subtitle { color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.95rem; }
+    .info h1 { font-size: 1.5rem; margin-bottom: 0.2rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 0.8rem; font-size: 0.9rem; }
     .meta {
       display: flex;
       justify-content: center;
-      gap: 2.5rem;
-      margin-bottom: 1.5rem;
+      gap: 2rem;
+      margin-bottom: 0;
     }
     .meta div {
       display: flex;

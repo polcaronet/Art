@@ -47,7 +47,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                 <span>Pedido</span>
               </div>
               <div class="track-line" [class.done]="order.status === 'confirmed' || order.status === 'delivered'"></div>
-              <div class="track-step" [class.done]="order.status === 'confirmed' || order.status === 'delivered'" [class.active]="order.status === 'confirmed'">
+              <div class="track-step" [class.done]="order.status === 'confirmed' || order.status === 'delivered'">
                 <div class="track-dot"></div>
                 <span>Pago</span>
               </div>

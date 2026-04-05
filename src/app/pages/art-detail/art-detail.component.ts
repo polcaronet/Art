@@ -51,19 +51,27 @@ import { AuthService } from '../../services/auth.service';
     }
   `,
   styles: [`
-    .detail { max-width: 750px; margin: 0 auto; background: var(--bg-card); border-radius: 12px; overflow: hidden; }
+    .detail {
+      max-width: 650px;
+      margin: 2rem auto;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+    }
     .detail-img {
       width: 100%;
       display: block;
     }
     .info {
       padding: 1.5rem 2rem 2rem;
+      text-align: center;
     }
     .info h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
     .subtitle { color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 0.95rem; }
     .meta {
       display: flex;
-      gap: 2rem;
+      justify-content: center;
+      gap: 2.5rem;
       margin-bottom: 1.5rem;
     }
     .meta div {

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { Art, ArtService } from '../../services/art.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
@@ -70,6 +70,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
 })
 export class SaleComponent implements OnInit {
   private artService = inject(ArtService);
+  private router = inject(Router);
   cart = inject(CartService);
   auth = inject(AuthService);
   arts = signal<Art[]>([]);
@@ -101,7 +102,6 @@ export class SaleComponent implements OnInit {
       artImage: art.images[0]?.url || '',
       price: art.price || '0',
     }, this.auth.user()?.uid);
-    this.addedId = art.id;
-    setTimeout(() => this.addedId = '', 2000);
+    this.router.navigate(['/cart'], { queryParams: { payment: true } });
   }
 }

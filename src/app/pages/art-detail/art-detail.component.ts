@@ -149,8 +149,7 @@ export class ArtDetailComponent implements OnInit {
       artImage: art.images[0]?.url || '',
       price: art.price || '0',
     }, this.auth.user()?.uid);
-    this.added.set(true);
-    setTimeout(() => this.added.set(false), 2000);
+    this.router.navigate(['/cart'], { queryParams: { payment: true } });
   }
 
   async submitComment() {

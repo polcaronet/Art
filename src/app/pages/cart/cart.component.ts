@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
@@ -117,10 +117,16 @@ export class CartComponent {
   auth = inject(AuthService);
   private orderService = inject(OrderService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   showPayment = signal(false);
   loading = signal(false);
   error = signal('');
+
+  constructor() {
+    const payment = this.route.snapshot.queryParamMap.get('payment');
+    if (payment === 'true') this.showPayment.set(true);
+  }
 
   goToPayment() {
     const user = this.auth.user();

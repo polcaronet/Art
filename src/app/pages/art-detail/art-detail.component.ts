@@ -100,13 +100,14 @@ import { AuthService } from '../../services/auth.service';
     .added-msg { color: #4ade80; text-align: center; margin-top: 0.5rem; font-size: 0.9rem; }
     .sold-label { color: var(--accent); font-weight: 700; font-size: 1.2rem; text-align: center; padding: 0.8rem; background: rgba(239,68,68,0.1); border-radius: 8px; }
 
-    .comments-section { max-width: 650px; margin: 0 auto 2rem; }
-    .comments-section h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .comments-section { max-width: 650px; margin: 0 auto 2rem; background: var(--bg-card); border-radius: 12px; padding: 1.5rem; }
+    .comments-section h3 { font-size: 1.1rem; margin-bottom: 1rem; text-align: center; }
     .comment-form { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
-    .comment-input { flex: 1; padding: 0.6rem 1rem; border: 2px solid var(--border-color); border-radius: 8px; background: var(--input-bg); color: var(--input-text); font-size: 0.9rem; }
-    .btn-comment { padding: 0.6rem 1.2rem; background: var(--border-color); color: white; border-radius: 8px; font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer; }
+    .comment-input { flex: 1; padding: 0.7rem 1rem; border: none; border-radius: 20px; background: var(--bg-secondary); color: var(--text-primary); font-size: 0.9rem; }
+    .comment-input::placeholder { color: var(--text-secondary); opacity: 0.5; }
+    .btn-comment { padding: 0.7rem 1.5rem; background: var(--border-color); color: white; border-radius: 20px; font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer; }
     .btn-comment:hover { opacity: 0.85; }
-    .btn-comment:disabled { opacity: 0.4; }
+    .btn-comment:disabled { opacity: 0.3; }
     .login-hint { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.7; }
     .comments-list { display: flex; flex-direction: column; gap: 0.8rem; }
     .comment { background: var(--bg-secondary); padding: 0.8rem 1rem; border-radius: 8px; }

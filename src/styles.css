@@ -46,6 +46,22 @@
   --border-color: #d97706;
 }
 
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent: #ef4444;
+  --accent-hover: #dc2626;
+  --success: #22c55e;
+  --input-bg: #ffffff;
+  --input-text: #1e293b;
+  --header-bg: #ffffff;
+  --footer-bg: #f1f5f9;
+  --border-color: #3b82f6;
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);

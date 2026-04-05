@@ -31,6 +31,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
             <button class="theme-btn" [class.active]="themeService.theme() === 'default'" (click)="setTheme('default')">🔵 Padrão</button>
             <button class="theme-btn" [class.active]="themeService.theme() === 'dark'" (click)="setTheme('dark')">🌙 Escuro</button>
             <button class="theme-btn" [class.active]="themeService.theme() === 'warm'" (click)="setTheme('warm')">🌅 Quente</button>
+            <button class="theme-btn" [class.active]="themeService.theme() === 'light'" (click)="setTheme('light')">☀️ Claro</button>
           </div>
         </div>
 

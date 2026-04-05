@@ -21,6 +21,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
         <option value="default">Padrão (Azul)</option>
         <option value="dark">Escuro</option>
         <option value="warm">Quente</option>
+        <option value="light">Claro</option>
       </select>
     </div>
 

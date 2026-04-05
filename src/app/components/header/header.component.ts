@@ -107,7 +107,7 @@ import { CartService } from '../../services/cart.service';
       color: white;
     }
     .btn-logout:hover { background: var(--accent-hover); }
-    .user-name { color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
+    .user-name { color: var(--border-color); font-size: 0.85rem; font-family: 'Georgia', 'Times New Roman', cursive; font-style: italic; }
     .cart-link { font-size: 1.1rem; }
     .cart-badge {
       position: absolute;

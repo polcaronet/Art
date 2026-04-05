@@ -26,6 +26,7 @@ export interface Order {
   items: OrderItem[];
   status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
   total: string;
+  paymentMethod?: string;
   created: any;
 }
 

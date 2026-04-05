@@ -53,7 +53,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
-    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .card-img { width: 100%; display: block; }
     .badge { position: absolute; top: 12px; left: 12px; padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; color: white; }
     .badge-available { background: #22c55e; }
     .badge-order { background: #f59e0b; }

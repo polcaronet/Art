@@ -12,8 +12,46 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   template: `
     <h1 class="title">🛒 Carrinho</h1>
 
-    @if (cart.count() === 0) {
+    @if (cart.count() === 0 && !showPayment()) {
       <p class="empty">Seu carrinho está vazio.</p>
+    } @else if (showPayment()) {
+      <!-- Tela de opções de pagamento -->
+      <div class="payment-box">
+        <h2>Escolha a forma de pagamento</h2>
+        <p class="pay-total">Total: <strong>{{ cart.total() | brl }}</strong></p>
+
+        <div class="pay-options">
+          <button class="pay-option" (click)="selectPayment('pix_full')">
+            <span class="pay-icon">💠</span>
+            <span class="pay-title">Pix à Vista</span>
+            <span class="pay-desc">Pagamento integral via Pix</span>
+            <span class="pay-value">{{ cart.total() | brl }}</span>
+          </button>
+
+          <button class="pay-option" (click)="selectPayment('card_3x')">
+            <span class="pay-icon">💳</span>
+            <span class="pay-title">Cartão até 3x</span>
+            <span class="pay-desc">Parcelado no cartão de crédito</span>
+            <span class="pay-value">3x de {{ getInstallment(3) | brl }}</span>
+          </button>
+
+          <button class="pay-option" (click)="selectPayment('pix_50_card')">
+            <span class="pay-icon">💠💳</span>
+            <span class="pay-title">50% Pix + 50% Cartão</span>
+            <span class="pay-desc">Sinal via Pix, resto no cartão</span>
+            <span class="pay-value">{{ getHalf() | brl }} + {{ getHalf() | brl }}</span>
+          </button>
+
+          <button class="pay-option" (click)="selectPayment('card_50_card')">
+            <span class="pay-icon">💳💳</span>
+            <span class="pay-title">50% Cartão + 50% Cartão</span>
+            <span class="pay-desc">Sinal no cartão, resto no cartão</span>
+            <span class="pay-value">{{ getHalf() | brl }} + {{ getHalf() | brl }}</span>
+          </button>
+        </div>
+
+        <button class="btn-back" (click)="showPayment.set(false)">← Voltar ao carrinho</button>
+      </div>
     } @else {
       <div class="cart-list">
         @for (item of cart.items(); track item.artId) {
@@ -31,10 +69,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
       <div class="cart-footer">
         <p class="total">Total: <strong>{{ cart.total() | brl }}</strong></p>
         @if (error()) { <p class="error">{{ error() }}</p> }
-        <button class="btn-checkout" (click)="checkout()" [disabled]="loading()">
-          {{ loading() ? 'Finalizando...' : 'Finalizar Pedido' }}
+        <button class="btn-checkout" (click)="goToPayment()">
+          Escolher Pagamento
         </button>
-        <p class="hint">Após finalizar, escolha a forma de pagamento na tela de pedidos.</p>
       </div>
     }
   `,
@@ -54,8 +91,25 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .error { color: #f87171; margin-bottom: 0.5rem; }
     .btn-checkout { width: 100%; padding: 0.8rem; background: #22c55e; color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; }
     .btn-checkout:hover { background: #16a34a; }
-    .btn-checkout:disabled { opacity: 0.6; }
-    .hint { text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.8rem; opacity: 0.7; }
+
+    .payment-box { max-width: 550px; margin: 0 auto; }
+    .payment-box h2 { font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center; }
+    .pay-total { text-align: center; font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--text-secondary); }
+    .pay-options { display: flex; flex-direction: column; gap: 0.8rem; }
+    .pay-option { display: flex; align-items: center; gap: 1rem; background: var(--bg-secondary); padding: 1rem 1.2rem; border-radius: 10px; border: 2px solid transparent; cursor: pointer; text-align: left; color: var(--text-primary); transition: all 0.2s; width: 100%; }
+    .pay-option:hover { border-color: var(--border-color); background: var(--bg-card); }
+    .pay-icon { font-size: 1.3rem; min-width: 40px; text-align: center; }
+    .pay-title { font-weight: 700; font-size: 0.95rem; min-width: 180px; }
+    .pay-desc { flex: 1; color: var(--text-secondary); font-size: 0.8rem; }
+    .pay-value { font-weight: 600; font-size: 0.85rem; color: var(--border-color); white-space: nowrap; }
+    .btn-back { margin-top: 1.5rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.9rem; }
+    .btn-back:hover { color: var(--text-primary); }
+
+    @media (max-width: 600px) {
+      .pay-option { flex-wrap: wrap; gap: 0.5rem; }
+      .pay-title { min-width: auto; }
+      .pay-desc { display: none; }
+    }
   `],
 })
 export class CartComponent {
@@ -64,15 +118,30 @@ export class CartComponent {
   private orderService = inject(OrderService);
   private router = inject(Router);
 
+  showPayment = signal(false);
   loading = signal(false);
   error = signal('');
 
-  async checkout() {
+  goToPayment() {
     const user = this.auth.user();
     if (!user || user.isAnonymous) {
       this.router.navigate(['/register']);
       return;
     }
+    this.showPayment.set(true);
+  }
+
+  getHalf(): number {
+    return parseFloat(this.cart.total()) / 2;
+  }
+
+  getInstallment(n: number): number {
+    return parseFloat(this.cart.total()) / n;
+  }
+
+  async selectPayment(method: string) {
+    const user = this.auth.user();
+    if (!user) return;
     this.loading.set(true);
     this.error.set('');
     try {
@@ -84,7 +153,8 @@ export class CartComponent {
         status: 'pending',
         total: this.cart.total(),
         created: new Date(),
-      });
+        paymentMethod: method,
+      } as any);
       this.cart.clear(user.uid);
       this.router.navigate(['/orders']);
     } catch (e: any) {

@@ -32,7 +32,7 @@ import { CartService } from '../../services/cart.service';
               <a routerLink="/orders" class="nav-link">Pedidos</a>
               <button class="btn-action btn-logout" (click)="auth.logout()">Sair</button>
             } @else {
-              <a routerLink="/register" class="btn-action btn-register">Cadastrar</a>
+              <a routerLink="/register" class="btn-action btn-register">Entrar</a>
               <a routerLink="/login" class="btn-action btn-admin">Admin</a>
             }
           }

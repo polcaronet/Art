@@ -100,15 +100,23 @@ export class ArtService {
     uid: string;
     images: ArtImage[];
   }) {
-    return addDoc(collection(this.fb.firestore, 'arts'), {
-      ...data,
+    const doc: any = {
       name: data.name.toUpperCase(),
+      year: data.year,
+      cm: data.cm,
+      city: data.city,
+      whatsapp: data.whatsapp,
       type: data.type || 'showcase',
+      uid: data.uid,
       owner: data.uid,
+      images: data.images,
       created: new Date(),
       views: 0,
       likes: 0,
-    });
+    };
+    if (data.status) doc.status = data.status;
+    if (data.price) doc.price = data.price;
+    return addDoc(collection(this.fb.firestore, 'arts'), doc);
   }
 
   async delete(art: Art) {

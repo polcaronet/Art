@@ -45,13 +45,6 @@ export class AuthService {
       }
       this.loadingSignal.set(false);
     });
-
-    window.addEventListener('beforeunload', () => {
-      const user = this.fb.auth.currentUser;
-      if (user?.isAnonymous) {
-        deleteUser(user).catch(() => { });
-      }
-    });
   }
 
   private async loadRole(uid: string) {
@@ -65,8 +58,15 @@ export class AuthService {
   }
 
   async loginAnonymous() {
+    // Espera o auth resolver o estado antes de criar anônimo
+    await new Promise<void>((resolve) => {
+      const unsub = onAuthStateChanged(this.fb.auth, () => {
+        unsub();
+        resolve();
+      });
+    });
     const current = this.fb.auth.currentUser;
-    if (current) return;
+    if (current) return; // já logado (real ou anônimo)
     await signInAnonymously(this.fb.auth);
   }
 

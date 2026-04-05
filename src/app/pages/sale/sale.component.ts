@@ -96,11 +96,12 @@ export class SaleComponent implements OnInit {
   addedId = '';
 
   addToCart(art: Art) {
+    const price = art.price ? String(art.price) : '0';
     this.cart.add({
       artId: art.id,
       artName: art.name,
       artImage: art.images[0]?.url || '',
-      price: art.price || '0',
+      price,
     }, this.auth.user()?.uid);
     this.router.navigate(['/cart'], { queryParams: { payment: true } });
   }

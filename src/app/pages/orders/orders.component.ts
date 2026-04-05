@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Order, OrderService } from '../../services/order.service';
 import { PaymentService } from '../../services/payment.service';
 import { AuthService } from '../../services/auth.service';
@@ -145,6 +146,7 @@ export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
   private paymentService = inject(PaymentService);
   private cart = inject(CartService);
+  private router = inject(Router);
   auth = inject(AuthService);
 
   orders = signal<Order[]>([]);

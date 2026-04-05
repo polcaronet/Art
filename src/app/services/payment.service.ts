@@ -21,13 +21,20 @@ export class PaymentService {
     const res = await fetch(`${this.apiBase}/pix`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, description, email, orderId }),
+      body: JSON.stringify({ amount, description, email, order_id: orderId }),
     });
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.error || 'Erro ao gerar Pix');
+      throw new Error(err.detail || err.error || 'Erro ao gerar Pix');
     }
-    return res.json();
+    const data = await res.json();
+    return {
+      id: data.id,
+      status: data.status,
+      qrCode: data.qr_code,
+      qrCodeBase64: data.qr_code_base64,
+      ticketUrl: data.ticket_url,
+    };
   }
 
   async checkPixStatus(paymentId: number): Promise<{ status: string }> {
@@ -40,12 +47,16 @@ export class PaymentService {
     const res = await fetch(`${this.apiBase}/stripe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, description, orderId }),
+      body: JSON.stringify({ amount, description, order_id: orderId }),
     });
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.error || 'Erro ao criar sessão Stripe');
+      throw new Error(err.detail || err.error || 'Erro ao criar sessão Stripe');
     }
-    return res.json();
+    const data = await res.json();
+    return {
+      sessionId: data.session_id,
+      url: data.url,
+    };
   }
 }

@@ -161,7 +161,7 @@ export class CartComponent {
         created: new Date(),
         paymentMethod: method,
       } as any);
-      this.cart.clear(user.uid);
+      // Não limpa o carrinho aqui — só limpa quando pagamento for confirmado
       this.router.navigate(['/orders']);
     } catch (e: any) {
       this.error.set(e?.message || 'Erro ao finalizar pedido.');

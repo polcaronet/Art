@@ -123,10 +123,11 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .tracker { display: flex; align-items: center; justify-content: center; margin-bottom: 0.8rem; }
     .track-step { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
     .track-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.2); }
-    .track-step.active .track-dot { background: var(--border-color); border-color: var(--border-color); box-shadow: 0 0 6px var(--border-color); }
     .track-step.done .track-dot { background: #22c55e; border-color: #22c55e; }
-    .track-step span { font-size: 0.6rem; color: var(--text-secondary); opacity: 0.5; }
-    .track-step.active span, .track-step.done span { opacity: 1; }
+    .track-step.active .track-dot { background: var(--border-color); border-color: var(--border-color); box-shadow: 0 0 8px var(--border-color); }
+    .track-step span { font-size: 0.6rem; color: var(--text-secondary); opacity: 0.4; }
+    .track-step.done span { opacity: 0.7; color: #22c55e; }
+    .track-step.active span { opacity: 1; color: var(--border-color); font-weight: 600; }
     .track-line { width: 40px; height: 2px; background: rgba(255,255,255,0.1); margin-bottom: 1rem; }
     .track-line.done { background: #22c55e; }
     .cancelled-text { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; }
@@ -174,7 +175,9 @@ export class OrdersComponent implements OnInit {
   private stepOrder = ['pending', 'confirmed', 'delivered'];
 
   isStepDone(orderStatus: string, step: string): boolean {
-    return this.stepOrder.indexOf(orderStatus) > this.stepOrder.indexOf(step);
+    const idx = this.stepOrder.indexOf(orderStatus);
+    const stepIdx = this.stepOrder.indexOf(step);
+    return idx >= 0 && stepIdx >= 0 && idx > stepIdx;
   }
 
   formatDate(created: any): string {

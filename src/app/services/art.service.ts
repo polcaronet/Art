@@ -54,6 +54,16 @@ export class ArtService {
     return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Art));
   }
 
+  async getShowcase(): Promise<Art[]> {
+    const all = await this.getAll();
+    return all.filter((a) => !a.type || a.type === 'showcase');
+  }
+
+  async getForSale(): Promise<Art[]> {
+    const all = await this.getAll();
+    return all.filter((a) => a.type === 'sale');
+  }
+
   async search(term: string): Promise<Art[]> {
     const q = query(
       collection(this.fb.firestore, 'arts'),

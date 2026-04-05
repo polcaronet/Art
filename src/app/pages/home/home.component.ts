@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
   }
 
   async loadArts() {
-    const allArts = await this.artService.getAll();
+    const allArts = await this.artService.getShowcase();
     this.arts.set(allArts);
     const uid = this.auth.user()?.uid;
     if (uid) {

@@ -30,7 +30,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
             <span class="card-info">{{ art.year }} | {{ art.cm }} cm</span>
             <span class="card-city">{{ art.city }}</span>
             @if (getBadgeLabel(art) !== 'Vendido' && auth.isLoggedIn()) {
-              <button class="btn-cart" (click)="addToCart(art)">🛒 Adicionar</button>
+              <button class="btn-cart" (click)="addToCart(art)">
+                {{ addedId === art.id ? '✓ Adicionado' : '🛒 Adicionar' }}
+              </button>
             }
           </div>
         </div>
@@ -90,6 +92,8 @@ export class SaleComponent implements OnInit {
     return 'Disponível';
   }
 
+  addedId = '';
+
   addToCart(art: Art) {
     this.cart.add({
       artId: art.id,
@@ -97,5 +101,7 @@ export class SaleComponent implements OnInit {
       artImage: art.images[0]?.url || '',
       price: art.price || '0',
     }, this.auth.user()?.uid);
+    this.addedId = art.id;
+    setTimeout(() => this.addedId = '', 2000);
   }
 }

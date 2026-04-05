@@ -166,4 +166,26 @@ export class ArtService {
     const snap = await getDoc(doc(this.fb.firestore, 'arts', artId, 'likes', uid));
     return snap.exists();
   }
+
+  async addComment(artId: string, uid: string, userName: string, text: string) {
+    return addDoc(collection(this.fb.firestore, 'arts', artId, 'comments'), {
+      uid,
+      userName,
+      text,
+      created: new Date(),
+    });
+  }
+
+  async getComments(artId: string): Promise<any[]> {
+    const q = query(
+      collection(this.fb.firestore, 'arts', artId, 'comments'),
+      orderBy('created', 'desc')
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  }
+
+  async deleteComment(artId: string, commentId: string) {
+    return deleteDoc(doc(this.fb.firestore, 'arts', artId, 'comments', commentId));
+  }
 }

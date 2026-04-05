@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService, Theme } from '../../services/theme.service';
 import { Order, OrderService } from '../../services/order.service';
+import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, BrlPipe],
   template: `
     <div class="profile-page">
       <div class="profile-card">
@@ -61,7 +62,7 @@ import { Order, OrderService } from '../../services/order.service';
                 <div class="order-item">
                   <img [src]="item.artImage" alt="" class="item-img" />
                   <span class="item-name">{{ item.artName }}</span>
-                  <span class="item-price">R$ {{ item.price }}</span>
+                  <span class="item-price">{{ item.price | brl }}</span>
                 </div>
               }
             </div>
@@ -86,7 +87,7 @@ import { Order, OrderService } from '../../services/order.service';
                 <p class="cancelled-label">Pedido Cancelado</p>
               }
               <div class="order-total">
-                <span>Total: <strong>R$ {{ order.total }}</strong></span>
+                <span>Total: <strong>{{ order.total | brl }}</strong></span>
               @if (auth.isAdmin()) {
                 <select [ngModel]="order.status" (ngModelChange)="updateStatus(order, $event)" class="status-select">
                   <option value="pending">Pendente</option>

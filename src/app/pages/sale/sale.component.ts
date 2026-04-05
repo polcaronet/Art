@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { Art, ArtService } from '../../services/art.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
   selector: 'app-sale',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BrlPipe],
   template: `
     <div class="intro">
       <h1 class="fade-in">Quadros à Venda 🎨</h1>
@@ -22,7 +23,7 @@ import { AuthService } from '../../services/auth.service';
           </a>
           <span class="badge" [class]="getBadgeClass(art)">{{ getBadgeLabel(art) }}</span>
           @if (art.price) {
-            <span class="price-tag">R$ {{ art.price }}</span>
+            <span class="price-tag">{{ art.price | brl }}</span>
           }
           <div class="card-body">
             <p class="card-title">{{ art.name }}</p>

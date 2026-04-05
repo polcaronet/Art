@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
+import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
+  imports: [BrlPipe],
   template: `
     <h1 class="title">🛒 Carrinho</h1>
 
@@ -19,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
             <img [src]="item.artImage" alt="Quadro" class="item-img" />
             <div class="item-info">
               <p class="item-name">{{ item.artName }}</p>
-              <p class="item-price">R$ {{ item.price }}</p>
+              <p class="item-price">{{ item.price | brl }}</p>
             </div>
             <button class="btn-remove" (click)="cart.remove(item.artId, auth.user()?.uid)">✕</button>
           </div>
@@ -27,7 +29,7 @@ import { AuthService } from '../../services/auth.service';
       </div>
 
       <div class="cart-footer">
-        <p class="total">Total: <strong>R$ {{ cart.total() }}</strong></p>
+        <p class="total">Total: <strong>{{ cart.total() | brl }}</strong></p>
         @if (error()) { <p class="error">{{ error() }}</p> }
         <button class="btn-checkout" (click)="checkout()" [disabled]="loading()">
           {{ loading() ? 'Finalizando...' : 'Finalizar Pedido' }}

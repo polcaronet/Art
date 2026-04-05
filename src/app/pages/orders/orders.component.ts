@@ -2,10 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Order, OrderService } from '../../services/order.service';
 import { PaymentService } from '../../services/payment.service';
 import { AuthService } from '../../services/auth.service';
+import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
+  imports: [BrlPipe],
   template: `
     <h1 class="title">📦 Meus Pedidos</h1>
 
@@ -26,13 +28,13 @@ import { AuthService } from '../../services/auth.service';
                 <img [src]="item.artImage" alt="Quadro" class="item-img" />
                 <div>
                   <p class="item-name">{{ item.artName }}</p>
-                  <p class="item-price">R$ {{ item.price }}</p>
+                  <p class="item-price">{{ item.price | brl }}</p>
                 </div>
               </div>
             }
           </div>
           <div class="order-footer">
-            <span>Total: <strong>R$ {{ order.total }}</strong></span>
+            <span>Total: <strong>{{ order.total | brl }}</strong></span>
             @if (order.status === 'pending') {
               <div class="pay-actions">
                 <button class="btn-pix" (click)="payPix(order)" [disabled]="loading()">

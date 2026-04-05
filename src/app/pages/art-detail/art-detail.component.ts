@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Art, ArtService } from '../../services/art.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
   selector: 'app-art-detail',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, BrlPipe],
   template: `
     @if (art(); as a) {
       <div class="detail-wrapper">
@@ -36,7 +37,7 @@ import { AuthService } from '../../services/auth.service';
 
           @if (a.type === 'sale') {
             @if (a.price) {
-              <p class="price">R$ {{ a.price }}</p>
+              <p class="price">{{ a.price | brl }}</p>
             }
             @if (a.status !== 'sold') {
               <button class="btn-cart" (click)="addToCart(a)">

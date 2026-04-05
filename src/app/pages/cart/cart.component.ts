@@ -155,17 +155,26 @@ export class CartComponent {
     this.loading.set(true);
     this.error.set('');
     try {
-      const result = await this.orderService.create({
-        uid: user.uid,
-        userName: user.displayName || '',
-        userEmail: user.email || '',
-        items: this.cart.items(),
-        status: 'pending',
-        total: this.cart.total(),
-        created: new Date(),
-        paymentMethod: method,
-      } as any);
-      console.log('Pedido criado:', result.id);
+      // Verifica se já tem pedido pendente com os mesmos itens
+      const existing = await this.orderService.getByUser(user.uid);
+      const itemIds = this.cart.items().map(i => i.artId).sort().join(',');
+      const duplicate = existing.find(o =>
+        o.status === 'pending' &&
+        o.items.map(i => i.artId).sort().join(',') === itemIds
+      );
+
+      if (!duplicate) {
+        await this.orderService.create({
+          uid: user.uid,
+          userName: user.displayName || '',
+          userEmail: user.email || '',
+          items: this.cart.items(),
+          status: 'pending',
+          total: this.cart.total(),
+          created: new Date(),
+          paymentMethod: method,
+        } as any);
+      }
       this.router.navigate(['/orders']);
     } catch (e: any) {
       console.error('Erro ao criar pedido:', e);

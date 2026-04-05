@@ -145,18 +145,19 @@ import { ThemeService, Theme } from '../../services/theme.service';
         object-fit: cover;
       }
       .card-body {
-        padding: 0.8rem;
+        padding: 1rem;
       }
       .card-title {
         font-weight: 700;
         font-size: 1.1rem;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
       }
       .card-info,
       .card-city {
         display: block;
         color: var(--text-secondary);
         font-size: 0.9rem;
+        line-height: 1.6;
       }
     `,
   ],

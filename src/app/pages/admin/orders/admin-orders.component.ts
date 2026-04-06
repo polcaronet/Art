@@ -42,12 +42,16 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
               @if (order.status === 'confirmed') {
                 <button class="btn-deliver" (click)="onStatusChange(order, 'delivered')">📦 Entregue</button>
                 <button class="btn-cancel" (click)="onStatusChange(order, 'cancelled')">✕ Cancelar</button>
+                <button class="btn-refund" (click)="onStatusChange(order, 'refunded')">💰 Estornar</button>
+              }
+              @if (order.status === 'delivered') {
+                <button class="btn-refund" (click)="onStatusChange(order, 'refunded')">💰 Estornar</button>
               }
               @if (order.status === 'refund_requested') {
                 <button class="btn-refund" (click)="onStatusChange(order, 'refunded')">💰 Aprovar Estorno</button>
-                <button class="btn-deny" (click)="onStatusChange(order, 'confirmed')">✕ Negar Estorno</button>
+                <button class="btn-deny" (click)="onStatusChange(order, 'confirmed')">✕ Negar</button>
               }
-              @if (order.status === 'delivered' || order.status === 'cancelled' || order.status === 'refunded') {
+              @if (order.status === 'cancelled' || order.status === 'refunded') {
                 <span class="status-badge" [class]="'sb-' + order.status">{{ statusLabel(order.status) }}</span>
               }
             </div>

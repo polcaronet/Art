@@ -98,6 +98,10 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                   @if (order.status === 'confirmed') {
                     <button class="abtn deliver" (click)="updateStatus(order, 'delivered')">📦</button>
                     <button class="abtn cancel" (click)="updateStatus(order, 'cancelled')">✕</button>
+                    <button class="abtn refund" (click)="updateStatus(order, 'refunded')">💰</button>
+                  }
+                  @if (order.status === 'delivered') {
+                    <button class="abtn refund" (click)="updateStatus(order, 'refunded')">💰</button>
                   }
                   @if (order.status === 'refund_requested') {
                     <button class="abtn refund" (click)="updateStatus(order, 'refunded')">💰</button>

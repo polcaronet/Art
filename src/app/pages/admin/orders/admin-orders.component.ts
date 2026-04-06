@@ -82,7 +82,7 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
     </div>
   `,
   styles: [`
-    .admin-header { display: flex; gap: 0.5rem; background: var(--accent); padding: 0.6rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .admin-header { display: flex; gap: 0.5rem; background: var(--accent); padding: 0.6rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; width: 100%; }
     .tab { color: white; font-weight: 600; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.85rem; }
     .tab.active, .tab:hover { background: rgba(255,255,255,0.2); }
     .subtitle { font-size: 1.3rem; margin-bottom: 1rem; }

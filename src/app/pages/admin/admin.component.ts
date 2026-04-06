@@ -46,6 +46,7 @@ import { AuthService } from '../../services/auth.service';
         padding: 0.6rem 1rem;
         border-radius: 10px;
         margin-bottom: 1.5rem;
+        width: 100%;
       }
       .tab {
         color: white;

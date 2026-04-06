@@ -83,12 +83,12 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
   `,
   styles: [`
     :host { display: block; width: 100%; }
-    .admin-header { display: flex; gap: 0.5rem; background: var(--accent); padding: 0.6rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; width: 100%; }
+    .admin-header { display: flex; gap: 0.5rem; background: var(--accent); padding: 0.6rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; }
     .tab { color: white; font-weight: 600; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.85rem; }
     .tab.active, .tab:hover { background: rgba(255,255,255,0.2); }
     .subtitle { font-size: 1.3rem; margin-bottom: 1rem; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; }
-    .orders-list { display: flex; flex-direction: column; gap: 1rem; }
+    .orders-list { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
     .order-card { background: var(--bg-secondary); border-radius: 10px; overflow: hidden; }
     .order-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 0.5rem; }
     .order-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }

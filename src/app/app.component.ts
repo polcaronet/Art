@@ -23,6 +23,10 @@ import { AuthService } from './services/auth.service';
         padding: 1rem;
         min-height: calc(100vh - 130px);
       }
+      .container > * {
+        display: block;
+        width: 100%;
+      }
     `,
   ],
 })

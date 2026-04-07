@@ -88,13 +88,13 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
     .tab.active, .tab:hover { background: rgba(255,255,255,0.2); }
     .subtitle { font-size: 1.3rem; margin-bottom: 1rem; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; }
-    .orders-list { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
-    .order-card { background: var(--bg-secondary); border-radius: 10px; overflow: hidden; }
+    .orders-list { display: flex; flex-direction: column; gap: 1rem; }
+    .order-card { background: var(--bg-card); border-radius: 10px; overflow: hidden; }
     .order-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 0.5rem; }
     .order-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .order-id { font-weight: 600; opacity: 0.7; }
-    .user-info { color: var(--text-secondary); font-size: 0.8rem; }
-    .pay-badge { font-size: 0.7rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; }
+    .order-id { font-weight: 600; opacity: 0.7; font-size: 1rem; }
+    .user-info { color: var(--text-secondary); font-size: 0.95rem; }
+    .pay-badge { font-size: 0.85rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; }
     .status-select { padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.8rem; }
     .action-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .btn-confirm { padding: 0.4rem 0.8rem; background: #22c55e; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
@@ -114,10 +114,10 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
     .refund-reason { padding: 0.6rem 1rem; background: rgba(239,68,68,0.08); color: var(--accent); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .order-items { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
     .order-item { display: flex; align-items: center; gap: 0.8rem; }
-    .item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
-    .item-name { font-weight: 600; font-size: 0.9rem; }
-    .item-price { color: var(--text-secondary); font-size: 0.85rem; }
-    .order-footer { padding: 0.8rem 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem; }
+    .item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+    .item-name { font-weight: 600; font-size: 1rem; }
+    .item-price { color: var(--text-secondary); font-size: 0.95rem; }
+    .order-footer { padding: 0.8rem 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 1.05rem; }
   `],
 })
 export class AdminOrdersComponent implements OnInit {

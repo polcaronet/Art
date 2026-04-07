@@ -11,7 +11,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
   imports: [RouterLink, FormsModule],
   template: `
     <section class="search-bar">
-      <input class="search-input" placeholder="Digite o nome do quadro..." [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" />
+      <input class="search-input" placeholder="Digite o nome do quadro..." [(ngModel)]="searchTerm" (input)="onSearch()" (keyup.enter)="onSearch()" />
       <button class="btn-search" (click)="onSearch()">Pesquisar</button>
     </section>
 
@@ -105,6 +105,7 @@ export class HomeComponent implements OnInit {
   arts = signal<Art[]>([]);
   likedIds = signal<string[]>([]);
   searchTerm = '';
+  private searchTimeout: any;
 
   ngOnInit() {
     this.themeService.init();
@@ -144,8 +145,11 @@ export class HomeComponent implements OnInit {
   }
 
   async onSearch() {
+    clearTimeout(this.searchTimeout);
     if (!this.searchTerm.trim()) { await this.loadArts(); return; }
-    this.arts.set(await this.artService.search(this.searchTerm));
+    this.searchTimeout = setTimeout(async () => {
+      this.arts.set(await this.artService.search(this.searchTerm));
+    }, 300);
   }
 
   onThemeChange(event: Event) {

@@ -61,9 +61,9 @@ import { ThemeService, Theme } from '../../services/theme.service';
     </div>
   `,
   styles: [`
-    .search-bar { display: flex; gap: 0.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: 10px; max-width: 700px; margin: 0 auto 1.5rem; }
-    .search-input { flex: 1; padding: 0.6rem 1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 1rem; }
-    .btn-search { background: var(--accent); color: white; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; }
+    .search-bar { display: flex; gap: 0.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: 10px; max-width: 700px; margin: 0 auto 1.5rem; box-sizing: border-box; }
+    .search-input { flex: 1; min-width: 0; padding: 0.6rem 1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 1rem; }
+    .btn-search { background: var(--accent); color: white; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; white-space: nowrap; }
     .btn-search:hover { background: var(--accent-hover); }
     .theme-selector { display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end; margin-bottom: 1rem; }
     .theme-selector label { font-weight: 500; }
@@ -74,7 +74,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .fade-in { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s ease forwards; }
     .fade-in.delay { animation-delay: 0.3s; }
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
     .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
@@ -86,6 +86,15 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .like-btn { display: flex; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem; transition: color 0.2s; padding: 0; }
     .like-btn:hover, .like-btn.liked { color: #ef4444; }
     .views { display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-size: 0.85rem; }
+
+    @media (max-width: 600px) {
+      .search-bar { flex-direction: column; }
+      .btn-search { width: 100%; padding: 0.7rem; }
+      .grid { grid-template-columns: 1fr; }
+      .intro h1 { font-size: 1.3rem; }
+      .intro h2 { font-size: 1rem; }
+      .theme-selector { justify-content: center; }
+    }
   `],
 })
 export class HomeComponent implements OnInit {

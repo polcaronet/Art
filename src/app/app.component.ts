@@ -22,6 +22,8 @@ import { AuthService } from './services/auth.service';
         margin: 0 auto;
         padding: 1rem;
         min-height: calc(100vh - 130px);
+        box-sizing: border-box;
+        overflow-x: hidden;
       }
       .container > * {
         display: block;

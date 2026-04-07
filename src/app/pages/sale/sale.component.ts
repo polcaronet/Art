@@ -50,10 +50,10 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .fade-in { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s ease forwards; }
     .fade-in.delay { animation-delay: 0.3s; }
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
-    .card-img { width: 100%; display: block; }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
     .badge { position: absolute; top: 12px; left: 12px; padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; color: white; }
     .badge-available { background: #22c55e; }
     .badge-order { background: #f59e0b; }
@@ -66,6 +66,12 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .btn-cart { margin-top: 0.8rem; background: var(--border-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
     .btn-cart:hover { opacity: 0.85; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 1.1rem; }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      .intro h1 { font-size: 1.3rem; }
+      .intro h2 { font-size: 1rem; }
+    }
   `],
 })
 export class SaleComponent implements OnInit {

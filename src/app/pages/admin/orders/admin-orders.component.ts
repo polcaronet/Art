@@ -82,42 +82,42 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
     </div>
   `,
   styles: [`
-    :host { display: block; width: 100%; min-width: 0; }
+    :host { display: block; width: 100%; min-width: 0; font-size: 1rem; }
     .admin-header { display: flex; gap: 0.5rem; background: var(--accent); padding: 0.6rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; }
-    .tab { color: white; font-weight: 600; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.85rem; }
+    .tab { color: white; font-weight: 600; padding: 0.4rem 1rem; border-radius: 6px; font-size: 1rem; }
     .tab.active, .tab:hover { background: rgba(255,255,255,0.2); }
-    .subtitle { font-size: 1.3rem; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.4rem; margin-bottom: 1rem; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; }
     .orders-list { display: flex; flex-direction: column; gap: 1rem; }
-    .order-card { background: var(--bg-card); border-radius: 10px; overflow: hidden; }
+    .order-card { background: var(--bg-card); border-radius: 10px; overflow: hidden; font-size: 1rem; }
     .order-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap; gap: 0.5rem; }
     .order-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .order-id { font-weight: 600; opacity: 0.7; font-size: 1rem; }
-    .user-info { color: var(--text-secondary); font-size: 0.95rem; }
-    .pay-badge { font-size: 0.85rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; }
-    .status-select { padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.8rem; }
+    .order-id { font-weight: 600; opacity: 0.7; font-size: 1.1rem; }
+    .user-info { color: var(--text-secondary); font-size: 1rem; }
+    .pay-badge { font-size: 0.9rem; color: var(--border-color); background: rgba(255,255,255,0.06); padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .status-select { padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 0.9rem; }
     .action-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .btn-confirm { padding: 0.4rem 0.8rem; background: #22c55e; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-confirm { padding: 0.5rem 1rem; background: #22c55e; color: white; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; }
     .btn-confirm:hover { opacity: 0.85; }
-    .btn-deliver { padding: 0.4rem 0.8rem; background: #3b82f6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-deliver { padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; }
     .btn-deliver:hover { opacity: 0.85; }
-    .btn-cancel { padding: 0.4rem 0.8rem; background: rgba(239,68,68,0.1); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .btn-cancel { padding: 0.5rem 1rem; background: rgba(239,68,68,0.1); color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; }
     .btn-cancel:hover { background: var(--accent); color: white; }
-    .btn-refund { padding: 0.4rem 0.8rem; background: #8b5cf6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.8rem; border: none; cursor: pointer; }
+    .btn-refund { padding: 0.5rem 1rem; background: #8b5cf6; color: white; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; }
     .btn-refund:hover { opacity: 0.85; }
-    .btn-deny { padding: 0.4rem 0.8rem; background: rgba(255,255,255,0.1); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .btn-deny { padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; }
     .btn-deny:hover { background: rgba(255,255,255,0.2); }
-    .status-badge { padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: white; }
+    .status-badge { padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; font-weight: 700; color: white; }
     .sb-delivered { background: #22c55e; }
     .sb-cancelled { background: #ef4444; }
     .sb-refunded { background: #8b5cf6; }
-    .refund-reason { padding: 0.6rem 1rem; background: rgba(239,68,68,0.08); color: var(--accent); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .refund-reason { padding: 0.6rem 1rem; background: rgba(239,68,68,0.08); color: var(--accent); font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
     .order-items { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
     .order-item { display: flex; align-items: center; gap: 0.8rem; }
-    .item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
-    .item-name { font-weight: 600; font-size: 1rem; }
-    .item-price { color: var(--text-secondary); font-size: 0.95rem; }
-    .order-footer { padding: 0.8rem 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 1.05rem; }
+    .item-img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+    .item-name { font-weight: 700; font-size: 1.1rem; }
+    .item-price { color: var(--text-secondary); font-size: 1rem; }
+    .order-footer { padding: 0.8rem 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 1.1rem; }
   `],
 })
 export class AdminOrdersComponent implements OnInit {

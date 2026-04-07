@@ -59,7 +59,7 @@ import { AuthService } from '../../services/auth.service';
       }
       .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
       }
       .card {
@@ -67,6 +67,7 @@ import { AuthService } from '../../services/auth.service';
         border-radius: 10px;
         overflow: hidden;
         position: relative;
+        max-width: 350px;
       }
       .btn-delete {
         position: absolute;

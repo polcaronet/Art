@@ -77,7 +77,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
-    .card-img { width: 100%; height: auto; display: block; }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
     .card-body { padding: 1rem; }
     .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-primary); }
     .card-info, .card-city { display: block; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }

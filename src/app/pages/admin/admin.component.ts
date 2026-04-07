@@ -89,8 +89,10 @@ import { AuthService } from '../../services/auth.service';
       }
       .card-img {
         width: 100%;
-        height: auto;
+        aspect-ratio: 4/3;
+        object-fit: contain;
         display: block;
+        background: rgba(0,0,0,0.3);
       }
       .card-body {
         padding: 0.8rem;

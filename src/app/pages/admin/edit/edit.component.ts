@@ -123,7 +123,7 @@ import { AuthService } from '../../../services/auth.service';
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
     .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-3px); }
-    .card-img { width: 100%; height: auto; display: block; }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
     .card-body { padding: 0.8rem; }
     .card-title { font-weight: 700; margin-bottom: 0.2rem; }
     .card-info { color: var(--text-secondary); font-size: 0.85rem; }

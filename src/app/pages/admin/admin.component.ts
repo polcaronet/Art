@@ -67,7 +67,6 @@ import { AuthService } from '../../services/auth.service';
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-        max-width: 350px;
       }
       .btn-delete {
         position: absolute;
@@ -91,7 +90,8 @@ import { AuthService } from '../../services/auth.service';
       .card-img {
         width: 100%;
         aspect-ratio: 4/3;
-        object-fit: cover;
+        object-fit: contain;
+        background: #000;
       }
       .card-body {
         padding: 0.8rem;

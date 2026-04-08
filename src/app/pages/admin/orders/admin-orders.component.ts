@@ -142,7 +142,9 @@ export class AdminOrdersComponent implements OnInit {
   async onStatusChange(order: Order, status: Order['status']) {
     if (status === 'refunded' && order.paymentId) {
       try {
-        if (order.paymentMethod?.includes('pix')) {
+        // Se paymentId é numérico, é do Mercado Pago; se começa com pi_, é do Stripe
+        const isMercadoPago = /^\d+$/.test(order.paymentId);
+        if (isMercadoPago) {
           await this.paymentService.refundPix(order.paymentId, order.id);
         } else {
           await this.paymentService.refundCard(order.paymentId, order.id);

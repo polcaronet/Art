@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
+import { PaymentService } from '../../services/payment.service';
 import { BrlPipe } from '../../pipes/brl.pipe';
 
 @Component({
@@ -117,6 +118,7 @@ export class CartComponent {
   cart = inject(CartService);
   auth = inject(AuthService);
   private orderService = inject(OrderService);
+  private paymentService = inject(PaymentService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -163,8 +165,10 @@ export class CartComponent {
         o.items.map(i => i.artId).sort().join(',') === itemIds
       );
 
+      let orderId = duplicate?.id || '';
+
       if (!duplicate) {
-        await this.orderService.create({
+        const docRef = await this.orderService.create({
           uid: user.uid,
           userName: user.displayName || '',
           userEmail: user.email || '',
@@ -174,8 +178,29 @@ export class CartComponent {
           created: new Date(),
           paymentMethod: method,
         } as any);
+        orderId = docRef.id;
       }
-      this.router.navigate(['/orders']);
+
+      const total = parseFloat(this.cart.total());
+      const description = this.cart.items().map(i => i.artName).join(', ');
+
+      if (method === 'pix_full') {
+        // Pix à vista — redireciona para pedidos (pagamento via QR code na tela de pedidos)
+        this.router.navigate(['/orders']);
+      } else if (method === 'card_3x') {
+        // Cartão parcelado até 3x
+        const session = await this.paymentService.createStripeSession(total, description, orderId, 3);
+        window.location.href = session.url;
+      } else if (method === 'pix_50_card') {
+        // 50% Pix + 50% Cartão — cria sessão Stripe para metade
+        const half = total / 2;
+        const session = await this.paymentService.createStripeSession(half, description + ' (50% Cartão)', orderId, 1);
+        window.location.href = session.url;
+      } else if (method === 'card_50_card') {
+        // 50% + 50% Cartão — cria sessão Stripe para o total
+        const session = await this.paymentService.createStripeSession(total, description, orderId, 1);
+        window.location.href = session.url;
+      }
     } catch (e: any) {
       console.error('Erro ao criar pedido:', e);
       this.error.set(e?.message || 'Erro ao finalizar pedido.');

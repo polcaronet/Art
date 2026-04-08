@@ -76,7 +76,7 @@ import { CartService } from '../../services/cart.service';
       align-items: center;
     }
     .nav-link {
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.7);
       font-weight: 500;
       font-size: 0.88rem;
       padding: 0.45rem 1rem;
@@ -85,7 +85,7 @@ import { CartService } from '../../services/cart.service';
       position: relative;
     }
     .nav-link:hover {
-      color: var(--text-primary);
+      color: #ffffff;
       background: rgba(255,255,255,0.1);
     }
     .btn-action {
@@ -97,11 +97,11 @@ import { CartService } from '../../services/cart.service';
     }
     .btn-register { background: var(--border-color); color: white; }
     .btn-register:hover { opacity: 0.85; }
-    .btn-admin { background: rgba(255,255,255,0.1); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.15); }
-    .btn-admin:hover { background: rgba(255,255,255,0.18); color: var(--text-primary); }
+    .btn-admin { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); }
+    .btn-admin:hover { background: rgba(255,255,255,0.18); color: #ffffff; }
     .btn-logout { background: var(--accent); color: white; }
     .btn-logout:hover { background: var(--accent-hover); }
-    .user-name { color: var(--border-color); font-size: 0.85rem; font-family: 'Georgia', 'Times New Roman', cursive; font-style: italic; }
+    .user-name { color: rgba(255,255,255,0.6); font-size: 0.85rem; font-family: 'Georgia', 'Times New Roman', cursive; font-style: italic; }
     .cart-link { font-size: 1.1rem; }
     .cart-badge {
       position: absolute;

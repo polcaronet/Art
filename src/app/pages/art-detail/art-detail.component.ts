@@ -119,8 +119,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .label { color: var(--border-color); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .meta strong { font-size: 0.95rem; color: var(--text-primary); }
     .price { font-size: 1.5rem; font-weight: 700; color: #22c55e; margin-bottom: 1rem; }
-    .btn-cart { width: 100%; padding: 0.9rem; background: var(--border-color); color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; }
-    .btn-cart:hover { opacity: 0.85; }
+    .btn-cart { width: 100%; padding: 0.9rem; background: var(--btn-primary); color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; }
+    .btn-cart:hover { background: var(--btn-primary-hover); }
     .added-msg { color: #4ade80; text-align: center; margin-top: 0.5rem; font-size: 0.9rem; }
     .sold-label { color: var(--accent); font-weight: 700; font-size: 1.2rem; text-align: center; padding: 0.8rem; background: rgba(239,68,68,0.1); border-radius: 8px; }
 

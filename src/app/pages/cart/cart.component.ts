@@ -102,7 +102,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .pay-icon { font-size: 1.3rem; min-width: 40px; text-align: center; }
     .pay-title { font-weight: 700; font-size: 0.95rem; min-width: 180px; }
     .pay-desc { flex: 1; color: var(--text-secondary); font-size: 0.8rem; }
-    .pay-value { font-weight: 600; font-size: 0.85rem; color: var(--border-color); white-space: nowrap; }
+    .pay-value { font-weight: 600; font-size: 0.85rem; color: var(--btn-primary); white-space: nowrap; }
     .btn-back { margin-top: 1.5rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.9rem; }
     .btn-back:hover { color: var(--text-primary); }
 

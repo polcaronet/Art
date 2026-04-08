@@ -172,15 +172,13 @@ export class OrdersComponent implements OnInit {
   async ngOnInit() {
     const uid = this.auth.user()?.uid;
     if (uid) {
-      const orders = await this.orderService.getByUser(uid);
-      // Verifica status de pagamentos pendentes
-      for (const order of orders) {
-        if (order.status === 'pending' && order.paymentMethod === 'pix_full') {
-          // Tenta verificar se já foi pago consultando o último pagamento
-          // O webhook já recebeu, mas o status no Firestore não atualizou
-          // Por enquanto marca como confirmado se já clicou pra pagar
-        }
+      // Limpa carrinho se voltou de pagamento com sucesso
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('payment') === 'success') {
+        this.cart.clear(uid);
       }
+
+      const orders = await this.orderService.getByUser(uid);
       this.orders.set(orders);
     }
   }

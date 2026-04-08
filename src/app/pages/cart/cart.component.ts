@@ -157,53 +157,46 @@ export class CartComponent {
     this.loading.set(true);
     this.error.set('');
     try {
-      // Verifica se já tem pedido pendente com os mesmos itens
-      const existing = await this.orderService.getByUser(user.uid);
-      const itemIds = this.cart.items().map(i => i.artId).sort().join(',');
-      const duplicate = existing.find(o =>
-        o.status === 'pending' &&
-        o.items.map(i => i.artId).sort().join(',') === itemIds
-      );
-
-      let orderId = duplicate?.id || '';
-
-      if (!duplicate) {
-        const docRef = await this.orderService.create({
-          uid: user.uid,
-          userName: user.displayName || '',
-          userEmail: user.email || '',
-          items: this.cart.items(),
-          status: 'pending',
-          total: this.cart.total(),
-          created: new Date(),
-          paymentMethod: method,
-        } as any);
-        orderId = docRef.id;
-      }
-
-      const total = parseFloat(this.cart.total());
-      const description = this.cart.items().map(i => i.artName).join(', ');
+      // Salva dados do carrinho antes de qualquer operação
+      const items = [...this.cart.items()];
+      const totalStr = this.cart.total();
+      const total = parseFloat(totalStr);
+      const description = items.map(i => i.artName).join(', ');
       const email = user.email || '';
 
+      if (items.length === 0 || total <= 0) {
+        this.error.set('Carrinho vazio.');
+        return;
+      }
+
+      // Cria novo pedido sempre
+      const docRef = await this.orderService.create({
+        uid: user.uid,
+        userName: user.displayName || '',
+        userEmail: user.email || '',
+        items: items,
+        status: 'pending',
+        total: totalStr,
+        created: new Date(),
+        paymentMethod: method,
+      } as any);
+      const orderId = docRef.id;
+
       if (method === 'pix_full') {
-        // Pix à vista — redireciona para pedidos
         this.cart.clear(user.uid);
         this.router.navigate(['/orders']);
       } else if (method === 'card_3x') {
-        // Cartão parcelado até 3x via Mercado Pago
-        const mpItems = this.cart.items().map(i => ({ title: i.artName, unit_price: parseFloat(i.price) }));
+        const mpItems = items.map(i => ({ title: i.artName, unit_price: parseFloat(i.price) }));
         const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 3);
         this.cart.clear(user.uid);
         window.location.href = checkout.init_point;
       } else if (method === 'pix_50_card') {
-        // 50% Pix + 50% Cartão via Mercado Pago
         const half = total / 2;
         const mpItems = [{ title: description + ' (50% Cartão)', unit_price: half }];
         const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);
         this.cart.clear(user.uid);
         window.location.href = checkout.init_point;
       } else if (method === 'card_50_card') {
-        // 50% + 50% Cartão via Mercado Pago
         const half = total / 2;
         const mpItems = [{ title: description + ' (50% Cartão)', unit_price: half }];
         const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);

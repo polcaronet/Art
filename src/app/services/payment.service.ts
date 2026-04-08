@@ -85,4 +85,27 @@ export class PaymentService {
       url: data.url,
     };
   }
+
+  async createMpCheckout(
+    items: { title: string; unit_price: number }[],
+    orderId: string,
+    email: string,
+    maxInstallments: number = 12
+  ): Promise<{ id: string; init_point: string }> {
+    const res = await fetch(`${this.apiBase}/mp-checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: items.map(i => ({ title: i.title, quantity: 1, unit_price: i.unit_price })),
+        order_id: orderId,
+        max_installments: maxInstallments,
+        payer_email: email,
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Erro ao criar checkout MP');
+    }
+    return res.json();
+  }
 }

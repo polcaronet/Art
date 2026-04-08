@@ -183,23 +183,27 @@ export class CartComponent {
 
       const total = parseFloat(this.cart.total());
       const description = this.cart.items().map(i => i.artName).join(', ');
+      const email = user.email || '';
 
       if (method === 'pix_full') {
-        // Pix à vista — redireciona para pedidos (pagamento via QR code na tela de pedidos)
+        // Pix à vista — redireciona para pedidos
         this.router.navigate(['/orders']);
       } else if (method === 'card_3x') {
-        // Cartão parcelado até 3x
-        const session = await this.paymentService.createStripeSession(total, description, orderId, 3);
-        window.location.href = session.url;
+        // Cartão parcelado até 3x via Mercado Pago
+        const mpItems = this.cart.items().map(i => ({ title: i.artName, unit_price: parseFloat(i.price) }));
+        const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 3);
+        window.location.href = checkout.init_point;
       } else if (method === 'pix_50_card') {
-        // 50% Pix + 50% Cartão — cria sessão Stripe para metade
+        // 50% Pix + 50% Cartão via Mercado Pago
         const half = total / 2;
-        const session = await this.paymentService.createStripeSession(half, description + ' (50% Cartão)', orderId, 1);
-        window.location.href = session.url;
+        const mpItems = [{ title: description + ' (50% Cartão)', unit_price: half }];
+        const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);
+        window.location.href = checkout.init_point;
       } else if (method === 'card_50_card') {
-        // 50% + 50% Cartão — cria sessão Stripe para o total
-        const session = await this.paymentService.createStripeSession(total, description, orderId, 1);
-        window.location.href = session.url;
+        // 50% + 50% Cartão via Mercado Pago
+        const mpItems = this.cart.items().map(i => ({ title: i.artName, unit_price: parseFloat(i.price) }));
+        const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);
+        window.location.href = checkout.init_point;
       }
     } catch (e: any) {
       console.error('Erro ao criar pedido:', e);

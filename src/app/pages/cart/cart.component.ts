@@ -39,14 +39,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
           <button class="pay-option" (click)="selectPayment('pix_50_card')">
             <span class="pay-icon">💠💳</span>
             <span class="pay-title">50% Pix + 50% Cartão</span>
-            <span class="pay-desc">Sinal via Pix, resto no cartão</span>
-            <span class="pay-value">{{ getHalf() | brl }} + {{ getHalf() | brl }}</span>
-          </button>
-
-          <button class="pay-option" (click)="selectPayment('card_50_card')">
-            <span class="pay-icon">💳💳</span>
-            <span class="pay-title">50% Cartão + 50% Cartão</span>
-            <span class="pay-desc">Sinal no cartão, resto no cartão</span>
+            <span class="pay-desc">Pague metade via Pix, resto no cartão</span>
             <span class="pay-value">{{ getHalf() | brl }} + {{ getHalf() | brl }}</span>
           </button>
         </div>
@@ -191,17 +184,8 @@ export class CartComponent {
         this.cart.clear(user.uid);
         window.location.href = checkout.init_point;
       } else if (method === 'pix_50_card') {
-        const half = total / 2;
-        const mpItems = [{ title: description + ' (50% Cartão)', unit_price: half }];
-        const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);
         this.cart.clear(user.uid);
-        window.location.href = checkout.init_point;
-      } else if (method === 'card_50_card') {
-        const half = total / 2;
-        const mpItems = [{ title: description + ' (50% Cartão)', unit_price: half }];
-        const checkout = await this.paymentService.createMpCheckout(mpItems, orderId, email, 1);
-        this.cart.clear(user.uid);
-        window.location.href = checkout.init_point;
+        this.router.navigate(['/orders']);
       }
     } catch (e: any) {
       console.error('Erro ao criar pedido:', e);

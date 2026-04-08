@@ -86,21 +86,19 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                   </button>
                 }
                 @if (order.paymentMethod === 'pix_50_card') {
-                  <button class="btn-pix" (click)="payPix(order, getHalf(order.total))" [disabled]="loading()">
-                    💠 Sinal {{ getHalf(order.total) | brl }} via Pix
-                  </button>
-                  <button class="btn-card" (click)="payCard(order, getHalf(order.total))" [disabled]="loading()">
-                    💳 Resto {{ getHalf(order.total) | brl }} no Cartão
+                  <button class="btn-pix" (click)="payPixHalf(order)" [disabled]="loading()">
+                    💠 Pagar {{ getHalf(order.total) | brl }} via Pix (1ª parte)
                   </button>
                 }
-                @if (order.paymentMethod === 'card_50_card') {
-                  <button class="btn-card" (click)="payCard(order, getHalf(order.total))" [disabled]="loading()">
-                    💳 Sinal {{ getHalf(order.total) | brl }} no Cartão
-                  </button>
-                  <button class="btn-card" (click)="payCard(order, getHalf(order.total))" [disabled]="loading()">
-                    💳 Resto {{ getHalf(order.total) | brl }} no Cartão
-                  </button>
-                }
+              </div>
+            }
+
+            @if (order.status === 'half_paid' && order.paymentMethod === 'pix_50_card') {
+              <div class="pay-actions">
+                <p class="half-info">✅ Pix de {{ getHalf(order.total) | brl }} confirmado. Falta pagar o resto no cartão:</p>
+                <button class="btn-card" (click)="payCardHalf(order)" [disabled]="loading()">
+                  💳 Pagar {{ getHalf(order.total) | brl }} no Cartão (2ª parte)
+                </button>
               </div>
             }
           </div>
@@ -122,6 +120,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .order-info { display: flex; gap: 1.5rem; padding: 0.6rem 1rem; font-size: 0.8rem; color: var(--text-secondary); border-bottom: 1px solid rgba(255,255,255,0.04); }
     .status { margin-left: auto; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: white; }
     .status-pending { background: #f59e0b; }
+    .status-half_paid { background: #00b4d8; }
     .status-confirmed { background: #3b82f6; }
     .status-delivered { background: #22c55e; }
     .status-cancelled { background: #ef4444; }
@@ -155,6 +154,7 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .btn-card { flex: 1; min-width: 200px; padding: 0.8rem; background: #6366f1; color: white; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; }
     .btn-card:hover { opacity: 0.85; }
     .btn-pix:disabled, .btn-card:disabled { opacity: 0.5; }
+    .half-info { color: #22c55e; font-size: 0.85rem; margin-bottom: 0.5rem; }
     .error-msg { color: #f87171; text-align: center; margin-top: 1rem; }
   `],
 })
@@ -185,7 +185,7 @@ export class OrdersComponent implements OnInit {
 
   statusLabel(s: string): string {
     const m: Record<string, string> = {
-      pending: 'Pendente', confirmed: 'Confirmado', delivered: 'Entregue',
+      pending: 'Pendente', half_paid: 'Pix Pago (falta cartão)', confirmed: 'Confirmado', delivered: 'Entregue',
       cancelled: 'Cancelado', refund_requested: 'Estorno Solicitado', refunded: 'Estornado'
     };
     return m[s] || s;
@@ -250,7 +250,6 @@ export class OrdersComponent implements OnInit {
       const desc = order.items.map((i) => i.artName).join(', ');
       const result = await this.paymentService.createPix(parseFloat(amount), desc, email, order.id);
       if (result.ticketUrl) {
-        // Salva o ID do pagamento no pedido
         await this.orderService.updatePaymentId(order.id, String(result.id));
         this.cart.clear(this.auth.user()?.uid);
         window.open(result.ticketUrl, '_blank');
@@ -261,6 +260,51 @@ export class OrdersComponent implements OnInit {
     } catch (e: any) {
       console.error('Erro Pix:', e);
       this.error.set(e?.message || 'Erro ao gerar Pix.');
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async payPixHalf(order: Order) {
+    this.loading.set(true);
+    this.error.set('');
+    try {
+      const half = parseFloat(order.total) / 2;
+      const email = this.auth.user()?.email || '';
+      const desc = order.items.map((i) => i.artName).join(', ') + ' (50% Pix)';
+      const result = await this.paymentService.createPix(half, desc, email, order.id);
+      if (result.ticketUrl) {
+        await this.orderService.updatePaymentId(order.id, String(result.id));
+        await this.orderService.updateStatus(order.id, 'half_paid' as any);
+        this.cart.clear(this.auth.user()?.uid);
+        window.open(result.ticketUrl, '_blank');
+        // Recarrega pedidos para mostrar botão do cartão
+        const uid = this.auth.user()?.uid;
+        if (uid) this.orders.set(await this.orderService.getByUser(uid));
+      } else {
+        this.error.set('Pix gerado mas sem URL.');
+      }
+    } catch (e: any) {
+      console.error('Erro Pix:', e);
+      this.error.set(e?.message || 'Erro ao gerar Pix.');
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async payCardHalf(order: Order) {
+    this.loading.set(true);
+    this.error.set('');
+    try {
+      const half = parseFloat(order.total) / 2;
+      const desc = order.items.map((i) => i.artName).join(', ') + ' (50% Cartão)';
+      const email = this.auth.user()?.email || '';
+      const mpItems = [{ title: desc, unit_price: half }];
+      const checkout = await this.paymentService.createMpCheckout(mpItems, order.id, email, 1);
+      window.location.href = checkout.init_point;
+    } catch (e: any) {
+      console.error('Erro Cartão:', e);
+      this.error.set(e?.message || 'Erro ao criar pagamento no cartão.');
     } finally {
       this.loading.set(false);
     }

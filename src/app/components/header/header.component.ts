@@ -95,8 +95,8 @@ import { CartService } from '../../services/cart.service';
       border-radius: 8px;
       transition: all 0.2s;
     }
-    .btn-register { background: var(--border-color); color: white; }
-    .btn-register:hover { opacity: 0.85; }
+    .btn-register { background: #3b82f6; color: white; }
+    .btn-register:hover { background: #2563eb; }
     .btn-admin { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); }
     .btn-admin:hover { background: rgba(255,255,255,0.18); color: #ffffff; }
     .btn-logout { background: var(--accent); color: white; }

@@ -171,6 +171,7 @@ import { AuthService } from '../../../services/auth.service';
         padding: 1rem;
         border-radius: 10px;
         margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
       }
       .images-preview {
         display: flex;
@@ -182,20 +183,20 @@ import { AuthService } from '../../../services/auth.service';
       .upload-btn {
         width: 120px;
         height: 120px;
-        border: 2px dashed rgba(255, 255, 255, 0.3);
+        border: 2px dashed var(--border-color);
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         font-size: 2.5rem;
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--text-secondary);
         transition: all 0.2s;
       }
       .upload-btn:hover {
-        border-color: rgba(255, 255, 255, 0.5);
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(0, 0, 0, 0.03);
       }
       .preview-item {
         position: relative;

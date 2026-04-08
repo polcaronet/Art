@@ -51,9 +51,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .fade-in.delay { animation-delay: 0.3s; }
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-    .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; position: relative; transition: transform 0.2s; }
-    .card:hover { transform: translateY(-4px); }
-    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
+    .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; position: relative; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: var(--img-bg); }
     .badge { position: absolute; top: 12px; left: 12px; padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; color: white; }
     .badge-available { background: #22c55e; }
     .badge-order { background: #f59e0b; }

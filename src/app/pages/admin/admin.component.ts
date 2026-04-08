@@ -67,6 +67,9 @@ import { AuthService } from '../../services/auth.service';
         border-radius: 10px;
         overflow: hidden;
         position: relative;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: var(--card-shadow);
+        border: 1px solid var(--border-color);
       }
       .btn-delete {
         position: absolute;
@@ -92,7 +95,7 @@ import { AuthService } from '../../services/auth.service';
         aspect-ratio: 4/3;
         object-fit: contain;
         display: block;
-        background: rgba(0,0,0,0.3);
+        background: var(--img-bg);
       }
       .card-body {
         padding: 0.8rem;

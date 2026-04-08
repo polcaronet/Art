@@ -121,9 +121,9 @@ import { AuthService } from '../../../services/auth.service';
     .tab { color: white; font-weight: 600; padding: 0.4rem 1rem; border-radius: 6px; }
     .tab.active, .tab:hover { background: rgba(255,255,255,0.2); }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-    .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
-    .card:hover { transform: translateY(-3px); }
-    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: rgba(0,0,0,0.3); }
+    .card { background: var(--bg-card); border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow-hover); }
+    .card-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: var(--img-bg); }
     .card-body { padding: 0.8rem; }
     .card-title { font-weight: 700; margin-bottom: 0.2rem; }
     .card-info { color: var(--text-secondary); font-size: 0.85rem; }

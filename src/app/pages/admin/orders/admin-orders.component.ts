@@ -140,9 +140,12 @@ export class AdminOrdersComponent implements OnInit {
   }
 
   async onStatusChange(order: Order, status: Order['status']) {
-    if (status === 'refunded' && order.paymentId) {
+    // Estorno automático ao cancelar ou estornar pedido já pago
+    if ((status === 'refunded' || status === 'cancelled') && order.paymentId) {
       try {
         await this.paymentService.refundPix(order.paymentId, order.id);
+        // Se cancelou com estorno, marca como refunded
+        if (status === 'cancelled') status = 'refunded';
       } catch (e: any) {
         alert('Erro ao estornar: ' + (e?.message || 'Erro desconhecido'));
         return;

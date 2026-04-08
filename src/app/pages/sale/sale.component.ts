@@ -63,8 +63,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
     .card-info, .card-city { display: block; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
     .card-city { margin-top: 0.3rem; }
-    .btn-cart { margin-top: 0.8rem; background: var(--border-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
-    .btn-cart:hover { opacity: 0.85; }
+    .btn-cart { margin-top: 0.8rem; background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
+    .btn-cart:hover { background: #1d4ed8; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 1.1rem; }
 
     @media (max-width: 600px) {

@@ -13,6 +13,7 @@ import {
   orderBy,
   where,
 } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 import { FirebaseService } from './firebase.service';
 import { CloudinaryService } from './cloudinary.service';
 
@@ -148,10 +149,25 @@ export class ArtService {
   async addView(artId: string) {
     const key = `viewed_${artId}`;
     if (sessionStorage.getItem(key)) return;
+    // Espera o auth estar pronto
+    const auth = this.fb.auth;
+    if (!auth.currentUser) {
+      await new Promise<void>((resolve) => {
+        const unsub = onAuthStateChanged(auth, (user) => {
+          unsub();
+          resolve();
+        });
+      });
+    }
+    if (!auth.currentUser) return;
     sessionStorage.setItem(key, '1');
-    await updateDoc(doc(this.fb.firestore, 'arts', artId), {
-      views: increment(1),
-    });
+    try {
+      await updateDoc(doc(this.fb.firestore, 'arts', artId), {
+        views: increment(1),
+      });
+    } catch (e) {
+      console.error('Erro ao contar view:', e);
+    }
   }
 
   async toggleLike(artId: string, uid: string): Promise<boolean> {

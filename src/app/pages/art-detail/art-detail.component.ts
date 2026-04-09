@@ -111,9 +111,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   styles: [`
     .detail { display: inline-block; background: var(--bg-card); border-radius: 12px; overflow: hidden; max-width: 100%; }
     .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; position: relative; }
-    .btn-close { position: absolute; top: 12px; right: 12px; color: white; font-size: 1.4rem; z-index: 10; transition: all 0.2s; text-decoration: none; opacity: 0; line-height: 1; background: none; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+    .btn-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; color: white; font-size: 1.2rem; z-index: 10; transition: all 0.25s; text-decoration: none; opacity: 0; display: flex; align-items: center; justify-content: center; background: none; border-radius: 50%; }
     .detail-wrapper:hover .btn-close { opacity: 0.7; }
-    .btn-close:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent); transform: scale(1.3); }
+    .btn-close:hover { opacity: 1; color: white; background: var(--accent); box-shadow: 0 0 20px var(--accent); transform: scale(1.1); }
     .detail-img { display: block; max-width: 100%; max-height: 70vh; }
     .info { padding: 1.2rem 1.5rem; text-align: center; }
     .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; color: var(--text-primary); }

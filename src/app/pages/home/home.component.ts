@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Art, ArtService } from '../../services/art.service';
@@ -29,6 +29,34 @@ import { ThemeService, Theme } from '../../services/theme.service';
       <h1 class="fade-in">Façam um Tour pelas Obras do Artista 👇🏻</h1>
       <h2 class="fade-in delay">Aguardem novas publicações!</h2>
     </div>
+
+    @if (mostViewed() || mostLiked()) {
+      <section class="highlights">
+        <h2 class="highlights-title">🏆 Destaques da Semana</h2>
+        <div class="highlights-grid">
+          @if (mostViewed(); as mv) {
+            <a [routerLink]="['/art', mv.id]" class="highlight-card">
+              <div class="highlight-badge">👁️ Mais Visto</div>
+              <img [src]="mv.images[0]?.url" alt="Mais Visto" class="highlight-img" />
+              <div class="highlight-body">
+                <p class="highlight-name">{{ mv.name }}</p>
+                <span class="highlight-stat">{{ mv.views || 0 }} visualizações</span>
+              </div>
+            </a>
+          }
+          @if (mostLiked(); as ml) {
+            <a [routerLink]="['/art', ml.id]" class="highlight-card">
+              <div class="highlight-badge liked">❤️ Mais Curtido</div>
+              <img [src]="ml.images[0]?.url" alt="Mais Curtido" class="highlight-img" />
+              <div class="highlight-body">
+                <p class="highlight-name">{{ ml.name }}</p>
+                <span class="highlight-stat">{{ ml.likes || 0 }} curtidas</span>
+              </div>
+            </a>
+          }
+        </div>
+      </section>
+    }
 
     <div class="grid">
       @for (art of arts(); track art.id) {
@@ -87,6 +115,18 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .like-btn:hover, .like-btn.liked { color: #ef4444; }
     .views { display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-size: 0.85rem; }
 
+    .highlights { margin-bottom: 2rem; }
+    .highlights-title { text-align: center; font-size: 1.3rem; margin-bottom: 1rem; }
+    .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .highlight-card { background: var(--bg-card); border-radius: 12px; overflow: hidden; position: relative; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); display: block; }
+    .highlight-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+    .highlight-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; z-index: 2; }
+    .highlight-badge.liked { background: #ef4444; }
+    .highlight-img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; background: var(--img-bg); }
+    .highlight-body { padding: 1rem; }
+    .highlight-name { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.3rem; color: var(--text-primary); }
+    .highlight-stat { color: var(--text-secondary); font-size: 0.85rem; }
+
     @media (max-width: 600px) {
       .search-bar { flex-direction: column; }
       .btn-search { width: 100%; padding: 0.7rem; }
@@ -106,6 +146,16 @@ export class HomeComponent implements OnInit {
   likedIds = signal<string[]>([]);
   searchTerm = '';
   private searchTimeout: any;
+
+  mostViewed = computed(() => {
+    const sorted = [...this.arts()].sort((a, b) => (b.views || 0) - (a.views || 0));
+    return sorted.length > 0 && (sorted[0].views || 0) > 0 ? sorted[0] : null;
+  });
+
+  mostLiked = computed(() => {
+    const sorted = [...this.arts()].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    return sorted.length > 0 && (sorted[0].likes || 0) > 0 ? sorted[0] : null;
+  });
 
   ngOnInit() {
     this.themeService.init();

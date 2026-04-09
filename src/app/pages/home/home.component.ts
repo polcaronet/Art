@@ -31,9 +31,13 @@ import { ThemeService, Theme } from '../../services/theme.service';
     </div>
 
     @if (mostViewed() || mostLiked()) {
-      <section class="highlights">
-        <h2 class="highlights-title">🏆 Destaques da Semana</h2>
-        <div class="highlights-grid">
+      <button class="btn-highlights" (click)="showHighlights.set(!showHighlights())">
+        🏆 Destaques da Semana {{ showHighlights() ? '▲' : '▼' }}
+      </button>
+
+      @if (showHighlights()) {
+        <section class="highlights">
+          <div class="highlights-grid">
           @if (mostViewed(); as mv) {
             <a [routerLink]="['/art', mv.id]" class="highlight-card">
               <div class="highlight-badge">👁️ Mais Visto</div>
@@ -55,7 +59,8 @@ import { ThemeService, Theme } from '../../services/theme.service';
             </a>
           }
         </div>
-      </section>
+        </section>
+      }
     }
 
     <div class="grid">
@@ -116,6 +121,8 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .views { display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-size: 0.85rem; }
 
     .highlights { margin-bottom: 2rem; }
+    .btn-highlights { display: block; margin: 0 auto 1rem; padding: 0.6rem 1.5rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: var(--card-shadow); }
+    .btn-highlights:hover { background: var(--btn-primary); color: white; }
     .highlights-title { text-align: center; font-size: 1.3rem; margin-bottom: 1rem; }
     .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
     .highlight-card { background: var(--bg-card); border-radius: 12px; overflow: hidden; position: relative; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--card-shadow); border: 1px solid var(--border-color); display: block; }
@@ -156,6 +163,8 @@ export class HomeComponent implements OnInit {
     const sorted = [...this.arts()].sort((a, b) => (b.likes || 0) - (a.likes || 0));
     return sorted.length > 0 && (sorted[0].likes || 0) > 0 ? sorted[0] : null;
   });
+
+  showHighlights = signal(false);
 
   ngOnInit() {
     this.themeService.init();

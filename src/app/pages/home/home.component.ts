@@ -121,7 +121,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .views { display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-size: 0.85rem; }
 
     .highlights { margin-bottom: 2rem; }
-    .btn-highlights { display: block; margin: 0 auto 1rem; padding: 0.6rem 1.5rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: var(--card-shadow); }
+    .btn-highlights { display: block; margin: 0 auto 1.5rem; padding: 0.6rem 1.5rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 20px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; box-shadow: var(--card-shadow); }
     .btn-highlights:hover { background: var(--btn-primary); color: white; }
     .highlights-title { text-align: center; font-size: 1.3rem; margin-bottom: 1rem; }
     .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }

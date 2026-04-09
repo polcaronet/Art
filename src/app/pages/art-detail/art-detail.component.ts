@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Art, ArtService } from '../../services/art.service';
 import { CartService } from '../../services/cart.service';
@@ -9,10 +9,11 @@ import { BrlPipe } from '../../pipes/brl.pipe';
 @Component({
   selector: 'app-art-detail',
   standalone: true,
-  imports: [FormsModule, BrlPipe],
+  imports: [FormsModule, BrlPipe, RouterLink],
   template: `
     @if (art(); as a) {
       <div class="detail-wrapper">
+      <a routerLink="/" class="btn-close" title="Voltar para Home">✕</a>
       <div class="detail">
           @for (img of a.images; track img.name) {
             <img [src]="img.url" alt="Quadro" class="detail-img" />
@@ -109,7 +110,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   `,
   styles: [`
     .detail { display: inline-block; background: var(--bg-card); border-radius: 12px; overflow: hidden; max-width: 100%; }
-    .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; }
+    .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; position: relative; }
+    .btn-close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 10; transition: all 0.2s; text-decoration: none; }
+    .btn-close:hover { background: var(--accent); transform: scale(1.1); }
     .detail-img { display: block; max-width: 100%; max-height: 70vh; }
     .info { padding: 1.2rem 1.5rem; text-align: center; }
     .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; color: var(--text-primary); }

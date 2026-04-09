@@ -130,14 +130,14 @@ import { AuthService } from '../../../services/auth.service';
     .card-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; opacity: 0; transition: opacity 0.2s; }
     .card:hover .card-overlay { opacity: 1; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; }
-    .edit-form { background: var(--bg-secondary); padding: 1.5rem; border-radius: 10px; }
+    .edit-form { background: var(--bg-secondary); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color); }
     .edit-form h2 { margin-bottom: 1rem; font-size: 1.2rem; }
     .edit-images { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; justify-content: center; margin-bottom: 1rem; }
     .img-item { position: relative; width: 120px; height: 120px; }
     .img-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
     .btn-remove { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; width: 24px; height: 24px; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
-    .upload-btn { width: 120px; height: 120px; border: 2px dashed rgba(255,255,255,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 2.5rem; color: rgba(255,255,255,0.4); transition: all 0.2s; }
-    .upload-btn:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.7); }
+    .upload-btn { width: 120px; height: 120px; border: 2px dashed var(--border-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 2.5rem; color: var(--text-secondary); transition: all 0.2s; }
+    .upload-btn:hover { border-color: var(--accent); color: var(--accent); }
     .uploading { color: var(--text-secondary); text-align: center; margin-bottom: 0.5rem; }
     .fields { margin-top: 1rem; }
     .row { display: flex; gap: 1rem; margin-bottom: 1rem; }

@@ -13,7 +13,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   template: `
     @if (art(); as a) {
       <div class="detail-wrapper">
-      <a routerLink="/" class="btn-close" title="Voltar para Home">✕</a>
+      <div class="close-zone">
+        <a routerLink="/" class="btn-close" title="Voltar para Home">✕</a>
+      </div>
       <div class="detail">
           @for (img of a.images; track img.name) {
             <img [src]="img.url" alt="Quadro" class="detail-img" />
@@ -111,8 +113,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   styles: [`
     .detail { display: inline-block; background: var(--bg-card); border-radius: 12px; overflow: hidden; max-width: 100%; }
     .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; position: relative; }
+    .close-zone { position: absolute; top: 0; right: 0; width: 80px; height: 80px; z-index: 10; }
     .btn-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; color: white; font-size: 1.2rem; z-index: 10; transition: all 0.25s; text-decoration: none; opacity: 0; display: flex; align-items: center; justify-content: center; background: none; border-radius: 50%; }
-    .detail-wrapper:hover .btn-close { opacity: 0.7; }
+    .close-zone:hover .btn-close { opacity: 0.7; }
     .btn-close:hover { opacity: 1; color: white; background: var(--accent); box-shadow: 0 0 20px var(--accent); transform: scale(1.1); }
     .detail-img { display: block; max-width: 100%; max-height: 70vh; }
     .info { padding: 1.2rem 1.5rem; text-align: center; }

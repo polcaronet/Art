@@ -19,6 +19,17 @@ import { BrlPipe } from '../../pipes/brl.pipe';
       <!-- Tela de opções de pagamento -->
       <div class="payment-box">
         <h2>Escolha a forma de pagamento</h2>
+
+        <div class="pay-items">
+          @for (item of cart.items(); track item.artId) {
+            <div class="pay-item">
+              <img [src]="item.artImage" alt="Quadro" class="pay-item-img" />
+              <span class="pay-item-name">{{ item.artName }}</span>
+              <span class="pay-item-price">{{ item.price | brl }}</span>
+            </div>
+          }
+        </div>
+
         <p class="pay-total">Total: <strong>{{ cart.total() | brl }}</strong></p>
 
         <div class="pay-options">
@@ -88,7 +99,12 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .btn-checkout:hover { background: #16a34a; }
 
     .payment-box { max-width: 550px; margin: 0 auto; }
-    .payment-box h2 { font-size: 1.3rem; margin-bottom: 0.5rem; text-align: center; }
+    .payment-box h2 { font-size: 1.3rem; margin-bottom: 1rem; text-align: center; }
+    .pay-items { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; padding: 0.8rem; background: var(--bg-secondary); border-radius: 10px; border: 1px solid var(--border-color); }
+    .pay-item { display: flex; align-items: center; gap: 0.8rem; }
+    .pay-item-img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; }
+    .pay-item-name { flex: 1; font-weight: 600; font-size: 0.85rem; }
+    .pay-item-price { font-weight: 600; font-size: 0.85rem; color: var(--btn-primary); }
     .pay-total { text-align: center; font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--text-secondary); }
     .pay-options { display: flex; flex-direction: column; gap: 0.8rem; }
     .pay-option { display: flex; align-items: center; gap: 1rem; background: var(--bg-secondary); padding: 1rem 1.2rem; border-radius: 10px; border: 2px solid transparent; cursor: pointer; text-align: left; color: var(--text-primary); transition: all 0.2s; width: 100%; }

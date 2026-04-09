@@ -51,6 +51,12 @@ import { BrlPipe } from '../../pipes/brl.pipe';
               }
             } @else {
               <p class="sold-label">Vendido</p>
+              <button class="btn-order" (click)="addToCart(a)">
+                🎨 Encomendar Similar
+              </button>
+              @if (added()) {
+                <p class="added-msg">Encomenda adicionada ao carrinho!</p>
+              }
             }
           }
         </div>
@@ -130,6 +136,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .btn-cart:hover { background: var(--btn-primary-hover); }
     .added-msg { color: #4ade80; text-align: center; margin-top: 0.5rem; font-size: 0.9rem; }
     .sold-label { color: var(--accent); font-weight: 700; font-size: 1.2rem; text-align: center; padding: 0.8rem; background: rgba(239,68,68,0.1); border-radius: 8px; }
+    .btn-order { width: 100%; padding: 0.9rem; background: #f59e0b; color: white; border-radius: 8px; font-weight: 600; font-size: 1.05rem; border: none; cursor: pointer; margin-top: 0.5rem; }
+    .btn-order:hover { background: #d97706; }
 
     .comments-section { max-width: 650px; margin: 0 auto 2rem; background: var(--bg-card); border-radius: 12px; padding: 1.5rem; }
     .comments-section h3 { font-size: 1.1rem; margin-bottom: 1rem; text-align: center; }

@@ -34,6 +34,11 @@ import { BrlPipe } from '../../pipes/brl.pipe';
                 {{ addedId === art.id ? '✓ Adicionado' : '🛒 Adicionar' }}
               </button>
             }
+            @if (getBadgeLabel(art) === 'Vendido' && auth.isLoggedIn()) {
+              <button class="btn-order" (click)="addToCart(art)">
+                {{ addedId === art.id ? '✓ Adicionado' : '🎨 Encomendar Similar' }}
+              </button>
+            }
           </div>
         </div>
       }
@@ -65,6 +70,8 @@ import { BrlPipe } from '../../pipes/brl.pipe';
     .card-city { margin-top: 0.3rem; }
     .btn-cart { margin-top: 0.8rem; background: var(--btn-primary); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
     .btn-cart:hover { background: var(--btn-primary-hover); }
+    .btn-order { margin-top: 0.8rem; background: #f59e0b; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; width: 100%; border: none; cursor: pointer; }
+    .btn-order:hover { background: #d97706; }
     .empty { text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 1.1rem; }
 
     @media (max-width: 600px) {

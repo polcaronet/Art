@@ -111,9 +111,9 @@ import { BrlPipe } from '../../pipes/brl.pipe';
   styles: [`
     .detail { display: inline-block; background: var(--bg-card); border-radius: 12px; overflow: hidden; max-width: 100%; }
     .detail-wrapper { display: flex; justify-content: center; margin: 2rem 0; position: relative; }
-    .btn-close { position: absolute; top: 12px; right: 12px; color: var(--text-secondary); font-size: 1.5rem; z-index: 10; transition: all 0.2s; text-decoration: none; opacity: 0; line-height: 1; }
-    .detail-wrapper:hover .btn-close { opacity: 0.6; }
-    .btn-close:hover { opacity: 1; color: var(--accent); transform: scale(1.2); }
+    .btn-close { position: absolute; top: 12px; right: 12px; color: white; font-size: 1.4rem; z-index: 10; transition: all 0.2s; text-decoration: none; opacity: 0; line-height: 1; background: none; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+    .detail-wrapper:hover .btn-close { opacity: 0.7; }
+    .btn-close:hover { opacity: 1; color: var(--accent); text-shadow: 0 0 10px var(--accent); transform: scale(1.2); }
     .detail-img { display: block; max-width: 100%; max-height: 70vh; }
     .info { padding: 1.2rem 1.5rem; text-align: center; }
     .info h1 { font-size: 1.4rem; margin-bottom: 0.15rem; color: var(--text-primary); }

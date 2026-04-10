@@ -36,7 +36,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
             }
             @for (msg of messages(); track msg.id) {
               <div class="chat-msg" [class.mine]="!msg.fromAdmin" [class.admin]="msg.fromAdmin">
-                <span class="msg-text">{{ msg.text }}</span>
+                <span class="msg-text" [innerHTML]="formatMessage(msg.text)"></span>
               </div>
             }
           </div>
@@ -108,6 +108,8 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-msg { max-width: 80%; padding: 0.5rem 0.8rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; word-break: break-word; }
       .chat-msg.mine { align-self: flex-end; background: #25d366; color: white; border-bottom-right-radius: 4px; }
       .chat-msg.admin { align-self: flex-start; background: var(--bg-secondary); color: var(--text-primary); border-bottom-left-radius: 4px; }
+      .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
+      .chat-msg.mine ::ng-deep .chat-link { color: #bfdbfe; }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send { width: 36px; height: 36px; border-radius: 50%; background: #25d366; color: white; border: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
@@ -136,6 +138,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   clearChat() {
     this.messages.set([]);
+  }
+
+  formatMessage(text: string): string {
+    // Limpa markdown
+    let clean = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/#{1,3}\s?/g, '')
+      .replace(/\n/g, '<br>');
+    // Transforma URLs em links clicáveis
+    clean = clean.replace(
+      /(https?:\/\/[^\s<,]+)/g,
+      '<a href="$1" target="_blank" class="chat-link">$1</a>'
+    );
+    // Transforma números de WhatsApp em links
+    clean = clean.replace(
+      /\((\d{2})\)\s?(\d{4,5})-(\d{4})/g,
+      '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-link">($1) $2-$3</a>'
+    );
+    return clean;
   }
 
   private cleanMarkdown(text: string): string {
@@ -188,7 +209,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       if (res.ok) {
         const data = await res.json();
-        const aiMsg: ChatMessage = { id: (Date.now() + 1).toString(), chatId: '', uid: 'ai', userName: 'Assistente', text: this.cleanMarkdown(data.reply), fromAdmin: true, created: new Date() };
+        const aiMsg: ChatMessage = { id: (Date.now() + 1).toString(), chatId: '', uid: 'ai', userName: 'Assistente', text: data.reply, fromAdmin: true, created: new Date() };
         this.messages.update(msgs => [...msgs, aiMsg]);
         if (this.chatId && user && !user.isAnonymous) {
           await this.chatService.sendMessage(this.chatId, 'ai', 'Assistente IA', data.reply, true);

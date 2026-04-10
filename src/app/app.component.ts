@@ -147,45 +147,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
   formatMessage(text: string): string {
     let clean = text;
-    // Converte links markdown [texto](url) em botões
-    clean = clean.replace(
-      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
-      '<a href="$2" target="_blank" class="chat-btn">🔗 $1</a>'
-    );
-    // Converte URLs do WhatsApp em botões verdes
-    clean = clean.replace(
-      /(https:\/\/wa\.me\/\d+)/g,
-      '<a href="$1" target="_blank" class="chat-btn wpp">📱 WhatsApp</a>'
-    );
-    // Converte URLs do site em botões
-    clean = clean.replace(
-      /(https:\/\/art-five-rho\.vercel\.app[^\s<,)]*)/g,
-      (match) => {
-        if (match.includes('/sale')) return '<a href="' + match + '" target="_blank" class="chat-btn site">🎨 Ver Quadros à Venda</a>';
-        if (match.includes('/register')) return '<a href="' + match + '" target="_blank" class="chat-btn site">📝 Cadastre-se</a>';
-        return '<a href="' + match + '" target="_blank" class="chat-btn site">🏠 Visitar Site</a>';
-      }
-    );
-    // Converte números de WhatsApp em botões
-    clean = clean.replace(
-      /\((\d{2})\)\s?(\d{4,5})-(\d{4})/g,
-      '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>'
-    );
-    // Negrito
+    // 1. Links markdown [texto](url) -> botões
+    clean = clean.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
+      if (url.includes('wa.me')) return `<a href="${url}" target="_blank" class="chat-btn wpp">📱 ${label}</a>`;
+      if (url.includes('art-five-rho')) return `<a href="${url}" target="_blank" class="chat-btn site">🎨 ${label}</a>`;
+      return `<a href="${url}" target="_blank" class="chat-btn">🔗 ${label}</a>`;
+    });
+    // 2. Telefones soltos -> botões wpp (ignora os já dentro de tags)
+    clean = clean.replace(/(?<![">])\((\d{2})\)\s?(\d{4,5})-(\d{4})(?![^<]*<\/a>)/g,
+      '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>');
+    // 3. URLs soltas do site (ignora as já dentro de href)
+    clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app[^\s<,)"]*)/g, (m) => {
+      if (m.includes('/sale')) return '<a href="' + m + '" target="_blank" class="chat-btn site">🎨 Ver Quadros</a>';
+      if (m.includes('/register')) return '<a href="' + m + '" target="_blank" class="chat-btn site">📝 Cadastre-se</a>';
+      return '<a href="' + m + '" target="_blank" class="chat-btn site">🏠 Visitar Site</a>';
+    });
+    // 4. URLs soltas do wa.me (ignora as já dentro de href)
+    clean = clean.replace(/(?<!["=])(https:\/\/wa\.me\/\d+[^\s<,)"]*)/g,
+      '<a href="$1" target="_blank" class="chat-btn wpp">📱 WhatsApp</a>');
+    // Limpeza
     clean = clean.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Limpa ###
     clean = clean.replace(/#{1,3}\s?/g, '');
-    // Quebras de linha
     clean = clean.replace(/\n/g, '<br>');
     return clean;
   }
 
   private cleanMarkdown(text: string): string {
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '$1')
-      .replace(/#{1,3}\s?/g, '')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1: $2')
-      .trim();
+    return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/#{1,3}\s?/g, '').replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1: $2').trim();
   }
 
   async toggleChat() {

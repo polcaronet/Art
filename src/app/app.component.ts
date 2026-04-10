@@ -133,22 +133,52 @@ export class AppComponent implements OnInit, OnDestroy {
     this.chatOpen.update(v => !v);
     if (this.chatOpen() && !this.chatId) {
       const user = this.auth.user();
-      if (!user || user.isAnonymous) return;
-      this.chatId = await this.chatService.getOrCreateChat(
-        user.uid, user.displayName || 'Cliente', user.email || ''
-      );
-      await this.chatService.markRead(this.chatId, false);
-      this.unsub = this.chatService.listenMessages(this.chatId, (msgs) => {
-        this.messages.set(msgs);
-      });
+      if (user && !user.isAnonymous) {
+        this.chatId = await this.chatService.getOrCreateChat(
+          user.uid, user.displayName || 'Cliente', user.email || ''
+        );
+        await this.chatService.markRead(this.chatId, false);
+        this.unsub = this.chatService.listenMessages(this.chatId, (msgs) => {
+          this.messages.set(msgs);
+        });
+      }
     }
   }
 
   async sendMessage() {
-    if (!this.chatText.trim() || !this.chatId) return;
-    const user = this.auth.user();
-    if (!user) return;
-    await this.chatService.sendMessage(this.chatId, user.uid, user.displayName || 'Cliente', this.chatText.trim(), false);
+    if (!this.chatText.trim()) return;
+
+    const text = this.chatText.trim();
     this.chatText = '';
+    const user = this.auth.user();
+
+    // Adiciona mensagem do usuário localmente
+    const userMsg: ChatMessage = { id: Date.now().toString(), chatId: '', uid: user?.uid || 'anon', userName: user?.displayName || 'Visitante', text, fromAdmin: false, created: new Date() };
+    this.messages.update(msgs => [...msgs, userMsg]);
+
+    // Salva no Firebase se logado
+    if (this.chatId && user && !user.isAnonymous) {
+      await this.chatService.sendMessage(this.chatId, user.uid, user.displayName || 'Cliente', text, false);
+    }
+
+    // Chama a IA
+    try {
+      const history = this.messages().map(m => ({ text: m.text, fromAdmin: m.fromAdmin, fromAI: m.fromAdmin }));
+      const res = await fetch('https://webart-backend-polcaronet9724-1mowec7v.leapcell.dev/api/ai-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const aiMsg: ChatMessage = { id: (Date.now() + 1).toString(), chatId: '', uid: 'ai', userName: 'Assistente', text: data.reply, fromAdmin: true, created: new Date() };
+        this.messages.update(msgs => [...msgs, aiMsg]);
+        if (this.chatId && user && !user.isAnonymous) {
+          await this.chatService.sendMessage(this.chatId, 'ai', 'Assistente IA', data.reply, true);
+        }
+      }
+    } catch (e) {
+      console.error('Erro IA:', e);
+    }
   }
 }

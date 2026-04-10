@@ -110,6 +110,11 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-msg.admin { align-self: flex-start; background: var(--bg-secondary); color: var(--text-primary); border-bottom-left-radius: 4px; }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
       .chat-msg.mine ::ng-deep .chat-link { color: #bfdbfe; }
+      .chat-msg ::ng-deep .chat-btn { display: inline-block; padding: 0.35rem 0.7rem; border-radius: 16px; font-size: 0.78rem; font-weight: 600; text-decoration: none; margin: 0.2rem 0.15rem; }
+      .chat-msg ::ng-deep .chat-btn.site { background: #2563eb; color: white; }
+      .chat-msg ::ng-deep .chat-btn.wpp { background: #25d366; color: white; }
+      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: var(--btn-primary, #3b82f6); color: white; }
+      .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.85; }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send { width: 36px; height: 36px; border-radius: 50%; background: #25d366; color: white; border: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
@@ -141,21 +146,37 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   formatMessage(text: string): string {
-    // Limpa markdown
-    let clean = text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/#{1,3}\s?/g, '')
-      .replace(/\n/g, '<br>');
-    // Transforma URLs em links clicáveis
+    let clean = text;
+    // Converte links markdown [texto](url) em botões
     clean = clean.replace(
-      /(https?:\/\/[^\s<,]+)/g,
-      '<a href="$1" target="_blank" class="chat-link">$1</a>'
+      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+      '<a href="$2" target="_blank" class="chat-btn">🔗 $1</a>'
     );
-    // Transforma números de WhatsApp em links
+    // Converte URLs do WhatsApp em botões verdes
+    clean = clean.replace(
+      /(https:\/\/wa\.me\/\d+)/g,
+      '<a href="$1" target="_blank" class="chat-btn wpp">📱 WhatsApp</a>'
+    );
+    // Converte URLs do site em botões
+    clean = clean.replace(
+      /(https:\/\/art-five-rho\.vercel\.app[^\s<,)]*)/g,
+      (match) => {
+        if (match.includes('/sale')) return '<a href="' + match + '" target="_blank" class="chat-btn site">🎨 Ver Quadros à Venda</a>';
+        if (match.includes('/register')) return '<a href="' + match + '" target="_blank" class="chat-btn site">📝 Cadastre-se</a>';
+        return '<a href="' + match + '" target="_blank" class="chat-btn site">🏠 Visitar Site</a>';
+      }
+    );
+    // Converte números de WhatsApp em botões
     clean = clean.replace(
       /\((\d{2})\)\s?(\d{4,5})-(\d{4})/g,
-      '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-link">($1) $2-$3</a>'
+      '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>'
     );
+    // Negrito
+    clean = clean.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Limpa ###
+    clean = clean.replace(/#{1,3}\s?/g, '');
+    // Quebras de linha
+    clean = clean.replace(/\n/g, '<br>');
     return clean;
   }
 

@@ -15,6 +15,7 @@ import { BrlPipe } from '../../../pipes/brl.pipe';
       <a routerLink="/admin/upload" class="tab">Upload</a>
       <a routerLink="/admin/edit" class="tab">Editar</a>
       <a routerLink="/admin/orders" class="tab active">Pedidos</a>
+      <a routerLink="/admin/chat" class="tab">Mensagens</a>
     </div>
 
     <h2 class="subtitle">Todos os Pedidos</h2>

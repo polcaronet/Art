@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
       <a routerLink="/admin/upload" class="tab">Upload</a>
       <a routerLink="/admin/edit" class="tab">Editar</a>
       <a routerLink="/admin/orders" class="tab">Pedidos</a>
+      <a routerLink="/admin/chat" class="tab">Mensagens</a>
     </div>
 
     <div class="grid">

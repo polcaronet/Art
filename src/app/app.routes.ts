@@ -83,5 +83,13 @@ export const routes: Routes = [
         (m) => m.AdminOrdersComponent
       ),
   },
+  {
+    path: 'admin/chat',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin/chat/admin-chat.component').then(
+        (m) => m.AdminChatComponent
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -26,6 +26,9 @@ import { ChatService, ChatMessage } from './services/chat.service';
         <div class="chat-box">
           <div class="chat-header">
             <span>💬 Suporte</span>
+            @if (messages().length > 0) {
+              <button class="btn-clear" (click)="clearChat()">🗑️</button>
+            }
           </div>
           <div class="chat-messages" #chatMessages>
             @if (messages().length === 0) {
@@ -97,7 +100,9 @@ import { ChatService, ChatMessage } from './services/chat.service';
         overflow: hidden;
         order: -1;
       }
-      .chat-header { background: #25d366; color: white; padding: 0.8rem 1rem; font-weight: 700; font-size: 0.95rem; }
+      .chat-header { background: #25d366; color: white; padding: 0.8rem 1rem; font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
+      .btn-clear { background: none; border: none; color: white; font-size: 1rem; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+      .btn-clear:hover { opacity: 1; }
       .chat-messages { flex: 1; overflow-y: auto; padding: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; }
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 2rem; opacity: 0.6; }
       .chat-msg { max-width: 80%; padding: 0.5rem 0.8rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; word-break: break-word; }
@@ -127,6 +132,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.unsub) this.unsub();
+  }
+
+  clearChat() {
+    this.messages.set([]);
+  }
+
+  private cleanMarkdown(text: string): string {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/#{1,3}\s?/g, '')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1: $2')
+      .trim();
   }
 
   async toggleChat() {
@@ -171,7 +188,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       if (res.ok) {
         const data = await res.json();
-        const aiMsg: ChatMessage = { id: (Date.now() + 1).toString(), chatId: '', uid: 'ai', userName: 'Assistente', text: data.reply, fromAdmin: true, created: new Date() };
+        const aiMsg: ChatMessage = { id: (Date.now() + 1).toString(), chatId: '', uid: 'ai', userName: 'Assistente', text: this.cleanMarkdown(data.reply), fromAdmin: true, created: new Date() };
         this.messages.update(msgs => [...msgs, aiMsg]);
         if (this.chatId && user && !user.isAnonymous) {
           await this.chatService.sendMessage(this.chatId, 'ai', 'Assistente IA', data.reply, true);

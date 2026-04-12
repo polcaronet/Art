@@ -30,7 +30,7 @@ import { Component } from '@angular/core';
             </svg>
           </a>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/polcaronet"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -42,7 +42,7 @@ import { Component } from '@angular/core';
           </a>
         </div>
         <div class="footer-text">
-          <span>&copy; {{ year }} Galeria Damião</span>
+          <span>&copy; {{ year }} Galeria Damião Martins</span>
           <span class="sep">–</span>
           <span>Feito por
             <a

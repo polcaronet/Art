@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
             </svg>
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/polcaronet"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"

@@ -23,6 +23,10 @@
   --img-bg: rgba(0, 0, 0, 0.3);
   --btn-primary: #3b82f6;
   --btn-primary-hover: #2563eb;
+  --chat-header: #2563eb;
+  --chat-bubble: #3b82f6;
+  --chat-fab: #2563eb;
+  --chat-send: #2563eb;
 }
 
 [data-theme="dark"] {
@@ -41,6 +45,10 @@
   --img-bg: rgba(0, 0, 0, 0.3);
   --btn-primary: #6366f1;
   --btn-primary-hover: #4f46e5;
+  --chat-header: #6366f1;
+  --chat-bubble: #818cf8;
+  --chat-fab: #6366f1;
+  --chat-send: #6366f1;
 }
 
 [data-theme="warm"] {
@@ -59,6 +67,10 @@
   --img-bg: rgba(0, 0, 0, 0.3);
   --btn-primary: #d97706;
   --btn-primary-hover: #b45309;
+  --chat-header: #b45309;
+  --chat-bubble: #d97706;
+  --chat-fab: #b45309;
+  --chat-send: #b45309;
 }
 
 [data-theme="light"] {
@@ -80,6 +92,10 @@
   --img-bg: #eef1f6;
   --btn-primary: #e63946;
   --btn-primary-hover: #c1121f;
+  --chat-header: #1a1a2e;
+  --chat-bubble: #374151;
+  --chat-fab: #1a1a2e;
+  --chat-send: #1a1a2e;
 }
 
 body {

@@ -82,7 +82,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
         display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;
       }
       .fab-btn {
-        width: 56px; height: 56px; border-radius: 50%; background: #25d366;
+        width: 56px; height: 56px; border-radius: 50%; background: var(--accent);
         color: white; font-size: 1.5rem; border: none; cursor: pointer;
         box-shadow: 0 4px 12px rgba(0,0,0,0.25); transition: all 0.2s;
         display: flex; align-items: center; justify-content: center;
@@ -95,7 +95,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
         display: flex; flex-direction: column; overflow: hidden; order: -1;
       }
       .chat-header {
-        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        background: var(--accent);
         color: white; padding: 0.8rem 1rem; font-weight: 700; font-size: 0.95rem;
         display: flex; justify-content: space-between; align-items: center;
       }
@@ -114,7 +114,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
         padding: 0.2rem 0.6rem; border-radius: 6px; border: none;
         font-size: 0.75rem; font-weight: 600; cursor: pointer;
       }
-      .btn-yes { background: white; color: #c0392b; }
+      .btn-yes { background: white; color: var(--accent); }
       .btn-yes:hover { background: #fee; }
       .btn-no { background: rgba(255,255,255,0.2); color: white; }
       .btn-no:hover { background: rgba(255,255,255,0.35); }
@@ -130,7 +130,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .welcome-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
       .chat-msg { max-width: 80%; padding: 0.5rem 0.8rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; word-break: break-word; }
-      .chat-msg.mine { align-self: flex-end; background: #c0392b; color: white; border-bottom-right-radius: 4px; }
+      .chat-msg.mine { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 4px; }
       .chat-msg.admin { align-self: flex-start; background: var(--bg-secondary); color: var(--text-primary); border-bottom-left-radius: 4px; }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
       .chat-msg.mine ::ng-deep .chat-link { color: #fca5a5; }
@@ -143,7 +143,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send {
         width: 36px; height: 36px; border-radius: 50%;
-        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        background: var(--accent);
         color: white; border: none; cursor: pointer; font-size: 1rem;
         display: flex; align-items: center; justify-content: center;
       }

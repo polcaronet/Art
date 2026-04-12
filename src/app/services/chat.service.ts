@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   collection, query, where, orderBy, getDocs, addDoc, doc, onSnapshot,
-  Unsubscribe
+  deleteDoc, updateDoc, Unsubscribe
 } from 'firebase/firestore';
 import { FirebaseService } from './firebase.service';
 
@@ -44,7 +44,6 @@ export class ChatService {
     await addDoc(collection(this.fb.firestore, 'chats', chatId, 'messages'), {
       chatId, uid, userName, text, fromAdmin, created: new Date()
     });
-    const { updateDoc } = await import('firebase/firestore');
     const chatRef = doc(this.fb.firestore, 'chats', chatId);
     const update: any = { lastMessage: text, lastAt: new Date() };
     if (fromAdmin) {
@@ -88,12 +87,21 @@ export class ChatService {
   }
 
   async markRead(chatId: string, forAdmin: boolean) {
-    const { updateDoc } = await import('firebase/firestore');
     const chatRef = doc(this.fb.firestore, 'chats', chatId);
     if (forAdmin) {
       await updateDoc(chatRef, { unreadAdmin: 0 });
     } else {
       await updateDoc(chatRef, { unreadUser: 0 });
     }
+  }
+
+  async clearMessages(chatId: string) {
+    const q = query(collection(this.fb.firestore, 'chats', chatId, 'messages'));
+    const snap = await getDocs(q);
+    for (const d of snap.docs) {
+      await deleteDoc(doc(this.fb.firestore, 'chats', chatId, 'messages', d.id));
+    }
+    const chatRef = doc(this.fb.firestore, 'chats', chatId);
+    await updateDoc(chatRef, { lastMessage: '', unreadAdmin: 0, unreadUser: 0 });
   }
 }

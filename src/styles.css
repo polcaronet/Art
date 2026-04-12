@@ -52,25 +52,25 @@
 }
 
 [data-theme="warm"] {
-  --bg-primary: #78350f;
-  --bg-secondary: #92400e;
-  --bg-card: #6b3a0a;
-  --text-primary: #fffbeb;
-  --text-secondary: #fef3c7;
-  --accent: #dc2626;
-  --accent-hover: #b91c1c;
-  --header-bg: #451a03;
-  --footer-bg: #1c1917;
-  --border-color: #d97706;
+  --bg-primary: #2c1810;
+  --bg-secondary: #3d2317;
+  --bg-card: #4a2c1a;
+  --text-primary: #f5e6d3;
+  --text-secondary: #d4b896;
+  --accent: #c17f4e;
+  --accent-hover: #a66a3e;
+  --header-bg: #1a0e08;
+  --footer-bg: #1a0e08;
+  --border-color: #6b4530;
   --card-shadow: none;
   --card-shadow-hover: none;
   --img-bg: rgba(0, 0, 0, 0.3);
-  --btn-primary: #d97706;
-  --btn-primary-hover: #b45309;
-  --chat-header: #b45309;
-  --chat-bubble: #d97706;
-  --chat-fab: #b45309;
-  --chat-send: #b45309;
+  --btn-primary: #c17f4e;
+  --btn-primary-hover: #a66a3e;
+  --chat-header: #5c3520;
+  --chat-bubble: #7a4a2e;
+  --chat-fab: #5c3520;
+  --chat-send: #5c3520;
 }
 
 [data-theme="light"] {

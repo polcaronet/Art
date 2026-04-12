@@ -114,7 +114,7 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .card-body { padding: 1rem; }
     .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-primary); }
     .card-info, .card-city { display: block; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
-    .card-city { margin-top: 0.3rem; color: var(--border-color); }
+    .card-city { margin-top: 0.3rem; color: var(--text-secondary); opacity: 0.85; }
     .card-stats { display: flex; align-items: center; gap: 1.2rem; margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.06); }
     .like-btn { display: flex; align-items: center; gap: 0.3rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem; transition: color 0.2s; padding: 0; }
     .like-btn:hover, .like-btn.liked { color: #ef4444; }

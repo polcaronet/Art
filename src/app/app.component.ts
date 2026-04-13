@@ -89,7 +89,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       }
       .fab-btn:hover { transform: scale(1.1); }
       .chat-box {
-        width: 340px; height: 440px; background: var(--bg-card);
+        width: 380px; height: 480px; background: var(--bg-card);
         border: 1px solid var(--border-color); border-radius: 16px;
         box-shadow: 0 8px 30px rgba(0,0,0,0.2);
         display: flex; flex-direction: column; overflow: hidden; order: -1;
@@ -129,7 +129,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .welcome-icon { font-size: 2.5rem; }
       .welcome-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
-      .chat-msg { max-width: 88%; padding: 0.6rem 0.8rem; border-radius: 12px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
+      .chat-msg { max-width: 92%; padding: 0.6rem 0.8rem; border-radius: 12px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
       .chat-msg.mine { align-self: flex-end; background: var(--chat-bubble); color: white; border-bottom-right-radius: 4px; }
       .chat-msg.admin { align-self: flex-start; background: rgba(255,255,255,0.12); color: var(--text-primary); border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
@@ -140,13 +140,12 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: rgba(255,255,255,0.9); color: #1e40af; }
       .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.8; transform: scale(1.02); }
       .chat-msg ::ng-deep .art-card {
-        display: flex; flex-direction: column; gap: 0.15rem;
-        background: rgba(255,255,255,0.08); border-radius: 8px;
-        padding: 0.4rem 0.6rem; margin: 0.3rem 0;
+        background: rgba(255,255,255,0.1); border-radius: 8px;
+        padding: 0.4rem 0.6rem; margin: 0.25rem 0;
         border-left: 3px solid rgba(255,255,255,0.3);
       }
-      .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; }
-      .chat-msg ::ng-deep .art-dims { font-size: 0.7rem; opacity: 0.75; }
+      .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; margin-bottom: 0.1rem; }
+      .chat-msg ::ng-deep .art-info { font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.2rem; }
       .chat-msg ::ng-deep .art-price { font-size: 0.75rem; font-weight: 600; color: #fbbf24; }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
@@ -224,13 +223,12 @@ export class AppComponent implements OnInit, OnDestroy {
     clean = clean.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     clean = clean.replace(/#{1,3}\s?/g, '');
     clean = clean.replace(/\n{3,}/g, '\n\n');
-    // Formata linhas de obras como mini-cards
-    clean = clean.replace(/^[-•]\s*([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]+?)\s*\(([^)]+)\)\s*[-–]?\s*(R\$\s*[\d.,]+)?\s*[-–]?\s*(<a [^>]+>.*?<\/a>)/gm,
-      (_, name, dims, price, btn) => {
-        const priceLine = price ? `<span class="art-price">${price.trim()}</span>` : '';
-        return `<div class="art-card"><span class="art-name">${name.trim()}</span><span class="art-dims">${dims.trim()}</span>${priceLine}${btn}</div>`;
-      });
     clean = clean.replace(/\n/g, '<br>');
+    // Formata linhas de obras: "- NOME (info) - info - <botão>" vira card
+    clean = clean.replace(/([-–]\s*)([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]{2,}?)(\s*\([^)]+\)(?:\s*[-–]\s*[^<]+?)?)(\s*<a [^>]*class="chat-btn site"[^>]*>.*?<\/a>)/g,
+      (_, dash, name, info, btn) => {
+        return `<div class="art-card"><div class="art-name">${name.trim()}</div><div class="art-info">${info.replace(/^\s*[-–]\s*/, '').replace(/[-–]\s*$/, '').trim()}</div><div>${btn}</div></div>`;
+      });
     return clean;
   }
 

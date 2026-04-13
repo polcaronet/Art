@@ -138,18 +138,18 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
       .chat-msg { max-width: 92%; padding: 0.6rem 0.8rem; border-radius: 12px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
       .chat-msg.mine { align-self: flex-end; background: var(--chat-bubble); color: white; border-bottom-right-radius: 4px; }
-      .chat-msg.admin { align-self: flex-start; background: rgba(255,255,255,0.12); color: var(--text-primary); border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+      .chat-msg.admin { align-self: flex-start; background: var(--chat-admin-bg); color: var(--text-primary); border-bottom-left-radius: 4px; border: 1px solid var(--chat-admin-border); }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
       .chat-msg.mine ::ng-deep .chat-link { color: #fca5a5; }
       .chat-msg ::ng-deep .chat-btn { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.25rem 0.6rem; border-radius: 14px; font-size: 0.72rem; font-weight: 600; text-decoration: none; margin: 0.15rem 0.1rem; vertical-align: middle; }
-      .chat-msg ::ng-deep .chat-btn.site { background: rgba(255,255,255,0.9); color: #1e40af; }
+      .chat-msg ::ng-deep .chat-btn.site { background: var(--chat-btn-bg); color: var(--chat-btn-color); }
       .chat-msg ::ng-deep .chat-btn.wpp { background: #25d366; color: white; }
-      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: rgba(255,255,255,0.9); color: #1e40af; }
+      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: var(--chat-btn-bg); color: var(--chat-btn-color); }
       .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.8; transform: scale(1.02); }
       .chat-msg ::ng-deep .art-card {
-        background: rgba(255,255,255,0.1); border-radius: 8px;
+        background: var(--chat-card-bg); border-radius: 8px;
         padding: 0.4rem 0.6rem; margin: 0.25rem 0;
-        border-left: 3px solid rgba(255,255,255,0.3);
+        border-left: 3px solid var(--chat-card-border);
       }
       .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; margin-bottom: 0.1rem; }
       .chat-msg ::ng-deep .art-info { font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.2rem; }

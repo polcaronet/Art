@@ -27,6 +27,12 @@
   --chat-bubble: #3b82f6;
   --chat-fab: #2563eb;
   --chat-send: #2563eb;
+  --chat-admin-bg: rgba(255, 255, 255, 0.12);
+  --chat-admin-border: rgba(255, 255, 255, 0.1);
+  --chat-card-bg: rgba(255, 255, 255, 0.1);
+  --chat-card-border: rgba(255, 255, 255, 0.3);
+  --chat-btn-bg: rgba(255, 255, 255, 0.9);
+  --chat-btn-color: #1e40af;
 }
 
 [data-theme="dark"] {
@@ -49,6 +55,12 @@
   --chat-bubble: #818cf8;
   --chat-fab: #6366f1;
   --chat-send: #6366f1;
+  --chat-admin-bg: rgba(255, 255, 255, 0.12);
+  --chat-admin-border: rgba(255, 255, 255, 0.1);
+  --chat-card-bg: rgba(255, 255, 255, 0.1);
+  --chat-card-border: rgba(255, 255, 255, 0.3);
+  --chat-btn-bg: rgba(255, 255, 255, 0.9);
+  --chat-btn-color: #4338ca;
 }
 
 [data-theme="warm"] {
@@ -71,6 +83,12 @@
   --chat-bubble: #7a4a2e;
   --chat-fab: #5c3520;
   --chat-send: #5c3520;
+  --chat-admin-bg: rgba(255, 255, 255, 0.12);
+  --chat-admin-border: rgba(255, 255, 255, 0.1);
+  --chat-card-bg: rgba(255, 255, 255, 0.1);
+  --chat-card-border: rgba(255, 255, 255, 0.3);
+  --chat-btn-bg: rgba(255, 255, 255, 0.9);
+  --chat-btn-color: #5c3520;
 }
 
 [data-theme="light"] {
@@ -96,6 +114,12 @@
   --chat-bubble: #374151;
   --chat-fab: #1a1a2e;
   --chat-send: #1a1a2e;
+  --chat-admin-bg: #f1f3f8;
+  --chat-admin-border: #e2e5ed;
+  --chat-card-bg: #e8ebf2;
+  --chat-card-border: #c7ccd8;
+  --chat-btn-bg: #1a1a2e;
+  --chat-btn-color: #ffffff;
 }
 
 body {

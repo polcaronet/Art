@@ -139,6 +139,15 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-msg ::ng-deep .chat-btn.wpp { background: #25d366; color: white; }
       .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: rgba(255,255,255,0.9); color: #1e40af; }
       .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.8; transform: scale(1.02); }
+      .chat-msg ::ng-deep .art-card {
+        display: flex; flex-direction: column; gap: 0.15rem;
+        background: rgba(255,255,255,0.08); border-radius: 8px;
+        padding: 0.4rem 0.6rem; margin: 0.3rem 0;
+        border-left: 3px solid rgba(255,255,255,0.3);
+      }
+      .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; }
+      .chat-msg ::ng-deep .art-dims { font-size: 0.7rem; opacity: 0.75; }
+      .chat-msg ::ng-deep .art-price { font-size: 0.75rem; font-weight: 600; color: #fbbf24; }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send {
@@ -215,6 +224,12 @@ export class AppComponent implements OnInit, OnDestroy {
     clean = clean.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     clean = clean.replace(/#{1,3}\s?/g, '');
     clean = clean.replace(/\n{3,}/g, '\n\n');
+    // Formata linhas de obras como mini-cards
+    clean = clean.replace(/^[-•]\s*([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]+?)\s*\(([^)]+)\)\s*[-–]?\s*(R\$\s*[\d.,]+)?\s*[-–]?\s*(<a [^>]+>.*?<\/a>)/gm,
+      (_, name, dims, price, btn) => {
+        const priceLine = price ? `<span class="art-price">${price.trim()}</span>` : '';
+        return `<div class="art-card"><span class="art-name">${name.trim()}</span><span class="art-dims">${dims.trim()}</span>${priceLine}${btn}</div>`;
+      });
     clean = clean.replace(/\n/g, '<br>');
     return clean;
   }

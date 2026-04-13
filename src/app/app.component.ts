@@ -194,10 +194,18 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     clean = clean.replace(/(?<![">])\((\d{2})\)\s?(\d{4,5})-(\d{4})(?![^<]*<\/a>)/g,
       '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>');
+    // Links de obras individuais — tenta extrair nome da obra do texto antes
+    clean = clean.replace(/(\d+\.\s*)?(?:\*\*)?([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]+?)(?:\*\*)?\s*(?:\([^)]*\))?\s*[-–]?\s*[^<\n]*?(https:\/\/art-five-rho\.vercel\.app\/art\/[^\s<,)"]+)/gi,
+      (match, num, name, url) => {
+        const cleanName = name.trim();
+        const prefix = num ? num : '';
+        return `${prefix}<a href="${url}" target="_blank" class="chat-btn site">🖼️ ${cleanName}</a>`;
+      });
+    // Fallback: links de obras soltos sem nome antes
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app\/art\/[^\s<,)"]+)/g,
       '<a href="$1" target="_blank" class="chat-btn site">🖼️ Ver obra</a>');
-    // Remove "Ver obra:" que sobra antes do botão
-    clean = clean.replace(/Ver obra:\s*(?=<a )/gi, '');
+    // Remove "Ver:" ou "Ver obra:" ou "Link:" que sobra antes do botão
+    clean = clean.replace(/(?:Ver(?:\s+obra)?|Link)\s*:?\s*(?=<a )/gi, '');
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app[^\s<,)"]*)/g, (m) => {
       if (m.includes('/art/')) return m; // já tratado acima
       if (m.includes('/sale')) return '<a href="' + m + '" target="_blank" class="chat-btn site">🎨 Ver Quadros</a>';

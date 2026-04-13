@@ -157,7 +157,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .typing-indicator { display: flex; gap: 0.3rem; padding: 0.2rem 0; align-items: center; }
       .typing-indicator span {
         width: 7px; height: 7px; border-radius: 50%;
-        background: var(--text-secondary); opacity: 0.5;
+        background: var(--chat-header);
         animation: typingBounce 1.2s infinite;
       }
       .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }

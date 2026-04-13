@@ -16,13 +16,18 @@ import { ThemeService, Theme } from '../../services/theme.service';
     </section>
 
     <div class="theme-selector">
-      <label>Tema:</label>
-      <select [value]="themeService.theme()" (change)="onThemeChange($event)">
-        <option value="default">Padrão (Azul)</option>
-        <option value="dark">Escuro</option>
-        <option value="warm">Quente</option>
-        <option value="light">Claro</option>
-      </select>
+      <button class="theme-btn" [class.active]="themeService.theme() === 'default'" (click)="setTheme('default')" title="Azul">
+        🔵
+      </button>
+      <button class="theme-btn" [class.active]="themeService.theme() === 'dark'" (click)="setTheme('dark')" title="Escuro">
+        🌙
+      </button>
+      <button class="theme-btn" [class.active]="themeService.theme() === 'warm'" (click)="setTheme('warm')" title="Quente">
+        🎨
+      </button>
+      <button class="theme-btn" [class.active]="themeService.theme() === 'light'" (click)="setTheme('light')" title="Claro">
+        ☀️
+      </button>
     </div>
 
     <div class="intro">
@@ -98,9 +103,23 @@ import { ThemeService, Theme } from '../../services/theme.service';
     .search-input { flex: 1; min-width: 0; padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); font-size: 1rem; }
     .btn-search { background: var(--accent); color: white; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; white-space: nowrap; }
     .btn-search:hover { background: var(--accent-hover); }
-    .theme-selector { display: flex; align-items: center; gap: 0.5rem; justify-content: flex-end; margin-bottom: 1rem; }
-    .theme-selector label { font-weight: 500; }
-    .theme-selector select { padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--input-text); }
+    .theme-selector {
+      display: flex; align-items: center; gap: 0.5rem;
+      justify-content: flex-end; margin-bottom: 1rem;
+    }
+    .theme-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid transparent; background: var(--bg-card);
+      font-size: 1.2rem; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .theme-btn:hover { transform: scale(1.15); }
+    .theme-btn.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 2px 8px rgba(0,0,0,0.25);
+      transform: scale(1.1);
+    }
     .intro { text-align: center; margin: 2rem 0; }
     .intro h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
     .intro h2 { font-size: 1.2rem; color: var(--text-secondary); }
@@ -211,8 +230,7 @@ export class HomeComponent implements OnInit {
     }, 300);
   }
 
-  onThemeChange(event: Event) {
-    const theme = (event.target as HTMLSelectElement).value as Theme;
+  setTheme(theme: Theme) {
     this.themeService.setTheme(theme);
   }
 }

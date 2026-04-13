@@ -131,13 +131,13 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
       .chat-msg { max-width: 88%; padding: 0.5rem 0.8rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; word-break: break-word; }
       .chat-msg.mine { align-self: flex-end; background: var(--chat-bubble); color: white; border-bottom-right-radius: 4px; }
-      .chat-msg.admin { align-self: flex-start; background: var(--bg-secondary); color: var(--text-primary); border-bottom-left-radius: 4px; }
+      .chat-msg.admin { align-self: flex-start; background: rgba(255,255,255,0.12); color: var(--text-primary); border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
       .chat-msg.mine ::ng-deep .chat-link { color: #fca5a5; }
       .chat-msg ::ng-deep .chat-btn { display: inline-block; padding: 0.35rem 0.7rem; border-radius: 16px; font-size: 0.78rem; font-weight: 600; text-decoration: none; margin: 0.2rem 0.15rem; }
-      .chat-msg ::ng-deep .chat-btn.site { background: #2563eb; color: white; }
+      .chat-msg ::ng-deep .chat-btn.site { background: white; color: #1e40af; }
       .chat-msg ::ng-deep .chat-btn.wpp { background: #25d366; color: white; }
-      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: var(--btn-primary, #3b82f6); color: white; }
+      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: white; color: #1e40af; }
       .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.85; }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
@@ -181,42 +181,39 @@ export class AppComponent implements OnInit, OnDestroy {
 
   formatMessage(text: string): string {
     let clean = text;
-    // Remove tabelas markdown — converte linhas | col1 | col2 | em lista limpa
-    clean = clean.replace(/\|[-\s|]+\|/g, ''); // remove linhas separadoras |---|---|
+    // Remove tabelas markdown
+    clean = clean.replace(/\|[-\s|]+\|/g, '');
     clean = clean.replace(/^\|(.+)\|$/gm, (_, row) => {
       const cells = row.split('|').map((c: string) => c.trim()).filter((c: string) => c);
       return cells.join(' · ');
     });
+    // Links markdown [texto](url)
     clean = clean.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label, url) => {
       if (url.includes('wa.me')) return `<a href="${url}" target="_blank" class="chat-btn wpp">📱 ${label}</a>`;
       if (url.includes('art-five-rho')) return `<a href="${url}" target="_blank" class="chat-btn site">🎨 ${label}</a>`;
       return `<a href="${url}" target="_blank" class="chat-btn">🔗 ${label}</a>`;
     });
+    // Telefones
     clean = clean.replace(/(?<![">])\((\d{2})\)\s?(\d{4,5})-(\d{4})(?![^<]*<\/a>)/g,
       '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>');
-    // Links de obras individuais — tenta extrair nome da obra do texto antes
-    clean = clean.replace(/(\d+\.\s*)?(?:\*\*)?([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]+?)(?:\*\*)?\s*(?:\([^)]*\))?\s*[-–]?\s*[^<\n]*?(https:\/\/art-five-rho\.vercel\.app\/art\/[^\s<,)"]+)/gi,
-      (match, num, name, url) => {
-        const cleanName = name.trim();
-        const prefix = num ? num : '';
-        return `${prefix}<a href="${url}" target="_blank" class="chat-btn site">🖼️ ${cleanName}</a>`;
-      });
-    // Fallback: links de obras soltos sem nome antes
+    // Links de obras — simples e confiável
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app\/art\/[^\s<,)"]+)/g,
       '<a href="$1" target="_blank" class="chat-btn site">🖼️ Ver obra</a>');
-    // Remove "Ver:" ou "Ver obra:" ou "Link:" que sobra antes do botão
-    clean = clean.replace(/(?:Ver(?:\s+obra)?|Link)\s*:?\s*(?=<a )/gi, '');
+    // Links gerais do site
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app[^\s<,)"]*)/g, (m) => {
-      if (m.includes('/art/')) return m; // já tratado acima
+      if (m.includes('/art/')) return m;
       if (m.includes('/sale')) return '<a href="' + m + '" target="_blank" class="chat-btn site">🎨 Ver Quadros</a>';
       if (m.includes('/register')) return '<a href="' + m + '" target="_blank" class="chat-btn site">📝 Cadastre-se</a>';
       return '<a href="' + m + '" target="_blank" class="chat-btn site">🏠 Visitar Site</a>';
     });
+    // WhatsApp
     clean = clean.replace(/(?<!["=])(https:\/\/wa\.me\/\d+[^\s<,)"]*)/g,
       '<a href="$1" target="_blank" class="chat-btn wpp">📱 WhatsApp</a>');
+    // Limpa "Ver:" antes de botões
+    clean = clean.replace(/Ver(?:\s+obra)?:\s*(?=<a )/gi, '');
+    // Markdown
     clean = clean.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     clean = clean.replace(/#{1,3}\s?/g, '');
-    // Limpa linhas vazias extras
     clean = clean.replace(/\n{3,}/g, '\n\n');
     clean = clean.replace(/\n/g, '<br>');
     return clean;

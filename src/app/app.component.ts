@@ -196,6 +196,8 @@ export class AppComponent implements OnInit, OnDestroy {
       '<a href="https://wa.me/55$1$2$3" target="_blank" class="chat-btn wpp">📱 ($1) $2-$3</a>');
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app\/art\/[^\s<,)"]+)/g,
       '<a href="$1" target="_blank" class="chat-btn site">🖼️ Ver obra</a>');
+    // Remove "Ver obra:" que sobra antes do botão
+    clean = clean.replace(/Ver obra:\s*(?=<a )/gi, '');
     clean = clean.replace(/(?<!["=])(https:\/\/art-five-rho\.vercel\.app[^\s<,)"]*)/g, (m) => {
       if (m.includes('/art/')) return m; // já tratado acima
       if (m.includes('/sale')) return '<a href="' + m + '" target="_blank" class="chat-btn site">🎨 Ver Quadros</a>';

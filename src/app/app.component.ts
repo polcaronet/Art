@@ -129,16 +129,16 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .welcome-icon { font-size: 2.5rem; }
       .welcome-title { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
       .chat-empty { text-align: center; color: var(--text-secondary); font-size: 0.8rem; opacity: 0.6; }
-      .chat-msg { max-width: 88%; padding: 0.5rem 0.8rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.4; word-break: break-word; }
+      .chat-msg { max-width: 88%; padding: 0.6rem 0.8rem; border-radius: 12px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
       .chat-msg.mine { align-self: flex-end; background: var(--chat-bubble); color: white; border-bottom-right-radius: 4px; }
       .chat-msg.admin { align-self: flex-start; background: rgba(255,255,255,0.12); color: var(--text-primary); border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
       .chat-msg ::ng-deep .chat-link { color: #2563eb; text-decoration: underline; word-break: break-all; }
       .chat-msg.mine ::ng-deep .chat-link { color: #fca5a5; }
-      .chat-msg ::ng-deep .chat-btn { display: inline-block; padding: 0.35rem 0.7rem; border-radius: 16px; font-size: 0.78rem; font-weight: 600; text-decoration: none; margin: 0.2rem 0.15rem; }
-      .chat-msg ::ng-deep .chat-btn.site { background: white; color: #1e40af; }
+      .chat-msg ::ng-deep .chat-btn { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.25rem 0.6rem; border-radius: 14px; font-size: 0.72rem; font-weight: 600; text-decoration: none; margin: 0.15rem 0.1rem; vertical-align: middle; }
+      .chat-msg ::ng-deep .chat-btn.site { background: rgba(255,255,255,0.9); color: #1e40af; }
       .chat-msg ::ng-deep .chat-btn.wpp { background: #25d366; color: white; }
-      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: white; color: #1e40af; }
-      .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.85; }
+      .chat-msg ::ng-deep .chat-btn:not(.site):not(.wpp) { background: rgba(255,255,255,0.9); color: #1e40af; }
+      .chat-msg ::ng-deep .chat-btn:hover { opacity: 0.8; transform: scale(1.02); }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send {

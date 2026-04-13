@@ -244,9 +244,9 @@ export class AppComponent implements OnInit, OnDestroy {
     clean = clean.replace(/#{1,3}\s?/g, '');
     clean = clean.replace(/\n{3,}/g, '\n\n');
     clean = clean.replace(/\n/g, '<br>');
-    // Formata linhas de obras: "- NOME (info) - info - <botão>" vira card
-    clean = clean.replace(/([-–]\s*)([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]{2,}?)(\s*\([^)]+\)(?:\s*[-–]\s*[^<]+?)?)(\s*<a [^>]*class="chat-btn site"[^>]*>.*?<\/a>)/g,
-      (_, dash, name, info, btn) => {
+    // Formata linhas de obras em mini-cards
+    clean = clean.replace(/(?:\d+\.\s*|[-–•]\s*)([A-ZÁÉÍÓÚÂÊÔÃÕÇ][A-ZÁÉÍÓÚÂÊÔÃÕÇ\s]{2,}?)(\s*\([^)]+\)(?:\s*[-–]\s*[^<]+?)?)(\s*<a [^>]*class="chat-btn site"[^>]*>.*?<\/a>)/g,
+      (_, name, info, btn) => {
         return `<div class="art-card"><div class="art-name">${name.trim()}</div><div class="art-info">${info.replace(/^\s*[-–]\s*/, '').replace(/[-–]\s*$/, '').trim()}</div><div>${btn}</div></div>`;
       });
     return clean;

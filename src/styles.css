@@ -111,13 +111,13 @@
   --btn-primary: #e63946;
   --btn-primary-hover: #c1121f;
   --chat-header: #1a1a2e;
-  --chat-bubble: #374151;
+  --chat-bubble: #e63946;
   --chat-fab: #1a1a2e;
   --chat-send: #1a1a2e;
-  --chat-admin-bg: #f1f3f8;
-  --chat-admin-border: #e2e5ed;
-  --chat-card-bg: #e8ebf2;
-  --chat-card-border: #c7ccd8;
+  --chat-admin-bg: #edf0f7;
+  --chat-admin-border: #d5dae6;
+  --chat-card-bg: #dfe4ef;
+  --chat-card-border: #8b95ad;
   --chat-btn-bg: #1a1a2e;
   --chat-btn-color: #ffffff;
 }

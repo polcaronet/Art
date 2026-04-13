@@ -153,7 +153,7 @@ import { ChatService, ChatMessage } from './services/chat.service';
       }
       .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; margin-bottom: 0.1rem; }
       .chat-msg ::ng-deep .art-info { font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.2rem; }
-      .chat-msg ::ng-deep .art-price { font-size: 0.75rem; font-weight: 600; color: #fbbf24; }
+      .chat-msg ::ng-deep .art-price { font-size: 0.75rem; font-weight: 700; color: var(--accent); }
       .typing-indicator { display: flex; gap: 0.3rem; padding: 0.2rem 0; align-items: center; }
       .typing-indicator span {
         width: 7px; height: 7px; border-radius: 50%;

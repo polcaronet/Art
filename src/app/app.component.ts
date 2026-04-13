@@ -57,6 +57,13 @@ import { ChatService, ChatMessage } from './services/chat.service';
                 <span class="msg-text" [innerHTML]="formatMessage(msg.text)"></span>
               </div>
             }
+            @if (aiLoading()) {
+              <div class="chat-msg admin">
+                <div class="typing-indicator">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            }
           </div>
           <div class="chat-input-row">
             <input class="chat-input" placeholder="Digite sua mensagem..." [(ngModel)]="chatText" (keyup.enter)="sendMessage()" />
@@ -147,6 +154,18 @@ import { ChatService, ChatMessage } from './services/chat.service';
       .chat-msg ::ng-deep .art-name { font-weight: 700; font-size: 0.8rem; margin-bottom: 0.1rem; }
       .chat-msg ::ng-deep .art-info { font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.2rem; }
       .chat-msg ::ng-deep .art-price { font-size: 0.75rem; font-weight: 600; color: #fbbf24; }
+      .typing-indicator { display: flex; gap: 0.3rem; padding: 0.2rem 0; align-items: center; }
+      .typing-indicator span {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--text-secondary); opacity: 0.5;
+        animation: typingBounce 1.2s infinite;
+      }
+      .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+      .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes typingBounce {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+        30% { transform: translateY(-4px); opacity: 1; }
+      }
       .chat-input-row { display: flex; gap: 0.4rem; padding: 0.6rem; border-top: 1px solid var(--border-color); }
       .chat-input { flex: 1; padding: 0.5rem 0.8rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--input-bg); color: var(--input-text); font-size: 0.85rem; outline: none; }
       .chat-send {
@@ -167,6 +186,7 @@ export class AppComponent implements OnInit, OnDestroy {
   chatOpen = signal(false);
   messages = signal<ChatMessage[]>([]);
   confirmClear = signal(false);
+  aiLoading = signal(false);
   chatText = '';
   private chatId = '';
   private unsub: any;
@@ -265,6 +285,7 @@ export class AppComponent implements OnInit, OnDestroy {
       await this.chatService.sendMessage(this.chatId, user.uid, user.displayName || 'Cliente', text, false);
     }
 
+    this.aiLoading.set(true);
     try {
       const history = this.messages().map(m => ({ text: m.text, fromAdmin: m.fromAdmin, fromAI: m.fromAdmin }));
       const res = await fetch('https://webart-backend-polcaronet9724-1mowec7v.leapcell.dev/api/ai-chat', {
@@ -285,6 +306,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
       console.error('Erro IA:', e);
+    } finally {
+      this.aiLoading.set(false);
     }
   }
 }
